@@ -17,6 +17,24 @@ namespace AdvancedCoding2
             set;
         }
 
+        int simLen
+        {
+            get;
+            set;
+        }
+
+        int currentTime
+        {
+            get;
+            set;
+        }
+
+        int lineNumber
+        {
+            get;
+            set;
+        }
+
         //method to open socket with server
         void connect();
     }

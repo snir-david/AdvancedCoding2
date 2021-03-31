@@ -13,6 +13,9 @@ namespace AdvancedCoding2
         private int port;
         private string server;
         private volatile int playSpeed;
+        private int csvRowsNum;
+        private volatile int lineNum;
+        private volatile int currenTime;
 
        public int TransSpeed { 
             get
@@ -25,6 +28,54 @@ namespace AdvancedCoding2
                 {
                     playSpeed = value;
                     NotifyPropertyChanged("playSpeed");
+                }
+            }
+        }
+
+        public int simLen
+        {
+            get
+            {
+                return csvRowsNum;
+            }
+            set
+            {
+                if(simLen != value)
+                {
+                    csvRowsNum = value;
+                    NotifyPropertyChanged("simLen");
+                }
+            }
+        }
+
+        public int currentTime
+        {
+            get
+            {
+                return currenTime;
+            }
+            set
+            {
+                if (currentTime != value)
+                {
+                    currenTime = value;
+                    NotifyPropertyChanged("currentTime");
+                }
+            }
+        }
+
+        public int lineNumber
+        {
+            get
+            {
+                return lineNum;
+            }
+            set
+            {
+                if (lineNumber != value)
+                {
+                    lineNum = value;
+                    NotifyPropertyChanged("lineNumber");
                 }
             }
         }
@@ -55,29 +106,37 @@ namespace AdvancedCoding2
                 // Get a client stream for reading and writing.
                 var stream = client.GetStream();
 
-                //read csv file 
-                StreamReader csvFile = new StreamReader("C:\\Users\\snira\\RiderProjects" +
+                //getting number of rows
+                String[] csvLine = File.ReadAllLines("C:\\Users\\snira\\RiderProjects" +
                                                         "\\Advanced Programming 2\\Advanced Programming 2\\reg_flight.csv");
+                simLen = csvLine.Length;
+
+                //read csv file 
+                //StreamReader csvFile = new StreamReader("C:\\Users\\snira\\RiderProjects" +
+                                                       // "\\Advanced Programming 2\\Advanced Programming 2\\reg_flight.csv");
+                //csvFile.DiscardBufferedData();
+
                 playSpeed = 100;
+                currentTime = 0;
                 //read first line
-                String line = csvFile.ReadLine();
+                //String line = csvFile.ReadLine();
                 //keep reading until finish CSV file
-                while (line != null)
+                while (csvLine[lineNumber] != null)
                 {
                     //read a line from CSV
-                    line += "\n";
+                    csvLine[lineNumber] += "\n";
                     //Encode to bytes
-                    Byte[] lineBytes = System.Text.Encoding.ASCII.GetBytes(line);
+                    Byte[] lineBytes = System.Text.Encoding.ASCII.GetBytes(csvLine[lineNumber]);
                     // Send the message to the connected TcpServer
                     stream.Write(lineBytes, 0, lineBytes.Length);
                     //read next line
-                    line = csvFile.ReadLine();
+                    lineNumber++;
                     //sleep for 100 mil-sec for sending ten times in a second
                     Thread.Sleep(playSpeed);
+                    currentTime++;
                 }
 
                 // Close - file, stream and socket
-                csvFile.Close();
                 stream.Close();
                 client.Close();
             }

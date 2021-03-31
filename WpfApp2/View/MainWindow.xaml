@@ -22,10 +22,13 @@
             <Image x:Name="prev_button" Source="C:\Users\snira\RiderProjects\Advanced Programming 2\Advanced Programming 2\buttons\prev.jpg" Width="110" Height="59">
             </Image>
         </Button>
-        <Slider HorizontalAlignment="Left" Margin="63,254,0,0" VerticalAlignment="Top" Height="33" Width="633" ValueChanged="Slider_ValueChanged" FontSize="16" BorderThickness="0"/>
         <TextBox HorizontalAlignment="Left" Height="30" Margin="514,169,0,0" TextWrapping="Wrap" Text="Play Speed" FontSize="20" VerticalAlignment="Top" Width="114"/>
         <TextBox x:Name="play_speed_box" HorizontalAlignment="Left" Height="30" Margin="649,169,0,0" TextWrapping="Wrap" Text="{Binding VM_playSpeed}" VerticalAlignment="Top" Width="47" IsEnabled="False" >
         </TextBox>
+        <TextBox x:Name ="current_time_box"  HorizontalAlignment="Center" Height="30" Margin="514,219,97.333,0" TextWrapping="Wrap" Text="{Binding VM_Time}" VerticalAlignment="Center" Width="182"/>
+        <Slider x:Name="time_slider"  Value="{Binding VM_currentTime, Mode=TwoWay}" Maximum="{Binding VM_simLen}" TickFrequency="1" HorizontalAlignment="Left" Margin="63,272,0,0" VerticalAlignment="Top" Height="27" Width="633" Cursor="Arrow" ValueChanged="time_slider_ValueChanged">
+            
+        </Slider>
     </Grid>
 
 </Window>

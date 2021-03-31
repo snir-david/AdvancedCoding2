@@ -13,6 +13,9 @@ namespace AdvancedCoding2
         private IClientModel clientModel;
         public bool isConnected = false;
         private Thread connectThread;
+        private int currenTime;
+        private int lineNum;
+        private TimeSpan Time;
         public event PropertyChangedEventHandler PropertyChanged;
 
 
@@ -46,13 +49,79 @@ namespace AdvancedCoding2
             }
         }
 
+        public int VM_simLen
+        {
+            get
+            {
+                return clientModel.simLen;
+            }
+                       
+        }
+
+        public int VM_currentTime
+        {
+            get
+            {
+                 return clientModel.currentTime;
+            }
+            set
+            {
+                if(VM_currentTime != value)
+                {
+                    clientModel.currentTime = value;
+                    onPropertyChanged("VM_playSpeed");
+                }
+            }
+        }
+
+        public TimeSpan VM_Time
+        {
+            get
+            {
+                return Time;
+            }
+            set
+            {
+                if(VM_Time != value)
+                {
+                    Time = value;
+                    onPropertyChanged("VM_Time");
+                }
+            }
+        }
+
+        public int VM_lineNumber
+        {
+            get
+            {
+                return clientModel.lineNumber;
+            }
+            set
+            {
+                if(VM_lineNumber != value)
+                {
+                    clientModel.lineNumber = value;
+                    onPropertyChanged("VM_lineNumber");
+                }
+            }
+        }
+
+
         public ViewModelController(IClientModel m)
         {
             this.clientModel = m;
             playSpeed = clientModel.TransSpeed;
+            Time = new TimeSpan(0, 0, 0);
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
                 onPropertyChanged("VM_" + e.PropertyName);
+            };
+            clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
+            {
+                if (e.PropertyName == "currentTime" && clientModel.currentTime % 10 == 0)
+                {
+                    VM_Time.Add(new TimeSpan(0, 0, 1));
+                }
             };
         }
         
@@ -67,7 +136,7 @@ namespace AdvancedCoding2
                 });
             }
            
-            else if ((connectThread.ThreadState & ThreadState.Suspended) == ThreadState.Suspended)
+            if ((connectThread.ThreadState & ThreadState.Suspended) == ThreadState.Suspended)
             {
                 resumeConnection();
             } else

@@ -61,10 +61,9 @@ namespace AdvancedCoding2
 
         }
 
-        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void time_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
+            controllerViewModel.VM_lineNumber = (int)time_slider.Value;
         }
-
     }
 }
