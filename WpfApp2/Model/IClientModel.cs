@@ -32,6 +32,7 @@ namespace AdvancedCoding2
             set;
         }
 
+
         //method to open socket with server
         void connect();
     }

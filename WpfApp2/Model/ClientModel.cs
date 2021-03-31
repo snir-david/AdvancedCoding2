@@ -10,11 +10,9 @@ namespace AdvancedCoding2
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private int port;
+        private int port, csvRowsNum;
+        private volatile int playSpeed, lineNum;
         private string server;
-        private volatile int playSpeed;
-        private int csvRowsNum;
-        private volatile int lineNum;
 
        public int TransSpeed { 
             get
@@ -63,6 +61,7 @@ namespace AdvancedCoding2
             }
         }
 
+        
         public void NotifyPropertyChanged(string propName)
         {
             if (this.PropertyChanged != null)
@@ -94,12 +93,13 @@ namespace AdvancedCoding2
                                                         "\\Advanced Programming 2\\Advanced Programming 2\\reg_flight.csv");
                 // getting number of rows
                 simLen = csvLine.Length;
-                
+
+               
                 //setting up playing speed to 100 mill-sec
                 playSpeed = 100;
 
                 // sending one line at a time to server
-                while (csvLine[lineNumber] != null)
+                while (simLen > lineNumber)
                 {
                     //get a line from array
                     csvLine[lineNumber] += "\n";

@@ -12,7 +12,7 @@ namespace AdvancedCoding2
     {
         private IClientModel clientModel;
         public bool isConnected = false;
-        private double playSpeed = 1;
+        private double playSpeed = 0;
         private Thread connectThread;
         private TimeSpan Time;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -26,11 +26,11 @@ namespace AdvancedCoding2
             }
             set
             {
-                if(playSpeed != value)
+                if (playSpeed != value)
                 {
                     playSpeed = value;
                     onPropertyChanged("VM_playSpeed");
-                }              
+                }
             }
         }
 
@@ -42,7 +42,7 @@ namespace AdvancedCoding2
             }
             set
             {
-                if(VM_playSpeed != value)
+                if (VM_playSpeed != value)
                     clientModel.TransSpeed = value;
             }
         }
@@ -53,10 +53,10 @@ namespace AdvancedCoding2
             {
                 return clientModel.simLen;
             }
-                       
+
         }
 
-        
+
         public TimeSpan VM_Time
         {
             get
@@ -65,7 +65,7 @@ namespace AdvancedCoding2
             }
             set
             {
-                if(VM_Time != value)
+                if (VM_Time != value)
                 {
                     Time = value;
                     onPropertyChanged("VM_Time");
@@ -81,7 +81,7 @@ namespace AdvancedCoding2
             }
             set
             {
-                if(VM_lineNumber != value)
+                if (VM_lineNumber != value)
                 {
                     clientModel.lineNumber = value;
                     onPropertyChanged("VM_lineNumber");
@@ -89,23 +89,24 @@ namespace AdvancedCoding2
             }
         }
 
+      
 
         public ViewModelController(IClientModel m)
         {
             this.clientModel = m;
-            //playSpeed = clientModel.TransSpeed;
-            Time = new TimeSpan(0, 0, 0);
+           Time = new TimeSpan(0, 0, 0);
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
                 onPropertyChanged("VM_" + e.PropertyName);
             };
-            
+
         }
-        
+
         public void connect()
         {
+
             //checking if thread is already exist and alive - if not creating new thread for connection
-            if(connectThread == null || !connectThread.IsAlive)
+            if (connectThread == null || !connectThread.IsAlive)
             {
                 connectThread = new Thread(delegate ()
                 {
@@ -113,16 +114,27 @@ namespace AdvancedCoding2
                     isConnected = false;
                 });
             }
-           
+
             //if thread is suspend - resume thread
             if ((connectThread.ThreadState & ThreadState.Suspended) == ThreadState.Suspended)
             {
                 resumeConnection();
-            } else //start connection
+            }
+            else //start connection
             {
                 isConnected = true;
                 connectThread.Start();
+                
             }
+        }
+
+        public void settingUpTime()
+        {
+            int min, sec, hours;
+            sec = VM_lineNumber / 10;
+            min = VM_lineNumber / 600;
+            hours = VM_lineNumber / 6000;
+            VM_Time = new TimeSpan(hours, min, sec);
         }
 
         public void resumeConnection()
@@ -134,7 +146,7 @@ namespace AdvancedCoding2
             connectThread.Suspend();
         }
 
-        
+
         public void onPropertyChanged(string propName)
         {
             if (PropertyChanged != null)

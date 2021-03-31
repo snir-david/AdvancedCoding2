@@ -40,11 +40,12 @@ namespace AdvancedCoding2
         {
                 controllerViewModel.connect();
                 controllerViewModel.VM_playSpeed = 1;
+                controllerViewModel.VM_TransSpeed = 100;
             
         }
         private void Prev_Button_Click(object sender, RoutedEventArgs e)
         {
-            if(controllerViewModel.VM_playSpeed >= 0)
+            if(controllerViewModel.VM_playSpeed  - 0.1 > 0.1)
             {
                 controllerViewModel.VM_playSpeed -= 0.1;
                 controllerViewModel.VM_TransSpeed += 10;
@@ -53,7 +54,7 @@ namespace AdvancedCoding2
         }
         private void Forw_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (controllerViewModel.VM_playSpeed <= 2)
+            if (controllerViewModel.VM_playSpeed < 1.9)
             {
                 controllerViewModel.VM_playSpeed += 0.1;
                 controllerViewModel.VM_TransSpeed -= 10;
@@ -64,6 +65,7 @@ namespace AdvancedCoding2
         private void time_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             controllerViewModel.VM_lineNumber = (int)time_slider.Value;
+            controllerViewModel.settingUpTime();
         }
     }
 }
