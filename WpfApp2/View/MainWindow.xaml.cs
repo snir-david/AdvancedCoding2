@@ -33,21 +33,31 @@ namespace AdvancedCoding2
 
         private void Pause_Button_Click(object sender, RoutedEventArgs e)
         {
+            controllerViewModel.pauseConnection();
             controllerViewModel.VM_playSpeed = 0;
         }
         private void Play_Button_Click(object sender, RoutedEventArgs e)
         {
-            controllerViewModel.VM_playSpeed = 100;
-
+                controllerViewModel.connect();
+                controllerViewModel.VM_playSpeed = 1;
+            
         }
         private void Prev_Button_Click(object sender, RoutedEventArgs e)
         {
-            controllerViewModel.VM_playSpeed -= 10;
+            if(controllerViewModel.VM_playSpeed >= 0)
+            {
+                controllerViewModel.VM_playSpeed -= 0.1;
+                controllerViewModel.VM_TransSpeed += 10;
+            }
 
         }
         private void Forw_Button_Click(object sender, RoutedEventArgs e)
         {
-            controllerViewModel.VM_playSpeed += 10;
+            if (controllerViewModel.VM_playSpeed <= 2)
+            {
+                controllerViewModel.VM_playSpeed += 0.1;
+                controllerViewModel.VM_TransSpeed -= 10;
+            }
 
         }
 
@@ -55,5 +65,6 @@ namespace AdvancedCoding2
         {
 
         }
+
     }
 }

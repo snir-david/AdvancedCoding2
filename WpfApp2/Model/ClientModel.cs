@@ -12,18 +12,18 @@ namespace AdvancedCoding2
 
         private int port;
         private string server;
-        private int playSpeed;
-        public int TransSpeed
-        {
+        private volatile int playSpeed;
+
+       public int TransSpeed { 
             get
             {
-                return this.playSpeed;
+                return playSpeed;
             }
             set
             {
-                if (value != this.playSpeed)
+                if(TransSpeed != value)
                 {
-                    this.playSpeed = value;
+                    playSpeed = value;
                     NotifyPropertyChanged("playSpeed");
                 }
             }
@@ -41,7 +41,6 @@ namespace AdvancedCoding2
         {
             this.port = port;
             this.server = server;
-            this.playSpeed = 100;
         }
 
         public void connect()
@@ -59,6 +58,7 @@ namespace AdvancedCoding2
                 //read csv file 
                 StreamReader csvFile = new StreamReader("C:\\Users\\snira\\RiderProjects" +
                                                         "\\Advanced Programming 2\\Advanced Programming 2\\reg_flight.csv");
+                playSpeed = 100;
                 //read first line
                 String line = csvFile.ReadLine();
                 //keep reading until finish CSV file
@@ -93,11 +93,6 @@ namespace AdvancedCoding2
             }
         }
 
-        // public static void Main()
-        // {
-        //     Client c = new Client();
-        //     c.connect("127.0.0.1", 5400);
-        //  }
     }
 }
 
