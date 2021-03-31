@@ -12,14 +12,12 @@ namespace AdvancedCoding2
     {
         private IClientModel clientModel;
         public bool isConnected = false;
+        private double playSpeed = 1;
         private Thread connectThread;
-        private int currenTime;
-        private int lineNum;
         private TimeSpan Time;
         public event PropertyChangedEventHandler PropertyChanged;
 
 
-        private double playSpeed = 1;
         public double VM_playSpeed
         {
             get
@@ -58,22 +56,7 @@ namespace AdvancedCoding2
                        
         }
 
-        public int VM_currentTime
-        {
-            get
-            {
-                 return clientModel.currentTime;
-            }
-            set
-            {
-                if(VM_currentTime != value)
-                {
-                    clientModel.currentTime = value;
-                    onPropertyChanged("VM_playSpeed");
-                }
-            }
-        }
-
+        
         public TimeSpan VM_Time
         {
             get
@@ -110,23 +93,18 @@ namespace AdvancedCoding2
         public ViewModelController(IClientModel m)
         {
             this.clientModel = m;
-            playSpeed = clientModel.TransSpeed;
+            //playSpeed = clientModel.TransSpeed;
             Time = new TimeSpan(0, 0, 0);
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
                 onPropertyChanged("VM_" + e.PropertyName);
             };
-            clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
-            {
-                if (e.PropertyName == "currentTime" && clientModel.currentTime % 10 == 0)
-                {
-                    VM_Time.Add(new TimeSpan(0, 0, 1));
-                }
-            };
+            
         }
         
         public void connect()
         {
+            //checking if thread is already exist and alive - if not creating new thread for connection
             if(connectThread == null || !connectThread.IsAlive)
             {
                 connectThread = new Thread(delegate ()
@@ -136,10 +114,11 @@ namespace AdvancedCoding2
                 });
             }
            
+            //if thread is suspend - resume thread
             if ((connectThread.ThreadState & ThreadState.Suspended) == ThreadState.Suspended)
             {
                 resumeConnection();
-            } else
+            } else //start connection
             {
                 isConnected = true;
                 connectThread.Start();
@@ -155,11 +134,12 @@ namespace AdvancedCoding2
             connectThread.Suspend();
         }
 
+        
         public void onPropertyChanged(string propName)
         {
             if (PropertyChanged != null)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
     }

@@ -10,25 +10,22 @@ namespace AdvancedCoding2
 {
     public interface IClientModel : INotifyPropertyChanged
     {
-        //Transmission speed property
+        //Transmission speed of data to server
         int TransSpeed
         {
             get;
             set;
         }
 
+        //similutar lenght - giving CSV file checking number of rows
         int simLen
         {
             get;
             set;
         }
 
-        int currentTime
-        {
-            get;
-            set;
-        }
-
+        
+        //current "time" in stream file
         int lineNumber
         {
             get;
