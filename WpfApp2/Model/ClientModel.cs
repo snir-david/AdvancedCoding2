@@ -64,7 +64,7 @@ namespace AdvancedCoding2
             }
         }
 
-        public string path
+        public string fpath
         {
             get
             {
@@ -72,7 +72,7 @@ namespace AdvancedCoding2
             }
             set
             {
-                if (path != value)
+                if (fpath != value)
                     filePath = value;
             }
         }
@@ -106,7 +106,7 @@ namespace AdvancedCoding2
                 var stream = client.GetStream();
 
                 // reading csv file into string array of lines
-                String[] csvLine = File.ReadAllLines(path);
+                String[] csvLine = File.ReadAllLines(fpath);
                 // getting number of rows
                 simLen = csvLine.Length;
 

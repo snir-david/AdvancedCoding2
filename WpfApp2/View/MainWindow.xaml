@@ -13,7 +13,7 @@
             <RowDefinition Height="750"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="pause_button1" Margin="303,61,390.333,139" Click="Pause_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}">
+        <Button x:Name="pause_button1" Margin="303,61,390.333,139" Click="Pause_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" Visibility="Hidden">
             <Image x:Name="pause_button" Source="C:\Users\snira\RiderProjects\Advanced Programming 2\Advanced Programming 2\buttons\pause.png" RenderTransformOrigin="0.5,0.5" ForceCursor="True" Height="40" Width="50"/>
         </Button>
         <Button x:Name="play_button1" Margin="352,61,341.333,139" Click="Play_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}">
@@ -32,7 +32,12 @@
         <TextBox x:Name ="current_time_box" IsReadOnly="True" TextAlignment="Center"  FontSize="25" Margin="89,139,472.333,81" TextWrapping="Wrap" Text="{Binding VM_Time}" Background="{x:Null}" BorderBrush="{x:Null}"/>
 
         <Slider x:Name="time_slider"  Value="{Binding VM_lineNumber, Mode=TwoWay}" Maximum="{Binding VM_simLen}" TickFrequency="1" Margin="89,181,51.333,39" Cursor="None" ValueChanged="time_slider_ValueChanged" Background="{x:Null}" BorderBrush="{x:Null}"/>
-        <Button Margin="307,0,313.333,229" Click="Openfile_Click">Open CSV File</Button>
+        
+        <Button x:Name="CSV_button" Margin="307,0,313.333,229" Click="Openfile_Click" Visibility="Hidden">Open CSV File</Button>
+        <Button x:Name="XML_button" Margin="307,22,313.333,207" Click="OpenXML_Click" Visibility="Hidden">Open XML File</Button>
+        <Button x:Name="Folder_button" Margin="307,0,313.333,229" Click="Openfolder_Click" Height="21" Visibility="Hidden">FlightGear Path</Button>
+
+
     </Grid>
 
 </Window>

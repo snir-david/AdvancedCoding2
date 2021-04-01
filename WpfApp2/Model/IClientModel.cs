@@ -33,7 +33,7 @@ namespace AdvancedCoding2
         }
 
         // CSV file path
-        string path
+        string fpath
         {
             get;
             set;

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.ComponentModel;
 using System.Windows;
+using System.IO;
 
 namespace AdvancedCoding2
 {
@@ -13,6 +14,7 @@ namespace AdvancedCoding2
         private IClientModel clientModel;
         public bool isConnected = false;
         private double playSpeed = 0;
+        private string xmlPath, FGPath;
         private Thread connectThread;
         private TimeSpan Time;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -88,17 +90,17 @@ namespace AdvancedCoding2
             }
         }
 
-        public string VM_path
+        public string VM_fpath
         {
             get
             {
-                return clientModel.path;
+                return clientModel.fpath;
             }
             set
             {
-                if (VM_path != value)
+                if (VM_fpath != value)
                 {
-                    clientModel.path = value;
+                    clientModel.fpath = value;
                     onPropertyChanged("VM_path");
                 }
                     
@@ -106,20 +108,45 @@ namespace AdvancedCoding2
             }
         }
 
+        public string VM_XMLPath
+        {
+            get
+            {
+                return xmlPath;
+            }
+            set
+            {
+                if (VM_XMLPath != value)
+                    xmlPath = value;
+            }
+        }
+
+        public string VM_FGPath
+        {
+            get
+            {
+                return FGPath;
+            }
+            set
+            {
+                if (VM_FGPath != value)
+                    FGPath = value;
+            }
+        }
+
         public ViewModelController(IClientModel m)
         {
             this.clientModel = m;
-           Time = new TimeSpan(0, 0, 0);
+            Time = new TimeSpan(0, 0, 0);
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
                 onPropertyChanged("VM_" + e.PropertyName);
             };
-
         }
 
         public void connect()
         {
-            if(VM_path != null)
+            if(VM_fpath != null)
             {
                 //checking if thread is already exist and alive - if not creating new thread for connection
                 if (connectThread == null || !connectThread.IsAlive)
@@ -144,7 +171,7 @@ namespace AdvancedCoding2
                 }
             } else
             {
-                MessageBox.Show("Please open a CSV file before try to run the simulation","File Missing", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Please load a CSV and XML file before running the simulation","File Missing", MessageBoxButton.OK, MessageBoxImage.Error);
 
             }
 
@@ -170,6 +197,18 @@ namespace AdvancedCoding2
                 connectThread.Suspend();
         }
 
+        public void copyXML()
+        {
+            string fileName = "\\data\\Protocol\\playback_small.xml";
+            string destFile = VM_FGPath+ fileName;
+            try
+            {
+                File.Copy(VM_XMLPath, destFile, true);
+            } catch (UnauthorizedAccessException e)
+            {
+                MessageBox.Show("UnAuthorizedAccessException: Unable to access file.\nPleae Allow access and than try again.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
         public void onPropertyChanged(string propName)
         {
@@ -178,6 +217,7 @@ namespace AdvancedCoding2
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
+
     }
 
 }

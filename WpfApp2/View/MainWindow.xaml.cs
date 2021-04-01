@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using Microsoft.Win32;
+using System.Windows.Forms;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace AdvancedCoding2
 {
@@ -30,23 +32,42 @@ namespace AdvancedCoding2
             InitializeComponent();
             controllerViewModel = new ViewModelController(new Client("localhost", 5400));
             this.DataContext = controllerViewModel;
+            if (Directory.Exists("C:\\Program Files\\FlightGear 2020.3.6"))
+            {
+                if (!File.Exists("C:\\Program Files\\FlightGear 2020.3.6\\data\\Protocol\\playback_small.xml"))
+                {
+                    XML_button.Visibility = Visibility.Visible;
+                    CSV_button.Visibility = Visibility.Visible;
+                    controllerViewModel.VM_FGPath = "C:\\Program Files\\FlightGear 2020.3.6";
+                } else
+                {
+                    CSV_button.Visibility = Visibility.Visible;
+                }
 
+            } else
+            {
+                Folder_button.Visibility = Visibility.Visible;
+            }
         }
 
         private void Pause_Button_Click(object sender, RoutedEventArgs e)
         {
             controllerViewModel.pauseConnection();
             controllerViewModel.VM_playSpeed = 0;
+            play_button1.Visibility = Visibility.Visible;
+            pause_button1.Visibility = Visibility.Hidden;
         }
         private void Play_Button_Click(object sender, RoutedEventArgs e)
         {
                 controllerViewModel.connect();
-            if(controllerViewModel.VM_path != null)
+            if(controllerViewModel.VM_fpath != null)
             {
                 controllerViewModel.VM_playSpeed = 1;
                 controllerViewModel.VM_TransSpeed = 100;
+                pause_button1.Visibility = Visibility.Visible;
+                play_button1.Visibility = Visibility.Hidden;
             }
-                
+              
             
         }
         private void Prev_Button_Click(object sender, RoutedEventArgs e)
@@ -78,7 +99,32 @@ namespace AdvancedCoding2
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
-                controllerViewModel.VM_path = openFileDialog.FileName;
+                controllerViewModel.VM_fpath = openFileDialog.FileName;
+            CSV_button.Visibility = Visibility.Hidden;
+        }
+        private void OpenXML_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+                controllerViewModel.VM_XMLPath = openFileDialog.FileName;
+            controllerViewModel.copyXML();
+            XML_button.Visibility = Visibility.Hidden;
+        }
+
+        private void Openfolder_Click(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            var result = folderBrowserDialog.ShowDialog();
+            if (result.ToString() != string.Empty)
+                controllerViewModel.VM_FGPath = folderBrowserDialog.SelectedPath;
+            Folder_button.Visibility = Visibility.Hidden;
+            CSV_button.Visibility = Visibility.Visible;
+            string XMLFilePath = "\\data\\Protocol\\playback_small.xml";
+            string dest = System.IO.Path.Combine(controllerViewModel.VM_FGPath, XMLFilePath);
+            if (!File.Exists(dest))
+            {
+                XML_button.Visibility = Visibility.Visible;
+            }
         }
     }
 }
