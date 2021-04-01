@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.ComponentModel;
-
+using System.Windows;
 
 namespace AdvancedCoding2
 {
@@ -56,7 +56,6 @@ namespace AdvancedCoding2
 
         }
 
-
         public TimeSpan VM_Time
         {
             get
@@ -89,7 +88,23 @@ namespace AdvancedCoding2
             }
         }
 
-      
+        public string VM_path
+        {
+            get
+            {
+                return clientModel.path;
+            }
+            set
+            {
+                if (VM_path != value)
+                {
+                    clientModel.path = value;
+                    onPropertyChanged("VM_path");
+                }
+                    
+
+            }
+        }
 
         public ViewModelController(IClientModel m)
         {
@@ -104,28 +119,36 @@ namespace AdvancedCoding2
 
         public void connect()
         {
-
-            //checking if thread is already exist and alive - if not creating new thread for connection
-            if (connectThread == null || !connectThread.IsAlive)
+            if(VM_path != null)
             {
-                connectThread = new Thread(delegate ()
+                //checking if thread is already exist and alive - if not creating new thread for connection
+                if (connectThread == null || !connectThread.IsAlive)
                 {
-                    clientModel.connect();
-                    isConnected = false;
-                });
+                    connectThread = new Thread(delegate ()
+                    {
+                        clientModel.connect();
+                        isConnected = false;
+                    });
+                }
+
+                //if thread is suspend - resume thread
+                if ((connectThread.ThreadState & ThreadState.Suspended) == ThreadState.Suspended)
+                {
+                    resumeConnection();
+                }
+                else //start connection
+                {
+                    isConnected = true;
+                    connectThread.Start();
+
+                }
+            } else
+            {
+                MessageBox.Show("Please open a CSV file before try to run the simulation","File Missing", MessageBoxButton.OK, MessageBoxImage.Error);
+
             }
 
-            //if thread is suspend - resume thread
-            if ((connectThread.ThreadState & ThreadState.Suspended) == ThreadState.Suspended)
-            {
-                resumeConnection();
-            }
-            else //start connection
-            {
-                isConnected = true;
-                connectThread.Start();
-                
-            }
+
         }
 
         public void settingUpTime()
@@ -143,7 +166,8 @@ namespace AdvancedCoding2
         }
         public void pauseConnection()
         {
-            connectThread.Suspend();
+            if(connectThread != null)
+                connectThread.Suspend();
         }
 
 

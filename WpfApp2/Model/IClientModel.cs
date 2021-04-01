@@ -32,6 +32,12 @@ namespace AdvancedCoding2
             set;
         }
 
+        // CSV file path
+        string path
+        {
+            get;
+            set;
+        }
 
         //method to open socket with server
         void connect();

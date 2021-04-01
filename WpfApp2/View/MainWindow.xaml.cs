@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using Microsoft.Win32;
 
 namespace AdvancedCoding2
 {
@@ -39,8 +41,12 @@ namespace AdvancedCoding2
         private void Play_Button_Click(object sender, RoutedEventArgs e)
         {
                 controllerViewModel.connect();
+            if(controllerViewModel.VM_path != null)
+            {
                 controllerViewModel.VM_playSpeed = 1;
                 controllerViewModel.VM_TransSpeed = 100;
+            }
+                
             
         }
         private void Prev_Button_Click(object sender, RoutedEventArgs e)
@@ -66,6 +72,13 @@ namespace AdvancedCoding2
         {
             controllerViewModel.VM_lineNumber = (int)time_slider.Value;
             controllerViewModel.settingUpTime();
+        }
+
+        private void Openfile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+                controllerViewModel.VM_path = openFileDialog.FileName;
         }
     }
 }

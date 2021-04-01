@@ -3,6 +3,8 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Windows;
 
 namespace AdvancedCoding2
 {
@@ -13,6 +15,7 @@ namespace AdvancedCoding2
         private int port, csvRowsNum;
         private volatile int playSpeed, lineNum;
         private string server;
+        private volatile string filePath;
 
        public int TransSpeed { 
             get
@@ -61,6 +64,19 @@ namespace AdvancedCoding2
             }
         }
 
+        public string path
+        {
+            get
+            {
+                return filePath;
+            }
+            set
+            {
+                if (path != value)
+                    filePath = value;
+            }
+        }
+
         
         public void NotifyPropertyChanged(string propName)
         {
@@ -80,6 +96,7 @@ namespace AdvancedCoding2
         {
             try
             {
+
                 // Create a TcpClient.
                 // Note, for this client to work you need to have a TcpServer
                 // connected to the same address as specified by the server, port
@@ -89,8 +106,7 @@ namespace AdvancedCoding2
                 var stream = client.GetStream();
 
                 // reading csv file into string array of lines
-                String[] csvLine = File.ReadAllLines("C:\\Users\\snira\\RiderProjects" +
-                                                        "\\Advanced Programming 2\\Advanced Programming 2\\reg_flight.csv");
+                String[] csvLine = File.ReadAllLines(path);
                 // getting number of rows
                 simLen = csvLine.Length;
 
@@ -126,6 +142,9 @@ namespace AdvancedCoding2
             catch (SocketException e)
             {
                 Console.WriteLine("SocketException: {0}", e);
+                MessageBox.Show("Please make sure to open FlightGear simulator with following additional setting and than try again:\n" +
+                    "--generic=socket,in,10,127.0.0.1,5400,tcp,playback_small\n--fdm = null" , "Couldn't Reach Server", MessageBoxButton.OK, MessageBoxImage.Error);
+
             }
         }
 

@@ -5,31 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdvancedCoding2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="250" Width="750" Background="#FF7E7E7E">
 
-    <Grid>
-        <Button x:Name="pause_button1" HorizontalAlignment="Left" Margin="195,138,0,0" VerticalAlignment="Top" Width="83" Click="Pause_Button_Click" Height="86">
-            <Image x:Name="pause_button" Source="C:\Users\snira\RiderProjects\Advanced Programming 2\Advanced Programming 2\buttons\pause.jpg" RenderTransformOrigin="0.5,0.5" ForceCursor="True" Height="66" Width="73"/>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="250"/>
+            <RowDefinition Height="750"/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="pause_button1" Margin="303,61,390.333,139" Click="Pause_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}">
+            <Image x:Name="pause_button" Source="C:\Users\snira\RiderProjects\Advanced Programming 2\Advanced Programming 2\buttons\pause.png" RenderTransformOrigin="0.5,0.5" ForceCursor="True" Height="40" Width="50"/>
         </Button>
-        <Button x:Name="play_button1" HorizontalAlignment="Right" Margin="0,138,435.333,0" VerticalAlignment="Top" Width="75" Click="Play_Button_Click">
-            <Image x:Name="play_button" Source="C:\Users\snira\RiderProjects\Advanced Programming 2\Advanced Programming 2\buttons\play.jpg" Height="82" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+        <Button x:Name="play_button1" Margin="352,61,341.333,139" Click="Play_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}">
+            <Image x:Name="play_button" Source="C:\Users\snira\RiderProjects\Advanced Programming 2\Advanced Programming 2\buttons\play.png" Height="40"  Width="50" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
         </Button>
-        <Button x:Name="for_button1" HorizontalAlignment="Right" Margin="0,138,303.333,0" VerticalAlignment="Top" Width="127" Click="Forw_Button_Click" Height="86">
-            <Image x:Name="for_button" Source="C:\Users\snira\RiderProjects\Advanced Programming 2\Advanced Programming 2\buttons\for.jpg" Width="117" Height="59">
+        <Button x:Name="for_button1" Margin="405,63,256.333,137" Click="Forw_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}">
+            <Image x:Name="for_button" Source="C:\Users\snira\RiderProjects\Advanced Programming 2\Advanced Programming 2\buttons\forw.png" Width="70" Height="50">
             </Image>
         </Button>
-        <Button x:Name="prev_button1" HorizontalAlignment="Right" Margin="0,139,603.333,0" VerticalAlignment="Top" Width="127" Click="Prev_Button_Click" Height="86">
-            <Image x:Name="prev_button" Source="C:\Users\snira\RiderProjects\Advanced Programming 2\Advanced Programming 2\buttons\prev.jpg" Width="110" Height="59">
+        <Button x:Name="prev_button1" Margin="225,61,448.333,139" Click="Prev_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}">
+            <Image x:Name="prev_button" Source="C:\Users\snira\RiderProjects\Advanced Programming 2\Advanced Programming 2\buttons\prev.png" Width="70" Height="50">
             </Image>
         </Button>
-        <TextBox  TextAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="514,169,0,0" TextWrapping="Wrap" Text="Play Speed" FontSize="20" VerticalAlignment="Top" Width="114"/>
-        <TextBox x:Name="play_speed_box" TextAlignment="Center" FontSize="20" HorizontalAlignment="Left" Height="30" Margin="649,169,0,0" TextWrapping="Wrap" Text="{Binding VM_playSpeed}" VerticalAlignment="Top" Width="47" IsEnabled="False" >
-        </TextBox>
-        <TextBox x:Name ="current_time_box" TextAlignment="Center" HorizontalAlignment="Center" Height="30"  FontSize="25" Margin="514,219,97.333,0" TextWrapping="Wrap" Text="{Binding VM_Time}" VerticalAlignment="Center" Width="182"/>
+        <TextBox x:Name="play_speed" IsReadOnly="True" TextAlignment="Center" Margin="340,139,289.333,81" TextWrapping="Wrap" Text="Play Speed" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <TextBox x:Name="play_speed_box" IsReadOnly="True" TextAlignment="Center" FontSize="20" Margin="0,139,173.333,81" TextWrapping="Wrap" Text="{Binding VM_playSpeed}" IsEnabled="False" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Width="70" />
+        <TextBox x:Name ="current_time_box" IsReadOnly="True" TextAlignment="Center"  FontSize="25" Margin="89,139,472.333,81" TextWrapping="Wrap" Text="{Binding VM_Time}" Background="{x:Null}" BorderBrush="{x:Null}"/>
 
-        <Slider x:Name="time_slider"  Value="{Binding VM_lineNumber, Mode=TwoWay}" Maximum="{Binding VM_simLen}" TickFrequency="1" HorizontalAlignment="Left" Margin="63,272,0,0" VerticalAlignment="Top" Height="27" Width="633" Cursor="Arrow" ValueChanged="time_slider_ValueChanged">
-
-        </Slider>
+        <Slider x:Name="time_slider"  Value="{Binding VM_lineNumber, Mode=TwoWay}" Maximum="{Binding VM_simLen}" TickFrequency="1" Margin="89,181,51.333,39" Cursor="None" ValueChanged="time_slider_ValueChanged" Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <Button Margin="307,0,313.333,229" Click="Openfile_Click">Open CSV File</Button>
     </Grid>
 
 </Window>
