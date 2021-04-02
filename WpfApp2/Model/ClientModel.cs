@@ -16,11 +16,14 @@ namespace AdvancedCoding2
 
         private int port, csvRowsNum;
         private volatile int playSpeed, lineNum;
-        private string server;
+        private string server, copyLine;
         private volatile string filePath, xmlPath;
-        List<string> chunksName;
+        private List<string> chunksName;
+        private List<string> innerList = new List<string>();
+        private List<List<string>> currAtt = new List<List<string>>();
+        
 
-
+        
         public int TransSpeed { 
             get
             {
@@ -94,6 +97,21 @@ namespace AdvancedCoding2
             }
         }
 
+        public List<string> HeaderNames
+        {
+            get
+            {
+                return chunksName;
+            }
+        }
+        public List<List<string>> CurrentAtt
+        {
+            get
+            {
+                return currAtt;
+            }
+        }
+
         public void NotifyPropertyChanged(string propName)
         {
             if (this.PropertyChanged != null)
@@ -126,6 +144,15 @@ namespace AdvancedCoding2
 
         }
 
+        public void attSplit(string line)
+        {
+            string[] curr = line.Split(',');
+            for (int i = 0; i< curr.Length ; i ++)
+            {
+                currAtt[i].Add(curr[i]);
+            }
+        }
+
         public void connect()
         {
             try
@@ -143,7 +170,7 @@ namespace AdvancedCoding2
                 String[] csvLine = File.ReadAllLines(fpath);
                 // getting number of rows
                 simLen = csvLine.Length;
-
+                
                
                 //setting up playing speed to 100 mill-sec
                 playSpeed = 100;
@@ -151,6 +178,8 @@ namespace AdvancedCoding2
                 // sending one line at a time to server
                 while (simLen > lineNumber)
                 {
+                    copyLine = csvLine[lineNumber];
+                    attSplit(copyLine);
                     //get a line from array
                     csvLine[lineNumber] += "\n";
                     //Encode to bytes

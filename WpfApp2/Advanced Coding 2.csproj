@@ -57,7 +57,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\IViewModel.cs" />
     <Compile Include="ViewModel\ViewModelController.cs" />
+    <Page Include="View\Joystick.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -68,6 +73,7 @@
     </Compile>
     <Compile Include="Model\ClientModel.cs" />
     <Compile Include="Model\IClientModel.cs" />
+    <Compile Include="ViewModel\viewModelJoystick.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

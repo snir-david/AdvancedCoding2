@@ -101,6 +101,7 @@ namespace AdvancedCoding2
             if (openFileDialog.ShowDialog() == true)
                 controllerViewModel.VM_fpath = openFileDialog.FileName;
             CSV_button.Visibility = Visibility.Hidden;
+            controllerViewModel.connect();
         }
         private void OpenXML_Click(object sender, RoutedEventArgs e)
         {
