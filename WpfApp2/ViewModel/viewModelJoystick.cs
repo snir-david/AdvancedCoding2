@@ -8,23 +8,22 @@ using AdvancedCoding2;
 
 namespace WpfApp2.ViewModel
 {
-    class viewModelJoystick
+    public class viewModelJoystick: INotifyPropertyChanged
     {
-        private Client clientModel;
+        private IClientModel clientModel;
         public event PropertyChangedEventHandler PropertyChanged;
-        private float aileron, elevator;
-        private int aileronInx, elevatorInx;
+
         public float VM_aileron
         {
             get
             {
-                return aileron;
+                return clientModel.Aileron; ;
             }
             set
             {
-                if (aileron != value)
+                if (VM_aileron != value)
                 {
-                    aileron = value;
+                    clientModel.Aileron = value;
                     onPropertyChanged("VM_aileron");
                 }
             }
@@ -34,32 +33,29 @@ namespace WpfApp2.ViewModel
         {
             get
             {
-                return elevator;
+                return clientModel.Aileron;
             }
             set
             {
-                if (elevator != value)
+                if (VM_aileron != value)
                 {
-                    elevator = value;
+                    clientModel.Aileron = value;
                     onPropertyChanged("VM_elevator");
                 }
             }
         }
 
-
-        public void joyStickPos()
+        public void p()
         {
-            float ail = float.Parse(clientModel.CurrentAtt[aileronInx][clientModel.lineNumber]);
-            float elev = float.Parse(clientModel.CurrentAtt[elevatorInx][clientModel.lineNumber]);
-            VM_aileron = ail * 75 + 125;
-            VM_elevator = elev * 75 + 125;
+            Console.WriteLine(VM_elevator + " "+ VM_aileron);
         }
-        public void initJoystick()
+        public viewModelJoystick(IClientModel c)
         {
-            aileronInx = clientModel.HeaderNames.FindIndex(a => a.Contains("aileron"));
-            elevatorInx = clientModel.HeaderNames.FindIndex(a => a.Contains("elevator"));
-            VM_aileron = 125;
-            VM_elevator = 125;
+            this.clientModel = c;
+            clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
+            {
+                onPropertyChanged("VM_" + e.PropertyName);
+            };
         }
 
         public void onPropertyChanged(string propName)

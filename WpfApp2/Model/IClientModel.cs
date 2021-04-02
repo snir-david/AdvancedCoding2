@@ -46,7 +46,19 @@ namespace AdvancedCoding2
             set;
         }
 
-        //method to open socket with server
-        void connect();
+        float Aileron
+        {
+            get;
+            set;
+        }
+
+        float Elevator
+        {
+            get;
+            set;
+        }
+
+                //method to open socket with server
+                void connect();
     }
 }

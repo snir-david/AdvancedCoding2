@@ -14,8 +14,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using Microsoft.Win32;
+using AdvancedCoding2;
 using System.Windows.Forms;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using WpfApp2.View;
+using WpfApp2.ViewModel;
 
 namespace AdvancedCoding2
 {
@@ -26,11 +29,15 @@ namespace AdvancedCoding2
     {
 
         public ViewModelController controllerViewModel;
-
+        public viewModelJoystick viewModelJoystick;
         public MainWindow()
         {
             InitializeComponent();
-            controllerViewModel = new ViewModelController(new Client("localhost", 5400));
+            Client c = new Client("localhost", 5400);
+            JoystickView joystick = new JoystickView(c);
+            joystick.Show();
+            controllerViewModel = new ViewModelController(c);
+            controllerViewModel.joy = joystick.joystickVM;
             this.DataContext = controllerViewModel;
             if (Directory.Exists("C:\\Program Files\\FlightGear 2020.3.6"))
             {

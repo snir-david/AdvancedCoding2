@@ -6,12 +6,14 @@ using System.Threading;
 using System.ComponentModel;
 using System.Windows;
 using System.IO;
+using WpfApp2.ViewModel;
 
 namespace AdvancedCoding2
 {
-    public class ViewModelController : INotifyPropertyChanged
+    public class ViewModelController : IViewModel
     {
         private IClientModel clientModel;
+        public viewModelJoystick joy;
         public bool isConnected = false;
         private double playSpeed = 0;
         private string FGPath;
@@ -185,6 +187,7 @@ namespace AdvancedCoding2
             min = VM_lineNumber / 600;
             hours = VM_lineNumber / 6000;
             VM_Time = new TimeSpan(hours, min, sec);
+            joy.p();
         }
 
         public void resumeConnection()

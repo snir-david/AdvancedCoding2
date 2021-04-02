@@ -18,11 +18,13 @@ namespace AdvancedCoding2
         private volatile int playSpeed, lineNum;
         private string server, copyLine;
         private volatile string filePath, xmlPath;
-        private List<string> chunksName;
+        private List<string> chunksName, ailList= new List<string>(), elvList = new List<string>();
         private List<List<string>> currAtt = new List<List<string>>();
-        
 
-        
+        private int aileronInx, elevatorInx;
+        private volatile float aileron, elevator;
+
+
         public int TransSpeed { 
             get
             {
@@ -95,6 +97,37 @@ namespace AdvancedCoding2
                     xmlPath = value;
             }
         }
+        public float Aileron
+        {
+            get
+            {
+                return aileron;
+            }
+            set
+            {
+                if (Aileron != value)
+                {
+                    aileron = value;
+                    NotifyPropertyChanged("aileron");
+                }
+            }
+        }
+
+        public float Elevator
+        {
+            get
+            {
+                return elevator;
+            }
+            set
+            {
+                if (Elevator != value)
+                {
+                    elevator = value;
+                    NotifyPropertyChanged("elevator");
+                }
+            }
+        }
 
         public List<string> HeaderNames
         {
@@ -125,7 +158,6 @@ namespace AdvancedCoding2
             this.server = server;
         }
 
-
         public void xmlParser()
         {
             chunksName = new List<string>();
@@ -145,13 +177,34 @@ namespace AdvancedCoding2
             
         }
 
-        public void attSplit(string line)
+        public void attSplit(string[] csvFile)
         {
-            string[] curr = line.Split(',');
-            for (int i = 0; i< curr.Length ; i ++)
+            foreach(string line in csvFile)
             {
-                currAtt[i].Add(curr[i]);
+                string[] curr = line.Split(',');
+                for (int i = 0; i < curr.Length; i++)
+                {
+                    currAtt[i].Add(curr[i]);
+                }
             }
+            
+        }
+
+        public void joyStickPos()
+        {
+            ailList = CurrentAtt[aileronInx];
+            elvList = CurrentAtt[elevatorInx];
+            float ail = float.Parse(ailList[lineNumber]);
+            float elev = float.Parse(elvList[lineNumber]);
+            Aileron = ail * 85 + 50 ;
+            Elevator = elev * 75 + 50;
+        }
+        public void initJoystick()
+        {
+            aileronInx = HeaderNames.FindIndex(a => a.Contains("aileron"));
+            elevatorInx = HeaderNames.FindIndex(a => a.Contains("elevator"));
+            Aileron = 85;
+            Elevator = 75;
         }
 
         public void connect()
@@ -169,23 +222,25 @@ namespace AdvancedCoding2
 
                 // reading csv file into string array of lines
                 String[] csvLine = File.ReadAllLines(fpath);
+                String[] csvCopy = csvLine;
                 // getting number of rows
                 simLen = csvLine.Length;
                 this.xmlParser();
                 //setting up playing speed to 100 mill-sec
                 playSpeed = 100;
+                initJoystick();
+                attSplit(csvCopy);
 
                 // sending one line at a time to server
                 while (simLen > lineNumber)
                 {
-                    copyLine = csvLine[lineNumber];
-                    attSplit(copyLine);
                     //get a line from array
                     csvLine[lineNumber] += "\n";
                     //Encode to bytes
                     Byte[] lineBytes = System.Text.Encoding.ASCII.GetBytes(csvLine[lineNumber]);
                     // Send the message to the connected TcpServer
                     stream.Write(lineBytes, 0, lineBytes.Length);
+                    joyStickPos();
                     //inc index to next line
                     lineNumber++;
                     //sleep for playspeed mil-sec for sending ten times in a second
