@@ -196,15 +196,15 @@ namespace AdvancedCoding2
             elvList = CurrentAtt[elevatorInx];
             float ail = float.Parse(ailList[lineNumber]);
             float elev = float.Parse(elvList[lineNumber]);
-            Aileron = ail * 85 + 50 ;
-            Elevator = elev * 75 + 50;
+            Aileron = ail * 30 + 48;
+            Elevator = elev * 30 + 48;
         }
         public void initJoystick()
         {
             aileronInx = HeaderNames.FindIndex(a => a.Contains("aileron"));
             elevatorInx = HeaderNames.FindIndex(a => a.Contains("elevator"));
-            Aileron = 85;
-            Elevator = 75;
+            Aileron = 78;
+            Elevator = 78;
         }
 
         public void connect()

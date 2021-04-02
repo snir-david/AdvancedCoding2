@@ -187,7 +187,6 @@ namespace AdvancedCoding2
             min = VM_lineNumber / 600;
             hours = VM_lineNumber / 6000;
             VM_Time = new TimeSpan(hours, min, sec);
-            joy.p();
         }
 
         public void resumeConnection()

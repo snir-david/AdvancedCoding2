@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2" 
         mc:Ignorable="d"
-        Title="JoystickView" Height="246" Width="232.667">
+        Title="JoystickView" Height="343.333" Width="415.334">
     <Grid>
-        <Canvas Margin="10,22,633.333,137">
-            <Image x:Name="joyStick" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\joystick.png" Height="185" VerticalAlignment="Top" Width="203"/>
-            <Ellipse x:Name="centerJoystick" Fill="DarkSlateGray" Height="30" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="30" Canvas.Left="{Binding VM_aileron}" Canvas.Top="{Binding VM_aileron}"/>
+        <Canvas Margin="99,60,109.667,54">
+            <Image x:Name="joyStick" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\joystick.png" Height="200" VerticalAlignment="Top" Width="200"/>
+            <Ellipse x:Name="centerJoystick" Fill="Red" Height="40" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="40" Canvas.Top="{Binding VM_elevator}" Canvas.Left="{Binding VM_aileron}" RenderTransformOrigin="-4.222,2.056" Margin="0"/>
+
 
         </Canvas>
 

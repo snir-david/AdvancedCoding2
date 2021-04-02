@@ -45,10 +45,6 @@ namespace WpfApp2.ViewModel
             }
         }
 
-        public void p()
-        {
-            Console.WriteLine(VM_elevator + " "+ VM_aileron);
-        }
         public viewModelJoystick(IClientModel c)
         {
             this.clientModel = c;
