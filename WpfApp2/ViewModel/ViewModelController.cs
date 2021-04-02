@@ -14,7 +14,7 @@ namespace AdvancedCoding2
         private IClientModel clientModel;
         public bool isConnected = false;
         private double playSpeed = 0;
-        private string xmlPath, FGPath;
+        private string FGPath;
         private Thread connectThread;
         private TimeSpan Time;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -112,12 +112,12 @@ namespace AdvancedCoding2
         {
             get
             {
-                return xmlPath;
+                return clientModel.XMLpath;
             }
             set
             {
                 if (VM_XMLPath != value)
-                    xmlPath = value;
+                    clientModel.XMLpath = value;
             }
         }
 

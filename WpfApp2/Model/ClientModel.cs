@@ -5,6 +5,8 @@ using System.Threading;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Xml;
+using System.Collections.Generic;
 
 namespace AdvancedCoding2
 {
@@ -15,9 +17,11 @@ namespace AdvancedCoding2
         private int port, csvRowsNum;
         private volatile int playSpeed, lineNum;
         private string server;
-        private volatile string filePath;
+        private volatile string filePath, xmlPath;
+        List<string> chunksName;
 
-       public int TransSpeed { 
+
+        public int TransSpeed { 
             get
             {
                 return playSpeed;
@@ -77,7 +81,19 @@ namespace AdvancedCoding2
             }
         }
 
-        
+        public string XMLpath
+        {
+            get
+            {
+                return xmlPath;
+            }
+            set
+            {
+                if (XMLpath != value)
+                    xmlPath = value;
+            }
+        }
+
         public void NotifyPropertyChanged(string propName)
         {
             if (this.PropertyChanged != null)
@@ -90,6 +106,24 @@ namespace AdvancedCoding2
         {
             this.port = port;
             this.server = server;
+        }
+
+
+        public void xmlParser()
+        {
+            chunksName = new List<string>();
+            XmlDocument doc = new XmlDocument();
+            doc.Load(XMLpath);
+            XmlNode node = doc.DocumentElement.SelectSingleNode("/PropertyList/generic/output");
+            foreach (XmlNode n in node)
+            {
+                if (n.LocalName.Equals("chunk"))
+                {
+                    string name = n.SelectSingleNode("name").InnerText;
+                    chunksName.Add(name);
+                }
+            }
+
         }
 
         public void connect()

@@ -39,6 +39,13 @@ namespace AdvancedCoding2
             set;
         }
 
+        // XML file path
+        string XMLpath
+        {
+            get;
+            set;
+        }
+
         //method to open socket with server
         void connect();
     }
