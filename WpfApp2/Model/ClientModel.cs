@@ -19,7 +19,6 @@ namespace AdvancedCoding2
         private string server, copyLine;
         private volatile string filePath, xmlPath;
         private List<string> chunksName;
-        private List<string> innerList = new List<string>();
         private List<List<string>> currAtt = new List<List<string>>();
         
 
@@ -139,9 +138,11 @@ namespace AdvancedCoding2
                 {
                     string name = n.SelectSingleNode("name").InnerText;
                     chunksName.Add(name);
+                    currAtt.Add(new List<string>());
+
                 }
             }
-
+            
         }
 
         public void attSplit(string line)
@@ -157,7 +158,7 @@ namespace AdvancedCoding2
         {
             try
             {
-
+                
                 // Create a TcpClient.
                 // Note, for this client to work you need to have a TcpServer
                 // connected to the same address as specified by the server, port
@@ -170,8 +171,7 @@ namespace AdvancedCoding2
                 String[] csvLine = File.ReadAllLines(fpath);
                 // getting number of rows
                 simLen = csvLine.Length;
-                
-               
+                this.xmlParser();
                 //setting up playing speed to 100 mill-sec
                 playSpeed = 100;
 

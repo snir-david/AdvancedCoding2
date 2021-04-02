@@ -42,6 +42,7 @@ namespace AdvancedCoding2
                 } else
                 {
                     CSV_button.Visibility = Visibility.Visible;
+                    controllerViewModel.VM_XMLPath = "C:\\Program Files\\FlightGear 2020.3.6\\data\\Protocol\\playback_small.xml";
                 }
 
             } else
@@ -101,7 +102,7 @@ namespace AdvancedCoding2
             if (openFileDialog.ShowDialog() == true)
                 controllerViewModel.VM_fpath = openFileDialog.FileName;
             CSV_button.Visibility = Visibility.Hidden;
-            controllerViewModel.connect();
+            Play_Button_Click(this, null);
         }
         private void OpenXML_Click(object sender, RoutedEventArgs e)
         {
