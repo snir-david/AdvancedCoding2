@@ -29,6 +29,15 @@ namespace WpfApp2.View
             joystickVM = new viewModelJoystick(c);
             DataContext = joystickVM;
         }
-        
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void ai_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
