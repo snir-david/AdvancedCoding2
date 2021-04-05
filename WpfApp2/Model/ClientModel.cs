@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Xml;
 using System.Collections.Generic;
+using DesktopFGApp.Model;
 
 namespace AdvancedCoding2
 {
@@ -134,6 +135,10 @@ namespace AdvancedCoding2
             get
             {
                 return chunksName;
+            }
+            set
+            {
+
             }
         }
         public List<List<string>> CurrentAtt
@@ -266,6 +271,66 @@ namespace AdvancedCoding2
             }
         }
 
+        // ****************** shani's functions *******************//
+
+        float avg(List<float> x, int size)
+        {
+            float sum = 0;
+            for (int i = 0; i < size; sum += x[i], i++) ;
+            return sum / size;
+        }
+
+        // returns the variance of X and Y
+        float var(List<float> x, int size)
+        {
+            float av = avg(x, size);
+            float sum = 0;
+            for (int i = 0; i < size; i++)
+            {
+                sum += x[i] * x[i];
+            }
+            return sum / size - av * av;
+        }
+
+        // returns the Covariance of X and Y
+        float cov(List<float> x, List<float> y, int size)
+        {
+            float sum = 0;
+            for (int i = 0; i < size; i++)
+            {
+                sum += x[i] * y[i];
+            }
+            sum /= size;
+
+            return sum - avg(x, size) * avg(y, size);
+        }
+
+
+        // returns the Pearson correlation coefficient of X and Y
+        double pearson(List<float> x, List<float> y, int size)
+        {
+            return cov(x, y, size) / (Math.Sqrt(var(x, size)) * Math.Sqrt(var(y, size)));
+        }
+
+        // performs a linear regression and returns the line equation
+        Line linear_reg(List<DesktopFGApp.Model.Point> points, int size)
+        {
+            List<float> x = new List<float>();
+            List<float> y = new List<float>();
+            for (int i = 0; i < size; i++)
+            {
+                x[i] = points[i].x;
+                y[i] = points[i].y;
+            }
+            float a = cov(x, y, size) / var(x, size);
+            float b = avg(y, size) - a * (avg(x, size));
+
+            Line l = new Line(a , b);
+            
+            return l;
+        }
+
     }
+
 }
 

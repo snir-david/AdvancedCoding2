@@ -1,0 +1,70 @@
+﻿<Window x:Class="DesktopFGApp.View.graphView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DesktopFGApp.View"
+        mc:Ignorable="d"
+        Title="graphView" Height="450" Width="800">
+    <Grid>
+        <Grid Margin="0,0,2,-1">
+            <ScrollViewer HorizontalAlignment="Left" Height="420" VerticalAlignment="Top" Width="271">
+                <Grid Background="Gray" Height="880" Width="271">
+                    <Button Content="{Binding VM_headerNames}" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,19,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,39,0,0" Click="Button_Click"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,59,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,79,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,99,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,119,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,139,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,159,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,179,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,199,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,219,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,239,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,259,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,279,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,299,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,319,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,339,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,359,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,379,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,399,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,419,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,439,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,459,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,479,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,499,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,519,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,539,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,559,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,579,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,599,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,619,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,639,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,659,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,679,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,699,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,719,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,739,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,759,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,779,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,799,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,819,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="241" Margin="4,839,0,0"/>
+
+                
+                </Grid>
+
+            </ScrollViewer>
+            <Grid Background="Gray" HorizontalAlignment="Left" Height="165" Margin="528,10,0,0" VerticalAlignment="Top" Width="244"/>
+            <Grid Background="Gray" HorizontalAlignment="Left" Height="165" Margin="276,10,0,0" VerticalAlignment="Top" Width="244"/>
+            <Grid Background="Gray" HorizontalAlignment="Left" Height="222" Margin="276,180,0,0" VerticalAlignment="Top" Width="496"/>
+
+        </Grid>
+    </Grid>
+
+
+
+
+</Window>

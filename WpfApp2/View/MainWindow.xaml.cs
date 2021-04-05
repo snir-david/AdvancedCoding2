@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using WpfApp2.View;
 using WpfApp2.ViewModel;
+using DesktopFGApp.View;
 
 namespace AdvancedCoding2
 {
@@ -36,6 +37,8 @@ namespace AdvancedCoding2
             JoystickView joystick = new JoystickView(c);
             joystick.Show();
             controllerViewModel = new ViewModelController(c);
+            graphView graph = new graphView(c);
+            graph.Show();
             this.DataContext = controllerViewModel;
             if (Directory.Exists("C:\\Program Files\\FlightGear 2020.3.6"))
             {

@@ -58,7 +58,13 @@ namespace AdvancedCoding2
             set;
         }
 
-                //method to open socket with server
-                void connect();
+        List<string> HeaderNames
+        {
+            get;
+            set;     
+        }
+
+        //method to open socket with server
+        void connect();
     }
 }

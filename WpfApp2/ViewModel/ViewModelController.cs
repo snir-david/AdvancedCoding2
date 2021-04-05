@@ -136,6 +136,15 @@ namespace AdvancedCoding2
             }
         }
 
+        public string VM_headerNames
+        {
+            get
+            {
+                Console.WriteLine("im here");
+                return clientModel.HeaderNames[0];
+            }
+        }
+
         public ViewModelController(IClientModel m)
         {
             this.clientModel = m;
