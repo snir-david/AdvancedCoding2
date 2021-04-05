@@ -37,8 +37,6 @@ namespace AdvancedCoding2
             JoystickView joystick = new JoystickView(c);
             joystick.Show();
             controllerViewModel = new ViewModelController(c);
-            graphView graph = new graphView(c);
-            graph.Show();
             this.DataContext = controllerViewModel;
             if (Directory.Exists("C:\\Program Files\\FlightGear 2020.3.6"))
             {

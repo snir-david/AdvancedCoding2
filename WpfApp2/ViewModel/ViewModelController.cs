@@ -136,12 +136,12 @@ namespace AdvancedCoding2
             }
         }
 
-        public string VM_headerNames
+        public List<string> VM_headerNames
         {
             get
             {
                 Console.WriteLine("im here");
-                return clientModel.HeaderNames[0];
+                return clientModel.HeaderNames;
             }
         }
 

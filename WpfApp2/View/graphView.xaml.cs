@@ -21,19 +21,28 @@ namespace DesktopFGApp.View
     /// </summary>
     public partial class graphView : Window
     {
-        public viewModelJoystick joystickVM;
+        public ViewModelController controllerVM;
         public graphView(IClientModel c)
         {
             InitializeComponent();
-            //joystickVM = new viewModelJoystick(c);
-            //DataContext = joystickVM;
+            controllerVM = new ViewModelController(c);
+            DataContext = controllerVM;
+            ScrollViewer s = new ScrollViewer();
+            StackPanel sp = new StackPanel();
+            foreach (string name in controllerVM.VM_headerNames)
+            {
+                sp.Children.Add(new Button() {Content = name });
+            }
+            s.Content = sp;
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // gets the name of the button
             string name = (sender as Button).Content.ToString();
-            Console.WriteLine("got here");
+            
         }
+
     }
 }
