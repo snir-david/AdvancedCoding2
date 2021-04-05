@@ -37,8 +37,7 @@ namespace AdvancedCoding2
             JoystickView joystick = new JoystickView(c);
             joystick.Show();
             controllerViewModel = new ViewModelController(c);
-            graphView graph = new graphView(c);
-            graph.Show();
+            
             this.DataContext = controllerViewModel;
             if (Directory.Exists("C:\\Program Files\\FlightGear 2020.3.6"))
             {
@@ -53,6 +52,7 @@ namespace AdvancedCoding2
                     CSV_button.Visibility = Visibility.Visible;
                     controllerViewModel.VM_XMLPath = "C:\\Program Files\\FlightGear 2020.3.6\\data\\Protocol\\playback_small.xml";
                     controllerViewModel.xmlPraser();
+                    
                 }
 
             }
@@ -115,6 +115,11 @@ namespace AdvancedCoding2
             if (openFileDialog.ShowDialog() == true)
                 controllerViewModel.VM_fpath = openFileDialog.FileName;
             CSV_button.Visibility = Visibility.Hidden;
+
+            // i added
+            readCSVfile();
+            controllerViewModel.splitAtt();
+            
             Play_Button_Click(this, null);
         }
         private void OpenXML_Click(object sender, RoutedEventArgs e)
@@ -141,6 +146,12 @@ namespace AdvancedCoding2
             {
                 XML_button.Visibility = Visibility.Visible;
             }
+        }
+
+        private void readCSVfile()
+        {
+            String[] csvLine = File.ReadAllLines(controllerViewModel.VM_fpath);
+            controllerViewModel.VM_CSVcopy = csvLine;
         }
     }
 }

@@ -45,14 +45,6 @@ namespace WpfApp2.ViewModel
             }
         }
 
-       /*public string VM_headerNames
-        {
-            get
-            {
-                Console.WriteLine("im here");
-                return clientModel.HeaderNames[0];
-            }
-        }*/
         public viewModelJoystick(IClientModel c)
         {
             this.clientModel = c;

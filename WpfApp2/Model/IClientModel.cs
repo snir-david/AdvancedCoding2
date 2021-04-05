@@ -64,9 +64,38 @@ namespace AdvancedCoding2
             set;     
         }
 
+        string Chosen
+        {
+            get;
+            set;           
+        }
+
+        string Corralative
+        {
+            get;
+            set;
+        }
+
+        List<List<string>> CurrentAtt
+        {
+            get;
+        }
+
+        String[] CSVcopy
+        {
+            get;
+            set;
+        }
+
+        //void readCSVfile();
+
         //method to open socket with server
         void connect();
 
         void xmlParser();
+
+        double pearson(List<float> x, List<float> y, int size);
+        void attSplit(string[] csvFile);
+
     }
 }

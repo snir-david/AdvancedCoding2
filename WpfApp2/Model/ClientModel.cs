@@ -17,10 +17,12 @@ namespace AdvancedCoding2
 
         private int port, csvRowsNum;
         private volatile int playSpeed, lineNum;
-        private string server, copyLine;
+        private string server, copyLine , chosen , corralative;
         private volatile string filePath, xmlPath;
         private List<string> chunksName, ailList= new List<string>(), elvList = new List<string>();
         private List<List<string>> currAtt = new List<List<string>>();
+
+        private String[] csvCopy;
 
         private int aileronInx, elevatorInx;
         private volatile float aileron, elevator;
@@ -154,6 +156,51 @@ namespace AdvancedCoding2
             }
         }
 
+        // i added it in order to call splitAtt from view model controller.
+        public String[] CSVcopy
+        {
+            get
+            {
+                return csvCopy;
+            }
+            set
+            {
+                if (CSVcopy != value)
+                {
+                    csvCopy = value;
+                    NotifyPropertyChanged("CSVcopy");
+                }
+            }
+        }
+
+        // this property is the chosen data (the button that had been pressed).
+        public string Chosen
+        {
+            get
+            {
+                return chosen; ;
+            }
+            set
+            {
+                if (Chosen != value)
+                    chosen = value;
+            }
+        }
+
+        // this property is the corralative data.
+        public string Corralative
+        {
+            get
+            {
+                return corralative; ;
+            }
+            set
+            {
+                if (Corralative != value)
+                    corralative = value;
+            }
+        }
+
         public void NotifyPropertyChanged(string propName)
         {
             if (this.PropertyChanged != null)
@@ -180,7 +227,7 @@ namespace AdvancedCoding2
                 {
                     string name = n.SelectSingleNode("name").InnerText;
                     chunksName.Add(name);
-                    currAtt.Add(new List<string>());
+                    //currAtt.Add(new List<string>());
 
                 }
             }
@@ -189,15 +236,22 @@ namespace AdvancedCoding2
 
         public void attSplit(string[] csvFile)
         {
-            foreach(string line in csvFile)
+            int counter = 0;
+
+            foreach (string line in csvFile)
             {
-                string[] curr = line.Split(',');
+                string[] curr = line.Split(',');    
                 for (int i = 0; i < curr.Length; i++)
                 {
+                    if(counter <= curr.Length - 1)
+                    {
+                        currAtt.Add(new List<string>());
+                        counter++;
+                    }           
                     currAtt[i].Add(curr[i]);
+
                 }
             }
-            
         }
 
         public void joyStickPos()
@@ -232,14 +286,16 @@ namespace AdvancedCoding2
 
                 // reading csv file into string array of lines
                 String[] csvLine = File.ReadAllLines(fpath);
-                String[] csvCopy = csvLine;
+                //String[] csvCopy = csvLine;
+                this.csvCopy = csvLine;
+
                 // getting number of rows
                 simLen = csvLine.Length;
                 //this.xmlParser();
                 //setting up playing speed to 100 mill-sec
                 playSpeed = 100;
                 initJoystick();
-                attSplit(csvCopy);
+                //attSplit(csvCopy);
 
                 // sending one line at a time to server
                 while (simLen > lineNumber)
@@ -278,7 +334,7 @@ namespace AdvancedCoding2
 
         // ****************** shani's functions *******************//
 
-        float avg(List<float> x, int size)
+        private float avg(List<float> x, int size)
         {
             float sum = 0;
             for (int i = 0; i < size; sum += x[i], i++) ;
@@ -286,7 +342,7 @@ namespace AdvancedCoding2
         }
 
         // returns the variance of X and Y
-        float var(List<float> x, int size)
+        private float var(List<float> x, int size)
         {
             float av = avg(x, size);
             float sum = 0;
@@ -298,7 +354,7 @@ namespace AdvancedCoding2
         }
 
         // returns the Covariance of X and Y
-        float cov(List<float> x, List<float> y, int size)
+        private float cov(List<float> x, List<float> y, int size)
         {
             float sum = 0;
             for (int i = 0; i < size; i++)
@@ -312,8 +368,13 @@ namespace AdvancedCoding2
 
 
         // returns the Pearson correlation coefficient of X and Y
-        double pearson(List<float> x, List<float> y, int size)
+        public double pearson(List<float> x, List<float> y, int size)
         {
+            if (Math.Sqrt(var(x, size)) * Math.Sqrt(var(y, size)) == 0)
+            {
+                return 0;
+            }
+            
             return cov(x, y, size) / (Math.Sqrt(var(x, size)) * Math.Sqrt(var(y, size)));
         }
 

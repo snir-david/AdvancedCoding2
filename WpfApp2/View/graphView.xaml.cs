@@ -1,4 +1,5 @@
 ﻿using AdvancedCoding2;
+using DesktopFGApp.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,26 +22,36 @@ namespace DesktopFGApp.View
     /// </summary>
     public partial class graphView : Window
     {
-        public ViewModelController controllerVM;
+        private GraphViewModel graphViewModel;
+        
+
         public graphView(IClientModel c)
         {
             InitializeComponent();
-            controllerVM = new ViewModelController(c);
-            DataContext = controllerVM;
-            ScrollViewer s = new ScrollViewer();
-            StackPanel sp = new StackPanel();
-            foreach (string name in controllerVM.VM_headerNames)
-            {
-                sp.Children.Add(new Button() {Content = name });
-            }
-            s.Content = sp;
+            this.graphViewModel = new GraphViewModel(c);
+            this.DataContext = graphViewModel;
 
+            StackPanel stackPanel = new StackPanel();
+            foreach(string name in graphViewModel.nameList)
+            {
+                Button b = new Button();
+                b.Click += Button_Click;
+                b.Content = name;
+                stackPanel.Children.Add(b);
+            }
+            scorllButtons.Content = stackPanel;
         }
 
+
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // gets the name of the button
             string name = (sender as Button).Content.ToString();
+            graphViewModel.VM_chosen = name;
+            string s = graphViewModel.FindCorralativeFeature(name);
+            graphViewModel.VM_corralative = s;
+
             
         }
 
