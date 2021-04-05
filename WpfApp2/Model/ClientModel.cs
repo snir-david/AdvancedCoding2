@@ -323,15 +323,15 @@ namespace AdvancedCoding2
             elvList = CurrentAtt[elevatorInx];
             float ail = float.Parse(ailList[lineNumber]);
             float elev = float.Parse(elvList[lineNumber]);
-            Aileron = ail * 50 + 78;
-            Elevator = elev * 50 + 78;
+            Aileron = ail * 50 + 125;
+            Elevator = elev * 50 + 125;
         }
         public void initJoystick()
         {
             aileronInx = HeaderNames.FindIndex(a => a.Contains("aileron"));
             elevatorInx = HeaderNames.FindIndex(a => a.Contains("elevator"));
-            Aileron = 78;
-            Elevator = 78;
+            Aileron = 125;
+            Elevator = 125;
         }
 
         public void ruddersPos()
