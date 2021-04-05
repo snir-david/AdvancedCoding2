@@ -77,6 +77,99 @@ namespace WpfApp2.ViewModel
             }
         }
 
+        public float VM_airspeed
+        {
+            get
+            {
+                return clientModel.Airspeed;
+            }
+            set
+            {
+                if (VM_airspeed != value)
+                {
+                    clientModel.Airspeed = value;
+                    onPropertyChanged("VM_airspeed");
+                }
+            }
+        }
+
+        public float VM_altimeter
+        {
+            get
+            {
+                return clientModel.Altimeter;
+            }
+            set
+            {
+                if (VM_altimeter != value)
+                {
+                    clientModel.Altimeter = value;
+                    onPropertyChanged("VM_altimeter");
+                }
+            }
+        }
+        public float VM_roll
+        {
+            get
+            {
+                return clientModel.Roll;
+            }
+            set
+            {
+                if (VM_roll != value)
+                {
+                    clientModel.Roll = value;
+                    onPropertyChanged("VM_roll");
+                }
+            }
+        }
+        public float VM_yaw
+        {
+            get
+            {
+                return clientModel.Yaw;
+            }
+            set
+            {
+                if (VM_yaw != value)
+                {
+                    clientModel.Yaw = value;
+                    onPropertyChanged("VM_yaw");
+                }
+            }
+        }
+
+        public float VM_pitch
+        {
+            get
+            {
+                return clientModel.Pitch;
+            }
+            set
+            {
+                if (VM_pitch != value)
+                {
+                    clientModel.Pitch = value;
+                    onPropertyChanged("VM_pitch");
+                }
+            }
+        }
+        public float VM_heading
+        {
+            get
+            {
+                return clientModel.Heading;
+            }
+            set
+            {
+                if (VM_heading != value)
+                {
+                    clientModel.Heading = value;
+                    onPropertyChanged("VM_heading");
+                }
+            }
+        }
+
         public viewModelJoystick(IClientModel c)
         {
             this.clientModel = c;

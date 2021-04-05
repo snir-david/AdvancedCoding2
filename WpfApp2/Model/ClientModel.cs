@@ -18,11 +18,12 @@ namespace AdvancedCoding2
         private volatile int playSpeed, lineNum;
         private string server, copyLine;
         private volatile string filePath, xmlPath;
-        private List<string> chunksName, ailList= new List<string>(), elvList = new List<string>(), rudList = new List<string>(), thrList = new List<string>();
+        private List<string> chunksName, ailList= new List<string>(), elvList = new List<string>(), rudList = new List<string>(), thrList = new List<string>(),
+            airList = new List<string>(), altList = new List<string>(), rolList = new List<string>(), pitList = new List<string>(), yawList = new List<string>(), headingList = new List<string>();
         private List<List<string>> currAtt = new List<List<string>>();
 
-        private int aileronInx, elevatorInx, rudderInx, throttleInx;
-        private volatile float aileron, elevator, rudder, throttle;
+        private int aileronInx, elevatorInx, rudderInx, throttleInx, airspeedInx, altimeterInx, rollInx, pitchInx, yawInx, headingInx;
+        private volatile float aileron, elevator, rudder, throttle, airspeed, altimeter, roll, pitch, yaw, heading;
 
 
         public int TransSpeed { 
@@ -161,6 +162,100 @@ namespace AdvancedCoding2
             }
         }
 
+        public float Airspeed
+        {
+            get
+            {
+                return airspeed;
+            }
+            set
+            {
+                if (Airspeed != value)
+                {
+                    airspeed = value;
+                    NotifyPropertyChanged("airspeed");
+                }
+            }
+        }
+        public float Altimeter
+        {
+            get
+            {
+                return altimeter;
+            }
+            set
+            {
+                if (Altimeter != value)
+                {
+                    altimeter = value;
+                    NotifyPropertyChanged("altimeter");
+                }
+            }
+        }
+
+        public float Roll
+        {
+            get
+            {
+                return roll;
+            }
+            set
+            {
+                if (Roll != value)
+                {
+                    roll = value;
+                    NotifyPropertyChanged("roll");
+                }
+            }
+        }
+
+        public float Pitch
+        {
+            get
+            {
+                return pitch;
+            }
+            set
+            {
+                if (Pitch != value)
+                {
+                    pitch = value;
+                    NotifyPropertyChanged("pitch");
+                }
+            }
+        }
+
+        public float Yaw
+        {
+            get
+            {
+                return yaw;
+            }
+            set
+            {
+                if (Yaw != value)
+                {
+                    yaw = value;
+                    NotifyPropertyChanged("yaw");
+                }
+            }
+        }
+
+        public float Heading
+        {
+            get
+            {
+                return heading;
+            }
+            set
+            {
+                if (Heading != value)
+                {
+                    heading = value;
+                    NotifyPropertyChanged("heading");
+                }
+            }
+        }
         public List<string> HeaderNames
         {
             get
@@ -243,18 +338,47 @@ namespace AdvancedCoding2
         {
             rudList = CurrentAtt[rudderInx];
             thrList = CurrentAtt[throttleInx];
+            airList = CurrentAtt[airspeedInx];
+            altList = CurrentAtt[altimeterInx];
+            rolList = CurrentAtt[rollInx];
+            pitList = CurrentAtt[pitchInx];
+            yawList = CurrentAtt[yawInx];
+            headingList = CurrentAtt[headingInx];
+
+            Airspeed = float.Parse(airList[lineNumber]);
+            Altimeter = float.Parse(altList[lineNumber]);
+            Roll = float.Parse(rolList[lineNumber]);
+            Pitch = float.Parse(pitList[lineNumber]);
+            Yaw = float.Parse(yawList[lineNumber]);
+            Heading = float.Parse(headingList[lineNumber]);
             float rudd = float.Parse(rudList[lineNumber]);
             float throttle = float.Parse(thrList[lineNumber]);
             Rudder = rudd * 108 + 108;
             Throttle = throttle * -226 + 226;
+            
         }
 
         public void initRudders()
         {
             rudderInx = HeaderNames.FindIndex(a => a.Contains("rudder"));
             throttleInx = HeaderNames.FindIndex(a => a.Contains("throttle"));
+            airspeedInx = HeaderNames.FindIndex(a => a.Contains("airspeed-kt"));
+            altimeterInx = HeaderNames.FindIndex(a => a.Contains("altimeter_indicated-altitude-ft"));
+            rollInx = HeaderNames.FindIndex(a => a.Contains("roll-deg"));
+            pitchInx = HeaderNames.FindIndex(a => a.Contains("pitch-deg"));
+            yawInx = HeaderNames.FindIndex(a => a.Contains("side-slip-deg"));
+            headingInx = HeaderNames.FindIndex(a => a.Contains("heading-deg"));
+
+
             Rudder = 108;
             Throttle = 108;
+            Airspeed = 0;
+            Altimeter = 0;
+            Roll = 0;
+            Pitch = 0;
+            Yaw = 0;
+            Heading = 0;
+
         }
 
         public void connect()

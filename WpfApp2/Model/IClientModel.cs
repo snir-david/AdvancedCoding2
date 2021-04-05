@@ -69,8 +69,41 @@ namespace AdvancedCoding2
             get;
             set;
         }
-        
 
+        float Airspeed
+        {
+            get;
+            set;
+        }
+
+        float Altimeter
+        {
+            get;
+            set;
+        }
+        float Pitch
+        {
+            get;
+            set;
+        }
+        float Roll
+        {
+            get;
+            set;
+        }
+
+        float Yaw
+        {
+            get;
+            set;
+        }
+
+        float Heading
+        {
+            get;
+            set;
+        }
+        
         //method to open socket with server
         void connect();
     }

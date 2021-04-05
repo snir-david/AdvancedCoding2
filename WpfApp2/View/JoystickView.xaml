@@ -6,13 +6,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"   
         mc:Ignorable="d"
-        Title="JoystickView" Height="350" Width="350">
+        Title="JoystickView" Height="350" Width="538.667">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="190*"/>
             <RowDefinition Height="131*"/>
         </Grid.RowDefinitions>
+        <TextBox x:Name ="airspeed" IsReadOnly="True" TextAlignment="Center"  FontFamily="Agency FB" FontSize="25" Margin="300,9,47,112" TextWrapping="Wrap" Text="{Binding VM_airspeed}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False"/>
+        <TextBox x:Name ="altimeter" IsReadOnly="True" TextAlignment="Center"  FontFamily="Agency FB" FontSize="25" Margin="300,67,47,54" TextWrapping="Wrap" Text="{Binding VM_altimeter}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False"/>
+        <TextBox x:Name ="roll" IsReadOnly="True" TextAlignment="Center"  FontFamily="Agency FB" FontSize="25" Margin="305,62,42,59" TextWrapping="Wrap" Text="{Binding VM_roll}" Background="Red" BorderBrush="{x:Null}" IsEnabled="False"/>
+        <TextBox x:Name ="yaw" IsReadOnly="True" TextAlignment="Center"  FontFamily="Agency FB" FontSize="25" Margin="115,0,232,121" TextWrapping="Wrap" Text="{Binding VM_yaw}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False"/>
+        <TextBox x:Name ="pitch" IsReadOnly="True" TextAlignment="Center"  FontFamily="Agency FB" FontSize="25" Margin="337,136,10,115.667" TextWrapping="Wrap" Text="{Binding VM_pitch}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Grid.RowSpan="2"/>
+        <TextBox x:Name ="heading" IsReadOnly="True" TextAlignment="Center"  FontFamily="Agency FB" FontSize="25" Margin="305,13,42,48.667" TextWrapping="Wrap" Text="{Binding VM_heading}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Grid.Row="1"/>
+
         <Canvas Margin="80,67,128.333,46.667" Grid.RowSpan="2">
             <Image x:Name="joyStick" Source="C:\Users\tallor\Downloads\joystick.png" Height="200" VerticalAlignment="Top" Width="200" Canvas.Left="-2"/>
             <Ellipse x:Name="centerJoystick" Fill="Red" Height="40" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Right" Width="40" Canvas.Top="{Binding VM_elevator}" Canvas.Left="{Binding VM_aileron}" RenderTransformOrigin="-4.222,2.056" Margin="0"/>
@@ -40,7 +47,6 @@
 
 
         </Canvas>
-
 
 
     </Grid>
