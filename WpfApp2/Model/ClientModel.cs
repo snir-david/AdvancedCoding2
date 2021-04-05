@@ -18,11 +18,11 @@ namespace AdvancedCoding2
         private volatile int playSpeed, lineNum;
         private string server, copyLine;
         private volatile string filePath, xmlPath;
-        private List<string> chunksName, ailList= new List<string>(), elvList = new List<string>(), rudList = new List<string>();
+        private List<string> chunksName, ailList= new List<string>(), elvList = new List<string>(), rudList = new List<string>(), thrList = new List<string>();
         private List<List<string>> currAtt = new List<List<string>>();
 
-        private int aileronInx, elevatorInx, rudderInx;
-        private volatile float aileron, elevator, rudder;
+        private int aileronInx, elevatorInx, rudderInx, throttleInx;
+        private volatile float aileron, elevator, rudder, throttle;
 
 
         public int TransSpeed { 
@@ -145,6 +145,22 @@ namespace AdvancedCoding2
             }
         }
 
+        public float Throttle
+        {
+            get
+            {
+                return throttle;
+            }
+            set
+            {
+                if (Throttle != value)
+                {
+                    throttle = value;
+                    NotifyPropertyChanged("throttle");
+                }
+            }
+        }
+
         public List<string> HeaderNames
         {
             get
@@ -226,19 +242,19 @@ namespace AdvancedCoding2
         public void ruddersPos()
         {
             rudList = CurrentAtt[rudderInx];
-            //elvList = CurrentAtt[elevatorInx];
+            thrList = CurrentAtt[throttleInx];
             float rudd = float.Parse(rudList[lineNumber]);
-            //float elev = float.Parse(elvList[lineNumber]);
+            float throttle = float.Parse(thrList[lineNumber]);
             Rudder = rudd * 108 + 108;
-            //Elevator = elev * 50 + 78;
+            Throttle = throttle * -226 + 226;
         }
 
         public void initRudders()
         {
             rudderInx = HeaderNames.FindIndex(a => a.Contains("rudder"));
-            //elevatorInx = HeaderNames.FindIndex(a => a.Contains("elevator"));
+            throttleInx = HeaderNames.FindIndex(a => a.Contains("throttle"));
             Rudder = 108;
-            //Elevator = 78;
+            Throttle = 108;
         }
 
         public void connect()

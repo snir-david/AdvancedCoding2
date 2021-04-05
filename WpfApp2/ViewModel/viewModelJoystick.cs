@@ -12,7 +12,6 @@ namespace WpfApp2.ViewModel
     {
         private IClientModel clientModel;
         public event PropertyChangedEventHandler PropertyChanged;
-        private float rudder;
 
         public float VM_aileron
         {
@@ -58,6 +57,22 @@ namespace WpfApp2.ViewModel
                 {
                     clientModel.Rudder = value;
                     onPropertyChanged("VM_rudder");
+                }
+            }
+        }
+
+        public float VM_throttle
+        {
+            get
+            {
+                return clientModel.Throttle;
+            }
+            set
+            {
+                if (VM_throttle != value)
+                {
+                    clientModel.Throttle = value;
+                    onPropertyChanged("VM_throttle");
                 }
             }
         }

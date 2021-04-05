@@ -19,30 +19,6 @@
 
 
         </Canvas>
-        <Canvas Margin="-72,126,249.333,72.667" Grid.RowSpan="2" HorizontalAlignment="Right" Width="166">
-            <Rectangle Fill="Gray" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="226" RenderTransformOrigin="0.5,0.5">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="89.892"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
-            <Rectangle Fill="Black" HorizontalAlignment="Left" Height="32" Stroke="Black" VerticalAlignment="Top" Width="19" RenderTransformOrigin="0.5,0.5" Canvas.Left="104" Canvas.Top="-100">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="89.735"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
-
-
-        </Canvas>
         <Rectangle Fill="Black" HorizontalAlignment="Left" Height="32" Stroke="Black" VerticalAlignment="Top" Width="19" RenderTransformOrigin="0.5,0.5" Margin="104,-100,0,0">
             <Rectangle.RenderTransform>
                 <TransformGroup>
@@ -56,9 +32,15 @@
         <Canvas Margin="56,82,51.333,18.667" Grid.Row="1">
             <Rectangle Fill="Blue" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="236" Canvas.Top="2"/>
             <Rectangle Fill="Black" HorizontalAlignment="Left" Height="30" Stroke="Black" VerticalAlignment="Top" Width="20" Canvas.Left="{Binding VM_rudder}"/>
+        </Canvas>
+        <Canvas Margin="24,20,289.333,59.667" Grid.RowSpan="2">
+            <Rectangle Fill="Gray" HorizontalAlignment="Right" Stroke="Black" Width="24" Height="236" Canvas.Left="3" Canvas.Top="5"/>
+            <Rectangle Fill="Black" HorizontalAlignment="Right" Height="20" Stroke="Black" VerticalAlignment="Top" Width="30" Canvas.Top="{Binding VM_throttle}"/>
+
 
 
         </Canvas>
+
 
 
     </Grid>

@@ -64,6 +64,13 @@ namespace AdvancedCoding2
             set;
         }
 
+        float Throttle
+        {
+            get;
+            set;
+        }
+        
+
         //method to open socket with server
         void connect();
     }
