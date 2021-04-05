@@ -7,8 +7,10 @@
         mc:Ignorable="d"
         Title="graphView" Height="450" Width="800">
     <Grid>
-        <Grid Margin="0,0,2,-1">
-            
+        <Grid x:Name="GridScroll" Margin="0,0,2,-1">
+            <ScrollViewer x:Name="scorllButtons" HorizontalAlignment="Left" Height="420" VerticalAlignment="Top" Width="271">
+              
+            </ScrollViewer>
             <Grid Background="Gray" HorizontalAlignment="Left" Height="165" Margin="528,10,0,0" VerticalAlignment="Top" Width="244"/>
             <Grid Background="Gray" HorizontalAlignment="Left" Height="165" Margin="276,10,0,0" VerticalAlignment="Top" Width="244"/>
             <Grid Background="Gray" HorizontalAlignment="Left" Height="222" Margin="276,180,0,0" VerticalAlignment="Top" Width="496"/>

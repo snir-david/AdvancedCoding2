@@ -21,7 +21,7 @@ namespace WpfApp2.View
     /// </summary>
     public partial class JoystickView : Window
     {
-        public viewModelJoystick joystickVM;
+        private viewModelJoystick joystickVM;
 
         public JoystickView(IClientModel c)
         {
