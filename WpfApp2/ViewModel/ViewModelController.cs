@@ -22,6 +22,28 @@ namespace AdvancedCoding2
         public event PropertyChangedEventHandler PropertyChanged;
 
 
+        public String[] VM_CSVcopy
+        {
+            get
+            {
+                return clientModel.CSVcopy;
+            }
+            set
+            {
+                if (VM_CSVcopy != value)
+                    clientModel.CSVcopy = value;
+            }
+        }
+
+        public List<List<string>> VM_currentAtt
+        {
+            get
+            {
+                return clientModel.CurrentAtt;
+            }
+
+        }
+
         public double VM_playSpeed
         {
             get
@@ -140,7 +162,6 @@ namespace AdvancedCoding2
         {
             get
             {
-                Console.WriteLine("im here");
                 return clientModel.HeaderNames;
             }
         }
@@ -227,6 +248,16 @@ namespace AdvancedCoding2
             {
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
+        }
+
+        public void splitAtt()
+        {
+            clientModel.attSplit(this.VM_CSVcopy);
+        }
+
+        public void xmlPraser()
+        {
+            clientModel.xmlParser();
         }
 
     }

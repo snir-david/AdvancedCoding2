@@ -14,7 +14,8 @@
             <Grid Background="Gray" HorizontalAlignment="Left" Height="165" Margin="528,10,0,0" VerticalAlignment="Top" Width="244"/>
             <Grid Background="Gray" HorizontalAlignment="Left" Height="165" Margin="276,10,0,0" VerticalAlignment="Top" Width="244"/>
             <Grid Background="Gray" HorizontalAlignment="Left" Height="222" Margin="276,180,0,0" VerticalAlignment="Top" Width="496"/>
-
+            <TextBox x:Name="chosen" IsReadOnly="True" TextAlignment="Center" Margin="566,10,62,374" TextWrapping="Wrap" Text="{Binding VM_chosen}" FontSize="10" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False"/>
+            <TextBox x:Name="corr" IsReadOnly="True" TextAlignment="Center" Margin="317,10,311,374" TextWrapping="Wrap" Text="{Binding VM_corralative}" FontSize="10" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False"/>
         </Grid>
     </Grid>
 
