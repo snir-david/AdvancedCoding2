@@ -29,5 +29,6 @@ namespace WpfApp2.View
             joystickVM = new viewModelJoystick(c);
             DataContext = joystickVM;
         }
+        
     }
 }

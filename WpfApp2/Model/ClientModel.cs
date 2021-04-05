@@ -18,11 +18,11 @@ namespace AdvancedCoding2
         private volatile int playSpeed, lineNum;
         private string server, copyLine;
         private volatile string filePath, xmlPath;
-        private List<string> chunksName, ailList= new List<string>(), elvList = new List<string>();
+        private List<string> chunksName, ailList= new List<string>(), elvList = new List<string>(), rudList = new List<string>();
         private List<List<string>> currAtt = new List<List<string>>();
 
-        private int aileronInx, elevatorInx;
-        private volatile float aileron, elevator;
+        private int aileronInx, elevatorInx, rudderInx;
+        private volatile float aileron, elevator, rudder;
 
 
         public int TransSpeed { 
@@ -129,6 +129,22 @@ namespace AdvancedCoding2
             }
         }
 
+        public float Rudder
+        {
+            get
+            {
+                return rudder;
+            }
+            set
+            {
+                if (Rudder != value)
+                {
+                    rudder = value;
+                    NotifyPropertyChanged("rudder");
+                }
+            }
+        }
+
         public List<string> HeaderNames
         {
             get
@@ -196,8 +212,8 @@ namespace AdvancedCoding2
             elvList = CurrentAtt[elevatorInx];
             float ail = float.Parse(ailList[lineNumber]);
             float elev = float.Parse(elvList[lineNumber]);
-            Aileron = ail * 30 + 48;
-            Elevator = elev * 30 + 48;
+            Aileron = ail * 50 + 78;
+            Elevator = elev * 50 + 78;
         }
         public void initJoystick()
         {
@@ -205,6 +221,24 @@ namespace AdvancedCoding2
             elevatorInx = HeaderNames.FindIndex(a => a.Contains("elevator"));
             Aileron = 78;
             Elevator = 78;
+        }
+
+        public void ruddersPos()
+        {
+            rudList = CurrentAtt[rudderInx];
+            //elvList = CurrentAtt[elevatorInx];
+            float rudd = float.Parse(rudList[lineNumber]);
+            //float elev = float.Parse(elvList[lineNumber]);
+            Rudder = rudd * 108 + 108;
+            //Elevator = elev * 50 + 78;
+        }
+
+        public void initRudders()
+        {
+            rudderInx = HeaderNames.FindIndex(a => a.Contains("rudder"));
+            //elevatorInx = HeaderNames.FindIndex(a => a.Contains("elevator"));
+            Rudder = 108;
+            //Elevator = 78;
         }
 
         public void connect()
@@ -229,6 +263,7 @@ namespace AdvancedCoding2
                 //setting up playing speed to 100 mill-sec
                 playSpeed = 100;
                 initJoystick();
+                initRudders();
                 attSplit(csvCopy);
 
                 // sending one line at a time to server
@@ -241,6 +276,7 @@ namespace AdvancedCoding2
                     // Send the message to the connected TcpServer
                     stream.Write(lineBytes, 0, lineBytes.Length);
                     joyStickPos();
+                    ruddersPos();
                     //inc index to next line
                     lineNumber++;
                     //sleep for playspeed mil-sec for sending ten times in a second

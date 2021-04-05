@@ -12,6 +12,7 @@ namespace WpfApp2.ViewModel
     {
         private IClientModel clientModel;
         public event PropertyChangedEventHandler PropertyChanged;
+        private float rudder;
 
         public float VM_aileron
         {
@@ -41,6 +42,22 @@ namespace WpfApp2.ViewModel
                 {
                     clientModel.Aileron = value;
                     onPropertyChanged("VM_elevator");
+                }
+            }
+        }
+
+        public float VM_rudder
+        {
+            get
+            {
+                return clientModel.Rudder;
+            }
+            set
+            {
+                if (VM_rudder != value)
+                {
+                    clientModel.Rudder = value;
+                    onPropertyChanged("VM_rudder");
                 }
             }
         }

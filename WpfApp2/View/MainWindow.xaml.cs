@@ -133,5 +133,6 @@ namespace AdvancedCoding2
                 XML_button.Visibility = Visibility.Visible;
             }
         }
+
     }
 }
