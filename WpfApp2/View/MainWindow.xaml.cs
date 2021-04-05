@@ -37,8 +37,7 @@ namespace AdvancedCoding2
             JoystickView joystick = new JoystickView(c);
             joystick.Show();
             controllerViewModel = new ViewModelController(c);
-            graphView graph = new graphView(c);
-            graph.Show();
+
             this.DataContext = controllerViewModel;
             if (Directory.Exists("C:\\Program Files\\FlightGear 2020.3.6"))
             {
@@ -47,16 +46,21 @@ namespace AdvancedCoding2
                     XML_button.Visibility = Visibility.Visible;
                     CSV_button.Visibility = Visibility.Visible;
                     controllerViewModel.VM_FGPath = "C:\\Program Files\\FlightGear 2020.3.6";
-                } else
+                }
+                else
                 {
                     CSV_button.Visibility = Visibility.Visible;
                     controllerViewModel.VM_XMLPath = "C:\\Program Files\\FlightGear 2020.3.6\\data\\Protocol\\playback_small.xml";
+                    controllerViewModel.xmlPraser();
                 }
 
-            } else
+            }
+            else
             {
                 Folder_button.Visibility = Visibility.Visible;
             }
+            graphView g = new graphView(c);
+            g.Show();
         }
 
         private void Pause_Button_Click(object sender, RoutedEventArgs e)
@@ -68,20 +72,20 @@ namespace AdvancedCoding2
         }
         private void Play_Button_Click(object sender, RoutedEventArgs e)
         {
-                controllerViewModel.connect();
-            if(controllerViewModel.VM_fpath != null)
+            controllerViewModel.connect();
+            if (controllerViewModel.VM_fpath != null)
             {
                 controllerViewModel.VM_playSpeed = 1;
                 controllerViewModel.VM_TransSpeed = 100;
                 pause_button1.Visibility = Visibility.Visible;
                 play_button1.Visibility = Visibility.Hidden;
             }
-              
-            
+
+
         }
         private void Prev_Button_Click(object sender, RoutedEventArgs e)
         {
-            if(controllerViewModel.VM_playSpeed  - 0.1 > 0.1)
+            if (controllerViewModel.VM_playSpeed - 0.1 > 0.1)
             {
                 controllerViewModel.VM_playSpeed -= 0.1;
                 controllerViewModel.VM_TransSpeed += 10;
@@ -118,6 +122,7 @@ namespace AdvancedCoding2
             if (openFileDialog.ShowDialog() == true)
                 controllerViewModel.VM_XMLPath = openFileDialog.FileName;
             controllerViewModel.copyXML();
+            controllerViewModel.xmlPraser();
             XML_button.Visibility = Visibility.Hidden;
         }
 

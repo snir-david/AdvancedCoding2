@@ -66,5 +66,7 @@ namespace AdvancedCoding2
 
         //method to open socket with server
         void connect();
+
+        void xmlParser();
     }
 }

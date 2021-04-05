@@ -140,7 +140,7 @@ namespace AdvancedCoding2
         {
             get
             {
-                Console.WriteLine("im here");
+                //Console.WriteLine("im here");
                 return clientModel.HeaderNames[0];
             }
         }
@@ -153,6 +153,11 @@ namespace AdvancedCoding2
             {
                 onPropertyChanged("VM_" + e.PropertyName);
             };
+        }
+
+        public void xmlPraser()
+        {
+            clientModel.xmlParser();
         }
 
         public void connect()

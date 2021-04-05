@@ -138,6 +138,11 @@ namespace AdvancedCoding2
             }
             set
             {
+                if (HeaderNames != value)
+                {
+                    chunksName = value;
+                    NotifyPropertyChanged("HeaderNames");
+                }
 
             }
         }
@@ -230,7 +235,7 @@ namespace AdvancedCoding2
                 String[] csvCopy = csvLine;
                 // getting number of rows
                 simLen = csvLine.Length;
-                this.xmlParser();
+                //this.xmlParser();
                 //setting up playing speed to 100 mill-sec
                 playSpeed = 100;
                 initJoystick();

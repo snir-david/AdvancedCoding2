@@ -1,4 +1,5 @@
 ﻿using AdvancedCoding2;
+using DesktopFGApp.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +22,21 @@ namespace DesktopFGApp.View
     /// </summary>
     public partial class graphView : Window
     {
-        public viewModelJoystick joystickVM;
+        private GraphViewModel graphViewModel;
+
         public graphView(IClientModel c)
         {
             InitializeComponent();
-            //joystickVM = new viewModelJoystick(c);
-            //DataContext = joystickVM;
-        }
+            this.graphViewModel = new GraphViewModel(c);
+            this.DataContext = graphViewModel;
+
+            StackPanel stackPanel = new StackPanel();
+            foreach(string name in graphViewModel.nameList)
+            {
+                stackPanel.Children.Add(new Button() { Content = name });
+            }
+            scorllButtons.Content = stackPanel;
+            }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

@@ -62,6 +62,7 @@
     </ApplicationDefinition>
     <Compile Include="Model\Line.cs" />
     <Compile Include="Model\Point.cs" />
+    <Compile Include="ViewModel\GraphViewModel.cs" />
     <Compile Include="ViewModel\IViewModel.cs" />
     <Compile Include="ViewModel\ViewModelController.cs" />
     <Compile Include="View\graphView.xaml.cs">
