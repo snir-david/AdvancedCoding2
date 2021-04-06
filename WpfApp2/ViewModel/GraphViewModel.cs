@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using OxyPlot;
 using OxyPlot.Annotations;
+using OxyPlot.Series;
+using OxyPlot.Axes;
 
 namespace DesktopFGApp.ViewModel
 {
@@ -15,7 +17,9 @@ namespace DesktopFGApp.ViewModel
         private IClientModel clientModel;
         private ViewModelController viewModelController;
         public event PropertyChangedEventHandler PropertyChanged;
-        private PlotModel plotModel;
+        private List<string> attList;
+        private PlotModel plotModel, pml = new PlotModel();
+        private OxyPlot.Wpf.PlotView VM_pv;
 
 
         public PlotModel VM_PlotModel
@@ -34,7 +38,6 @@ namespace DesktopFGApp.ViewModel
                 }
             }
         }
-
         public List<String> nameList
         {
             get
@@ -42,7 +45,6 @@ namespace DesktopFGApp.ViewModel
                 return clientModel.HeaderNames;
             }
         }
-
         public string VM_chosen
         {
             get
@@ -58,7 +60,6 @@ namespace DesktopFGApp.ViewModel
                 }
             }
         }
-
         public string VM_corralative
         {
             get
@@ -74,10 +75,32 @@ namespace DesktopFGApp.ViewModel
                 }
             }
         }
+        public int VM_currLine
+        {
+            get
+            {
+                return clientModel.lineNumber;
+            }
+        }
+        public List<List<string>> VM_attsList
+        {
+            get
+            {
+                return clientModel.CurrentAtt;
+            }
+        }
+        public List<string> VM_attsName
+        {
+            get
+            {
+                return clientModel.HeaderNames;
+            }
+        }
 
-        public GraphViewModel(IClientModel c)
+        public GraphViewModel(IClientModel c, OxyPlot.Wpf.PlotView pv)
         {
             this.clientModel = c;
+            this.VM_pv = pv;
             clientModel.xmlParser();
             this.viewModelController = new ViewModelController(this.clientModel);
             VM_PlotModel = new PlotModel();
@@ -86,6 +109,17 @@ namespace DesktopFGApp.ViewModel
             {
                 onPropertyChanged("VM_" + e.PropertyName);
             };
+            clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
+            {
+                if (e.PropertyName == "lineNumber" && VM_chosen != null)
+                {
+                    pml.Series.Clear();
+                    SetUpModel(pml);
+                    LoadData(VM_currLine, VM_pv);
+                    VM_pv.InvalidatePlot(true);
+                }
+            };
+               
         }
 
         public void onPropertyChanged(string propName)
@@ -149,6 +183,42 @@ namespace DesktopFGApp.ViewModel
             return corrFeature;
         }
 
+        public void LoadData(int lineNumber, OxyPlot.Wpf.PlotView pv)
+        {
+            int idx = VM_attsName.FindIndex(a => a.Contains(VM_chosen));
+            attList = VM_attsList[idx];
 
+            var lineSerie = new LineSeries
+            {
+                StrokeThickness = 2,
+                Color = OxyColors.Black,
+            };
+
+            for (int i = 0; i < lineNumber; i++)
+            {
+                lineSerie.Points.Add(new DataPoint(i, Double.Parse(attList[i])));
+            }
+
+            pml.Series.Add(lineSerie);
+            VM_PlotModel = pml;
+        }
+
+        public void SetUpModel(PlotModel pm)
+        {
+            pm = new PlotModel();
+            pm.LegendOrientation = LegendOrientation.Horizontal;
+            pm.LegendPlacement = LegendPlacement.Outside;
+            pm.LegendPosition = LegendPosition.TopRight;
+            pm.LegendBackground = OxyColor.FromAColor(200, OxyColors.White);
+            pm.LegendBorder = OxyColors.Black;
+
+            //Creating Axis
+            var timeAxis = new LinearAxis() { Position = AxisPosition.Bottom, MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, IntervalLength = 80, Title = "Time" };
+            pm.Axes.Add(timeAxis);
+            var valueAxis = new LinearAxis() { Position = AxisPosition.Left, MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, Title = "Value" };
+            pm.Axes.Add(valueAxis);
+        }
     }
+
 }
+
