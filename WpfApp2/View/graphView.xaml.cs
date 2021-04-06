@@ -29,15 +29,17 @@ namespace DesktopFGApp.View
     {
         private GraphViewModel graphViewModel;
         private string attName , corrName;
-        PlotModel pml = new PlotModel();
-        OxyPlot.Wpf.PlotView pv;
+        PlotModel pml1 = new PlotModel();
+        PlotModel pml2 = new PlotModel();
+        //PlotModel pml3 = new PlotModel();
+        OxyPlot.Wpf.PlotView pv1, pv2; //, pv3;
         
 
 
         public graphView(IClientModel c)
         {
             InitializeComponent();
-            this.graphViewModel = new GraphViewModel(c, AttPlot);
+            this.graphViewModel = new GraphViewModel(c, attPlot , corrPlot /*,LRPlot*/);
             this.DataContext = graphViewModel;
             StackPanel stackPanel = new StackPanel();
             foreach(string name in graphViewModel.nameList)
@@ -48,7 +50,9 @@ namespace DesktopFGApp.View
                 stackPanel.Children.Add(b);
             }
             scorllButtons.Content = stackPanel;
-            pv = AttPlot;
+            pv1 = attPlot;
+            pv2 = corrPlot;
+            //pv3 = pvLR;
             
         }
 
@@ -61,11 +65,17 @@ namespace DesktopFGApp.View
             graphViewModel.VM_chosen = attName;
             corrName = graphViewModel.FindCorralativeFeature(attName);
             graphViewModel.VM_corralative = corrName;
-            graphViewModel.SetUpModel(pml);
-           
-            pml.Series.Clear();
-            graphViewModel.LoadData(graphViewModel.VM_currLine, pv);
-            AttPlot.InvalidatePlot(true);
+            
+            
+            graphViewModel.SetUpModel(pml1);          
+            pml1.Series.Clear();
+            graphViewModel.LoadAttData(graphViewModel.VM_currLine, pv1);           
+            attPlot.InvalidatePlot(true);
+
+            graphViewModel.SetUpModel(pml2);
+            pml2.Series.Clear();
+            graphViewModel.LoadCorrData(graphViewModel.VM_currLine, pv2);
+            corrPlot.InvalidatePlot(true);
             
         }
 
