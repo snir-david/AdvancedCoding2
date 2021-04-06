@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OxyPlot;
+using OxyPlot.Annotations;
 
 namespace DesktopFGApp.ViewModel
 {
@@ -13,6 +15,25 @@ namespace DesktopFGApp.ViewModel
         private IClientModel clientModel;
         private ViewModelController viewModelController;
         public event PropertyChangedEventHandler PropertyChanged;
+        private PlotModel plotModel;
+
+
+        public PlotModel VM_PlotModel
+        {
+            get
+            {
+                return plotModel;
+            }
+            set
+            {
+                if (VM_PlotModel != value)
+                {
+                    plotModel = value;
+                    onPropertyChanged("VM_PlotModel");
+
+                }
+            }
+        }
 
         public List<String> nameList
         {
@@ -59,6 +80,7 @@ namespace DesktopFGApp.ViewModel
             this.clientModel = c;
             clientModel.xmlParser();
             this.viewModelController = new ViewModelController(this.clientModel);
+            VM_PlotModel = new PlotModel();
 
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {

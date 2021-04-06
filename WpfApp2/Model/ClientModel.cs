@@ -370,10 +370,10 @@ namespace AdvancedCoding2
         // returns the Pearson correlation coefficient of X and Y
         public double pearson(List<float> x, List<float> y, int size)
         {
-            if (Math.Sqrt(var(x, size)) * Math.Sqrt(var(y, size)) == 0)
+            /*if (Math.Sqrt(var(x, size)) * Math.Sqrt(var(y, size)) == 0)
             {
                 return 0;
-            }
+            }*/
             
             return cov(x, y, size) / (Math.Sqrt(var(x, size)) * Math.Sqrt(var(y, size)));
         }

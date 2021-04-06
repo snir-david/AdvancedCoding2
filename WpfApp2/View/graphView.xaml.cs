@@ -14,6 +14,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp2.ViewModel;
+using OxyPlot;
+using OxyPlot.Annotations;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 
 namespace DesktopFGApp.View
 {
@@ -23,8 +27,11 @@ namespace DesktopFGApp.View
     public partial class graphView : Window
     {
         private GraphViewModel graphViewModel;
-        
+        private string attName , corrName;
+        private List<int> l = new List<int>() { 1 , 2 , 3 ,4 , 1};
+        private PlotModel pml = new PlotModel();
 
+        
         public graphView(IClientModel c)
         {
             InitializeComponent();
@@ -40,6 +47,7 @@ namespace DesktopFGApp.View
                 stackPanel.Children.Add(b);
             }
             scorllButtons.Content = stackPanel;
+            
         }
 
 
@@ -47,13 +55,54 @@ namespace DesktopFGApp.View
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // gets the name of the button
-            string name = (sender as Button).Content.ToString();
-            graphViewModel.VM_chosen = name;
-            string s = graphViewModel.FindCorralativeFeature(name);
-            graphViewModel.VM_corralative = s;
+            setUpModel(pml);
+            setUpModel(graphViewModel.VM_PlotModel);
+            LoadData();
+            attName = (sender as Button).Content.ToString();
+            graphViewModel.VM_chosen = attName;
+            corrName = graphViewModel.FindCorralativeFeature(attName);
+            graphViewModel.VM_corralative = corrName;
 
             
         }
 
+        private void setUpModel(PlotModel pm)
+        {
+            pm.LegendTitle = attName;
+            pm.LegendOrientation = LegendOrientation.Horizontal;
+            pm.LegendPlacement = LegendPlacement.Outside;
+            pm.LegendPosition = LegendPosition.TopRight;
+            pm.LegendBackground = OxyColor.FromAColor(200, OxyColors.White);
+            pm.LegendBorder = OxyColors.Black;
+
+            var dateAxis = new LinearAxis() {Maximum = 100 , Minimum = 0 ,Position = AxisPosition.Bottom ,MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, IntervalLength = 80 , Title = "time"  };
+            pm.Axes.Add(dateAxis);
+            var valueAxis = new LinearAxis() { Maximum = 100, Minimum = 0 , Position = AxisPosition.Left , MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, Title = attName };
+            pm.Axes.Add(valueAxis);
+        }
+        private void LoadData()
+        {
+            //List<Measurement> measurements = Data.GetData();
+
+            //var dataPerDetector = measurements.GroupBy(m => m.DetectorId).ToList();
+
+            foreach (int i in l)
+            {
+                var lineSerie = new LineSeries
+                {
+                    StrokeThickness = 2,
+                    MarkerSize = 3,
+                    MarkerStroke = OxyColors.Black,
+                    MarkerType = MarkerType.None,
+                    CanTrackerInterpolatePoints = false,
+                    //Title = string.Format("Detector {0}),
+                    
+                };
+
+                lineSerie.Points.Add(new DataPoint(i, 5));
+                pml.Series.Add(lineSerie);
+                graphViewModel.VM_PlotModel = pml;
+            }
+        }
     }
 }
