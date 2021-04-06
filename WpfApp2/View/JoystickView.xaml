@@ -11,171 +11,24 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="121*"/>
-            <ColumnDefinition Width="1032*"/>
+            <ColumnDefinition Width="241*"/>
+            <ColumnDefinition Width="790*"/>
             <ColumnDefinition Width="49*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="190*"/>
             <RowDefinition Height="131*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.ColumnSpan="3" Margin="0,0,0.334,0">
-            <Canvas  x:Name="Base" Margin="712,25,84.999,-124.333" Width="340" Height="340">
-                <Ellipse HorizontalAlignment="Left" Height="340" VerticalAlignment="Top" Width="340">
-                    <Ellipse.Fill>
-                        <RadialGradientBrush>
-                            <GradientStop Color="#FF2C2A2A" Offset="1" />
-                            <GradientStop Color="#FF3A3737" />
-                        </RadialGradientBrush>
-                    </Ellipse.Fill>
-                </Ellipse>
-                <Ellipse HorizontalAlignment="Left" Height="170" VerticalAlignment="Top" Width="170" Canvas.Left="84" Canvas.Top="84">
-                    <Ellipse.Fill>
-                        <RadialGradientBrush>
-                            <GradientStop Color="#FF0E0E0E" Offset="1" />
-                            <GradientStop Color="#FF1D1D1D" />
-                            <GradientStop Color="#FF323030" Offset="0.453" />
-                        </RadialGradientBrush>
-                    </Ellipse.Fill>
-                </Ellipse>
-                <Path Data="M205.75,65.625 L226.875,47.25 L248.5,65.625 z" Fill="#FF575757" HorizontalAlignment="Left" Height="18.375" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Top" Width="42.75" Canvas.Left="147.875" Canvas.Top="37.625" />
-                <Path Data="M205.75,65.625 L226.875,47.25 L248.5,65.625 z" Fill="#FF575757" HorizontalAlignment="Left" Height="18.375" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Top" Width="42.75" RenderTransformOrigin="0.5,0.5" Canvas.Left="147.875" Canvas.Top="284.125">
-                    <Path.RenderTransform>
-                        <ScaleTransform ScaleY="-1" />
-                    </Path.RenderTransform>
-                </Path>
-                <Path Data="M205.75,65.625 L226.875,47.25 L248.5,65.625 z" Fill="#FF575757" HorizontalAlignment="Left" Height="18.375" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Top" Width="42.75" RenderTransformOrigin="0.5,0.5" Canvas.Left="270.875" Canvas.Top="162.125">
-                    <Path.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleY="-1" ScaleX="-1" />
-                            <RotateTransform Angle="-90" />
-                        </TransformGroup>
-                    </Path.RenderTransform>
-                </Path>
-                <Path Data="M205.75,65.625 L226.875,47.25 L248.5,65.625 z"  Fill="#FF575757" HorizontalAlignment="Left" Height="18.375" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Top" Width="42.75" RenderTransformOrigin="0.5,0.5" Canvas.Left="24.375" Canvas.Top="163.625">
-                    <Path.RenderTransform>
-                        <TransformGroup>
-                            <RotateTransform Angle="90" />
-                            <ScaleTransform ScaleX="-1" />
-                        </TransformGroup>
-                    </Path.RenderTransform>
-                </Path>
 
-                <Canvas  x:Name="Knob" VerticalAlignment="Top" HorizontalAlignment="Left" Width="0" Height="0" RenderTransformOrigin="0.5,0.5" Canvas.Left="{Binding VM_aileron}" Canvas.Top="{Binding VM_elevator}">
-                    <!--<Ellipse x:Name="Shadow" HorizontalAlignment="Left" Height="88" VerticalAlignment="Top" Width="86" Fill="#52131212" Canvas.Left="22" Canvas.Top="18" />-->
-                    <Ellipse x:Name="KnobBase" HorizontalAlignment="Left" Height="90" VerticalAlignment="Top" Width="90" RenderTransformOrigin="0.5,0.5" Canvas.Top="1">
-                        <Ellipse.Fill>
-                            <RadialGradientBrush>
-                                <GradientStop Color="#FF8A8A8A" />
-                                <GradientStop Color="#FF979797" Offset="1" />
-                            </RadialGradientBrush>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <Ellipse HorizontalAlignment="Left" Height="74.313" VerticalAlignment="Top" Width="82.189" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Canvas.Left="0.613" Canvas.Top="1.692">
-                        <Ellipse.Fill>
-                            <RadialGradientBrush>
-                                <GradientStop Color="#C0828080" Offset="0.797" />
-                                <GradientStop Color="#FD000000" />
-                            </RadialGradientBrush>
-                        </Ellipse.Fill>
-                        <Ellipse.RenderTransform>
-                            <TransformGroup>
-                                <RotateTransform Angle="-28.434" />
-                                <SkewTransform AngleX="-2.144" />
-                                <TranslateTransform X="-1.199" Y="0.649" />
-                            </TransformGroup>
-                        </Ellipse.RenderTransform>
-                    </Ellipse>
-                    <Ellipse HorizontalAlignment="Left" Height="75.491"  VerticalAlignment="Top" Width="70.887" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Canvas.Left="12.396" Canvas.Top="5.057">
-                        <Ellipse.Fill>
-                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#00858585" Offset="0" />
-                                <GradientStop Color="#1AFFFFFF" Offset="1" />
-                                <GradientStop Color="#3FC2C2C2" Offset="0.349" />
-                            </LinearGradientBrush>
-                        </Ellipse.Fill>
-                        <Ellipse.RenderTransform>
-                            <TransformGroup>
-                                <SkewTransform CenterX="3" CenterY="-4" />
-                                <RotateTransform Angle="-.7628" />
-                            </TransformGroup>
-                        </Ellipse.RenderTransform>
-                    </Ellipse>
-                    <Ellipse HorizontalAlignment="Left" Height="72.722" VerticalAlignment="Top" Width="72.936" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Canvas.Left="0.631" Canvas.Top="4.896">
-                        <Ellipse.Fill>
-                            <RadialGradientBrush>
-                                <GradientStop Color="#9A909090" Offset="1" />
-                                <GradientStop Color="Gray" />
-                            </RadialGradientBrush>
-                        </Ellipse.Fill>
-                        <Ellipse.RenderTransform>
-                            <RotateTransform Angle="-31.733"></RotateTransform>
-                        </Ellipse.RenderTransform>
-                    </Ellipse>
-                    <Ellipse HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="39" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" Canvas.Left="14.001" Canvas.Top="11.001">
-                        <Ellipse.RenderTransform>
-                            <SkewTransform CenterX="-8"></SkewTransform>
-                        </Ellipse.RenderTransform>
-                        <Ellipse.Fill>
-                            <RadialGradientBrush>
-                                <GradientStop Color="#FF898989" Offset="0" />
-                                <GradientStop Color="#38777777" Offset="1" />
-                                <GradientStop Color="#55676767" Offset="0.672" />
-                            </RadialGradientBrush>
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <Path Data="M9.74935,11.916 L13.084,15.166 L12.1668,16.833 L11.3333,18.583 L10.4999,20.416 L9.24961,20.833 L6.99967,20.583 L6.75,18.333 L7.66697,15.333 L8.75037,12.916 z M3.6672,9.74999 L7.084,10.083 L5.75037,12.25 L4.66704,14 L4.33365,16.583 L4.25036,18.75 L4.41695,20.5 L0,20.166 L0.16699,16.916 L1.16693,13.833 L2.50016,11.583 z M18.1671,6.33301 L21.167,6.33301 L21.667,8.5 L20.75,9.75 L18.5841,10.833 L15.8337,13 L12.584,8.83301 L15.2502,7 z M20.917,0 L20.917,3.16601 L18.1674,2.99999 L15.8337,3.583 L13.5837,4.833 L11.3337,5.99999 L10.5003,6.416 L8.584,3.833 L11.0842,2.41601 L13.3341,0.833006 L16.417,0.166016 z" Fill="#99EEEEEE" HorizontalAlignment="Left" Height="20.833" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Top" Width="21.667" Canvas.Left="18.166" Canvas.Top="15.917" />
-
-                    <Canvas.RenderTransform>
-                        <TranslateTransform x:Name="knobPosition" />
-                    </Canvas.RenderTransform>
-                    <Canvas.Resources>
-
-                        <Storyboard x:Key="CenterKnob" Name="centerKnob">
-
-        </Canvas>
-        <Canvas Margin="-72,126,249.333,72.667" Grid.RowSpan="2" HorizontalAlignment="Right" Width="166">
-            <Rectangle Fill="Gray" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="226" RenderTransformOrigin="0.5,0.5">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="89.892"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
-            <Rectangle Fill="Black" HorizontalAlignment="Left" Height="32" Stroke="Black" VerticalAlignment="Top" Width="19" RenderTransformOrigin="0.5,0.5" Canvas.Left="104" Canvas.Top="-100">
-                <Rectangle.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="89.735"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </Rectangle.RenderTransform>
-            </Rectangle>
-
-
-        </Canvas>
-        <Rectangle Fill="Black" HorizontalAlignment="Left" Height="32" Stroke="Black" VerticalAlignment="Top" Width="19" RenderTransformOrigin="0.5,0.5" Margin="104,-100,0,0">
-            <Rectangle.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="89.735"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Rectangle.RenderTransform>
-        </Rectangle>
-        <Canvas Margin="56,82,51.333,18.667" Grid.Row="1">
+        <Canvas Margin="56,82,51.667,18.667" Grid.Row="1">
             <Rectangle Fill="Blue" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="236" Canvas.Top="2"/>
             <Rectangle Fill="Black" HorizontalAlignment="Left" Height="30" Stroke="Black" VerticalAlignment="Top" Width="20" Canvas.Left="{Binding VM_rudder}"/>
         </Canvas>
-        <Canvas Margin="24,20,289.333,59.667" Grid.RowSpan="2">
+        <Canvas Margin="24,20,96.667,59.667" Grid.RowSpan="2">
             <Rectangle  x:Name="throttle" Fill="Gray" HorizontalAlignment="Right" Stroke="Black" Width="24" Height="236" Canvas.Left="3" Canvas.Top="5"/>
             <Rectangle Fill="Black" HorizontalAlignment="Right" Height="20" Stroke="Black" VerticalAlignment="Top" Width="30" Canvas.Top="{Binding VM_throttle}"/>
         </Canvas>
-        <Canvas Margin="324,48,34,18.667" Grid.Row="1">
+        <Canvas Margin="203.333,48,37.667,18.667" Grid.Row="1" Grid.Column="1">
             <Border  x:Name ="airspeed" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="64" Width="129" BorderBrush="Orange"
                 BorderThickness="2 2 2 0" CornerRadius="300 300 0 0" Background="#FF151515"/>
             <Border HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="64" Width="129" BorderBrush="#FFCF5D1D"
@@ -188,9 +41,9 @@
                      CornerRadius="120 120 0 0" Background="Orange" RenderTransformOrigin="0.5 2" Canvas.Left="61" Canvas.Top="5" 
                 />
         </Canvas>
-        <TextBox  x:Name ="airspeedText" Foreground="#FF95D4FF" IsReadOnly="True" TextAlignment="Center"  FontFamily="Agency FB" FontSize="30" Margin="332,77,88,-5.333" TextWrapping="Wrap" Text="{Binding VM_airspeed}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Grid.Row="1"/>
-        <TextBox  x:Name ="airspeedKtText" Foreground="#FF95D4FF" IsReadOnly="True" TextAlignment="Center"  FontFamily="Agency FB" FontSize="15" Margin="345,62,75,9.667" TextWrapping="Wrap" Text="kt" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Grid.Row="1"/>
-        <Canvas Margin="297,100,88,105.667" Grid.RowSpan="2">
+        <TextBox x:Name ="airspeedText"  IsEnabled ="False" Grid.Column="1"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="63" Margin="218.333,79,0,0" TextWrapping="Wrap" Text="{Binding VM_airspeed}" VerticalAlignment="Top" Width="120" FontFamily="Agency FB" FontSize="30" Grid.Row="1"  Background="{x:Null}" BorderBrush="{x:Null}" Grid.ColumnSpan="2"/>
+        <TextBox x:Name ="airspeedKtText" IsEnabled ="False"  Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="22" Margin="30.333,64,0,0" TextWrapping="Wrap" Text="kt" VerticalAlignment="Top" Width="37" FontFamily="Agency FB" FontSize="15" Grid.Row="1"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <Canvas Margin="176.333,100,64.667,105.667" Grid.RowSpan="2" Grid.Column="1">
             <Border  x:Name ="altimeter" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="100" Width="100" BorderBrush="Orange"
                 BorderThickness="2 2 2 0" CornerRadius="300 300 300 300" Background="#FF151515" Grid.RowSpan="2" Canvas.Left="46" Canvas.Top="10"/>
             <Border HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="100" Width="100" BorderBrush="#FFCF5D1D"
@@ -200,12 +53,65 @@
                 </Border.Effect>
             </Border>
         </Canvas>
-        <TextBox  x:Name ="altimeterText" Foreground="#FF95D4FF" IsReadOnly="True" TextAlignment="Center"  FontFamily="Agency FB" FontSize="25" Margin="339,141,81,120.667" TextWrapping="Wrap" Text="{Binding VM_altimeter}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Grid.RowSpan="2"/>
-        <TextBox  x:Name ="altimeterFtText" Foreground="#FF95D4FF" IsReadOnly="True" TextAlignment="Center"  FontFamily="Agency FB" FontSize="15" Margin="339,174,81,87.667" TextWrapping="Wrap" Text="ft" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Grid.RowSpan="2"/>
-
-
+        <TextBox x:Name ="altimeterText" IsEnabled ="False" Grid.Column="1"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="63" Margin="236.333,139,0,0" TextWrapping="Wrap" Text="{Binding VM_altimeter}" VerticalAlignment="Top" Width="96" FontFamily="Agency FB" FontSize="25"  Background="{x:Null}" BorderBrush="{x:Null}" Grid.ColumnSpan="2"/>
+        <TextBox x:Name ="altimeterFtText" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="21.333,183,0,0" TextWrapping="Wrap" Text="ft" VerticalAlignment="Top" Width="18" FontFamily="Agency FB" FontSize="15"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <Canvas Margin="176.333,-40,64.667,105.667" Grid.RowSpan="2" Grid.Column="1">
+            <Border  x:Name ="headingBack" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="100" Width="100" BorderBrush="Orange"
+                BorderThickness="2 2 2 0" CornerRadius="300 300 300 300" Background="#FF151515" Grid.RowSpan="2" Canvas.Left="235" Canvas.Top="157"/>
+            <Border x:Name ="headingborder" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="100" Width="100" BorderBrush="#FFCF5D1D"
+                BorderThickness="0 2 0 0" CornerRadius="300 300 300 300" Grid.RowSpan="2" Canvas.Left="235" Canvas.Top="157" RenderTransformOrigin="3.453,2.28">
+                <Border.Effect>
+                    <DropShadowEffect Color="#FFFFC7A7" BlurRadius="10" ShadowDepth="2"/>
+                </Border.Effect>
+            </Border>
+            <Border  x:Name ="headingDial" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Height="21" Grid.RowSpan="2" VerticalAlignment="Bottom" Width="5"
+                     CornerRadius="120 120 0 0" Background="Orange" RenderTransformOrigin="0.5 2" Canvas.Left="284" Canvas.Top="166" 
+                >
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="{Binding VM_heading}"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+            </Border>
+        </Canvas>
+        <TextBox x:Name ="heading0" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="216.333,145,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="18" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <TextBox x:Name ="heading90" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="231.333,161,0,0" TextWrapping="Wrap" Text="90" VerticalAlignment="Top" Width="17" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <TextBox x:Name ="heading180" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="214.333,177,0,0" TextWrapping="Wrap" Text="180" VerticalAlignment="Top" Width="20" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <TextBox x:Name ="heading270" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="198.333,161,0,0" TextWrapping="Wrap" Text="270" VerticalAlignment="Top" Width="30" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <Image x:Name="pitch" Source="C:\Users\tallor\Downloads\pitch.png" Grid.Column="2" Margin="140.333,215,500.667,0" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="{Binding VM_pitch}"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="roll" Source="C:\Users\tallor\Downloads\roll.png" Grid.Column="2" Margin="120.333,223,443.667,59.667" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="{Binding VM_roll}"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="yaw" Source="C:\Users\tallor\Downloads\yaw.png" Grid.Column="2" Margin="155.333,64,485.667,-8.333" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="{Binding VM_yaw}"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
 
     </Grid>
 
 </Window>
-    
