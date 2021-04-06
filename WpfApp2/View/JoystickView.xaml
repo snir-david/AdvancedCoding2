@@ -101,7 +101,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image x:Name="yaw" Source="C:\Users\tallor\Downloads\yaw.png" Grid.Column="2" Margin="155.333,64,485.667,-8.333" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+        <Image x:Name="yaw" Source="C:\Users\tallor\Downloads\yaw.png" Grid.Column="2" Margin="140.333,64,500.667,-8.333" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

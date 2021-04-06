@@ -317,6 +317,7 @@ namespace AdvancedCoding2
             
         }
 
+        // insert update values to properties for joystick 
         public void joyStickPos()
         {
             ailList = CurrentAtt[aileronInx];
@@ -326,6 +327,8 @@ namespace AdvancedCoding2
             Aileron = ail * 50 + 125;
             Elevator = elev * 50 + 125;
         }
+
+        // initialization the joystick
         public void initJoystick()
         {
             aileronInx = HeaderNames.FindIndex(a => a.Contains("aileron"));
@@ -334,6 +337,7 @@ namespace AdvancedCoding2
             Elevator = 125;
         }
 
+        // insert update values to properties for flight variables
         public void ruddersPos()
         {
             rudList = CurrentAtt[rudderInx];
@@ -358,6 +362,7 @@ namespace AdvancedCoding2
             
         }
 
+        // initialization the flight variables
         public void initRudders()
         {
             rudderInx = HeaderNames.FindIndex(a => a.Contains("rudder"));
@@ -368,7 +373,6 @@ namespace AdvancedCoding2
             pitchInx = HeaderNames.FindIndex(a => a.Contains("pitch-deg"));
             yawInx = HeaderNames.FindIndex(a => a.Contains("side-slip-deg"));
             headingInx = HeaderNames.FindIndex(a => a.Contains("heading-deg"));
-
 
             Rudder = 108;
             Throttle = 108;
@@ -402,6 +406,7 @@ namespace AdvancedCoding2
                 this.xmlParser();
                 //setting up playing speed to 100 mill-sec
                 playSpeed = 100;
+                //initialize jostick and flight variables
                 initJoystick();
                 initRudders();
                 attSplit(csvCopy);
@@ -415,6 +420,7 @@ namespace AdvancedCoding2
                     Byte[] lineBytes = System.Text.Encoding.ASCII.GetBytes(csvLine[lineNumber]);
                     // Send the message to the connected TcpServer
                     stream.Write(lineBytes, 0, lineBytes.Length);
+                    // get jostick and flight variables new position
                     joyStickPos();
                     ruddersPos();
                     //inc index to next line
