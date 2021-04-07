@@ -67,18 +67,18 @@ namespace DesktopFGApp.View
             graphViewModel.VM_corralative = corrName;
             
             
-            graphViewModel.SetUpModel(pml1);          
-            pml1.Series.Clear();
+            graphViewModel.SetUpModel(graphViewModel.VM_PlotModel1);
+            graphViewModel.VM_PlotModel1.Series.Clear();
             graphViewModel.LoadAttData(graphViewModel.VM_currLine, pv1);           
             attPlot.InvalidatePlot(true);
 
-            graphViewModel.SetUpModel(pml2);
-            pml2.Series.Clear();
+            graphViewModel.SetUpModel(graphViewModel.VM_PlotModel2);
+            graphViewModel.VM_PlotModel2.Series.Clear();
             graphViewModel.LoadCorrData(graphViewModel.VM_currLine, pv2);
             corrPlot.InvalidatePlot(true);
 
-            graphViewModel.SetUpModel(pml3);
-            pml3.Series.Clear();
+            graphViewModel.SetUpModel(graphViewModel.VM_PlotModel3);
+            graphViewModel.VM_PlotModel3.Series.Clear();
             graphViewModel.LoadLRData(graphViewModel.VM_currLine, pv3);
             LRPlot.InvalidatePlot(true);
 

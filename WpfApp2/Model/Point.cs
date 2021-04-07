@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DesktopFGApp.Model
 {
-    class Point
+    public class Point
     {
         public float x, y;
         public Point(float x, float y){

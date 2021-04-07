@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DesktopFGApp.Model
 {
-    class Line
+    public class Line
     {
         public float a, b;
         public Line() {

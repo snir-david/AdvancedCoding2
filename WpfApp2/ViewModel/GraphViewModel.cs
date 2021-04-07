@@ -9,6 +9,8 @@ using OxyPlot;
 using OxyPlot.Annotations;
 using OxyPlot.Series;
 using OxyPlot.Axes;
+using System.Threading;
+using DesktopFGApp.Model;
 
 namespace DesktopFGApp.ViewModel
 {
@@ -17,11 +19,8 @@ namespace DesktopFGApp.ViewModel
         private IClientModel clientModel;
         private ViewModelController viewModelController;
         public event PropertyChangedEventHandler PropertyChanged;
-        private List<string> attList;
-        private List<string> corrList;
-        private PlotModel plotModel1, pml1 = new PlotModel();
-        private PlotModel plotModel2, pml2 = new PlotModel();
-        private PlotModel plotModel3, pml3 = new PlotModel();
+        private List<string> attList, corrList;
+        private PlotModel plotModel1, plotModel2, plotModel3;
         private OxyPlot.Wpf.PlotView VM_pvAtt, VM_pvCorr, VM_pvLR;
 
         // property for the chart of the chosen.
@@ -164,22 +163,23 @@ namespace DesktopFGApp.ViewModel
             // responsibles of updating the graph.
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
-                if (e.PropertyName == "lineNumber" && VM_chosen != null && VM_corralative != null)
+                if (e.PropertyName == "lineNumber" && VM_chosen != null && VM_corralative != null && VM_pvLR != null)
                 {
-                    pml1.Series.Clear();
-                    SetUpModel(pml1);
-                    LoadAttData(VM_currLine, VM_pvAtt);
-                    VM_pvAtt.InvalidatePlot(true);
+                    double playSpeed = (10 * (2.00 - viewModelController.VM_TransSpeed / 100));
+                    if ((VM_currLine  % playSpeed == 0.0 && playSpeed < 1.9) || (VM_currLine % 20 == 0.0 && playSpeed >= 1.9))
+                    {
+                        VM_PlotModel1.Series.Clear();
+                        LoadAttData(VM_currLine, VM_pvAtt);
+                        VM_pvAtt.InvalidatePlot(true);
 
-                    pml2.Series.Clear();
-                    SetUpModel(pml2);
-                    LoadCorrData(VM_currLine, VM_pvCorr);
-                    VM_pvCorr.InvalidatePlot(true);
+                        VM_PlotModel2.Series.Clear();
+                        LoadCorrData(VM_currLine, VM_pvCorr);
+                        VM_pvCorr.InvalidatePlot(true);
 
-                    pml3.Series.Clear();
-                    SetUpModel(pml3);
-                    LoadLRData(VM_currLine, VM_pvLR);
-                    VM_pvLR.InvalidatePlot(true);
+                        VM_PlotModel3.Series.Clear();
+                        LoadLRData(VM_currLine, VM_pvLR);
+                        VM_pvLR.InvalidatePlot(true);
+                    }
                 }
             };
                
@@ -271,15 +271,13 @@ namespace DesktopFGApp.ViewModel
                 
             };
 
+
             for (int i = 0; i < lineNumber; i++)
             {
                 lineSerie.Points.Add(new DataPoint(i, Double.Parse(attList[i])));
             }
-            
 
-            
-            pml1.Series.Add(lineSerie);
-            VM_PlotModel1 = pml1;
+            VM_PlotModel1.Series.Add(lineSerie);
         }
         
         // creates the corralative graph.
@@ -300,8 +298,7 @@ namespace DesktopFGApp.ViewModel
                 lineSerie.Points.Add(new DataPoint(i, Double.Parse(corrList[i])));
             }
 
-            pml2.Series.Add(lineSerie);
-            VM_PlotModel2 = pml2;
+            VM_PlotModel2.Series.Add(lineSerie);
         }
 
         public void LoadLRData(int lineNumber, OxyPlot.Wpf.PlotView pv)
@@ -312,25 +309,45 @@ namespace DesktopFGApp.ViewModel
             idx = VM_attsName.FindIndex(a => a.Contains(VM_corralative));
             corrList = VM_attsList[idx];
 
-           
-
-            var lineSerie = new LineSeries
+            //LineSeries for reg line
+            var lineSeries = new LineSeries()
             {
-                StrokeThickness = 2,
-                //Color = 
-                Color = OxyColors.Black,
-                LineStyle = LineStyle.None,
+                Color = OxyColors.Red,
+                StrokeThickness = 2
+            };
+            //converting attList and corrList to floats list and than making a point list for linear_reg function
+            List<float> valuesOfChosenInFloat = new List<float>();
+            List<float> valuesOfChosen2InFloat = new List<float>();
+            List<Point> pointList = new List<Point>();
+            valuesOfChosenInFloat = stringToFloat(attList);
+            valuesOfChosen2InFloat = stringToFloat(corrList);
+            for(int i = 0; i < attList.Count; i++)
+            {
+                pointList.Add(new Point(valuesOfChosenInFloat[i], valuesOfChosen2InFloat[i]));
+            }
+            //finding reg Line
+            Line regLine = clientModel.linear_reg(pointList, pointList.Count);
+            //finding max and min values of attList;
+            float max = valuesOfChosenInFloat.Max();
+            float min = valuesOfChosenInFloat.Min();
+            //drawing line between to extrem points
+            lineSeries.Points.Add(new DataPoint(max, regLine.f(max)));
+            lineSeries.Points.Add(new DataPoint(min, regLine.f(min)));
+
+            var scatterPoint = new ScatterSeries
+            {
                 MarkerType = MarkerType.Circle
 
             };
 
+            //TODO - Make 300 last points in red
             for (int i = 0; i < lineNumber; i++)
             {
-                lineSerie.Points.Add(new DataPoint(Double.Parse(attList[i]), Double.Parse(corrList[i])));
+                scatterPoint.Points.Add(new ScatterPoint( Double.Parse(attList[i]), Double.Parse(corrList[i]), 2, 100));
             }
 
-            pml3.Series.Add(lineSerie);
-            VM_PlotModel3 = pml3;
+            VM_PlotModel3.Series.Add(scatterPoint);
+            VM_PlotModel3.Series.Add(lineSeries);
         }
 
         // sets up a given "graph".
@@ -348,6 +365,7 @@ namespace DesktopFGApp.ViewModel
             pm.Axes.Add(timeAxis);
             var valueAxis = new LinearAxis() { Position = AxisPosition.Left, MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, Title = "Value" };
             pm.Axes.Add(valueAxis);
+            
         }
     }
 

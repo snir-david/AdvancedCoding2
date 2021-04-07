@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
-
+using DesktopFGApp.Model;
 
 namespace AdvancedCoding2
 {
@@ -96,6 +96,7 @@ namespace AdvancedCoding2
 
         double pearson(List<float> x, List<float> y, int size);
         void attSplit(string[] csvFile);
+        Line linear_reg(List<DesktopFGApp.Model.Point> points, int size);
 
     }
 }

@@ -293,7 +293,7 @@ namespace AdvancedCoding2
                 simLen = csvLine.Length;
                 //this.xmlParser();
                 //setting up playing speed to 100 mill-sec
-                playSpeed = 100;
+                TransSpeed = 100;
                 initJoystick();
                 //attSplit(csvCopy);
 
@@ -379,14 +379,14 @@ namespace AdvancedCoding2
         }
 
         // performs a linear regression and returns the line equation
-        Line linear_reg(List<DesktopFGApp.Model.Point> points, int size)
+        public Line linear_reg(List<DesktopFGApp.Model.Point> points, int size)
         {
             List<float> x = new List<float>();
             List<float> y = new List<float>();
             for (int i = 0; i < size; i++)
             {
-                x[i] = points[i].x;
-                y[i] = points[i].y;
+                x.Add(points[i].x);
+                y.Add(points[i].y);
             }
             float a = cov(x, y, size) / var(x, size);
             float b = avg(y, size) - a * (avg(x, size));

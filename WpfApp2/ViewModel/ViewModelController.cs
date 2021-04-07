@@ -15,7 +15,7 @@ namespace AdvancedCoding2
         private IClientModel clientModel;
         public viewModelJoystick joy;
         public bool isConnected = false;
-        private double playSpeed = 0;
+        private double playSpeed;
         private string FGPath;
         private Thread connectThread;
         private TimeSpan Time;
@@ -169,6 +169,7 @@ namespace AdvancedCoding2
         public ViewModelController(IClientModel m)
         {
             this.clientModel = m;
+            playSpeed = 0;
             Time = new TimeSpan(0, 0, 0);
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
@@ -225,7 +226,7 @@ namespace AdvancedCoding2
         }
         public void pauseConnection()
         {
-            if(connectThread != null)
+            if(connectThread != null && connectThread.IsAlive)
                 connectThread.Suspend();
         }
 
