@@ -21,20 +21,19 @@ namespace WpfApp2.View
     /// </summary>
     public partial class JoystickView : Window
     {
+        /***Data Members***/
         public viewModelJoystick joystickVM;
-
+        /***Methods***/
         public JoystickView(IClientModel c)
         {
             InitializeComponent();
             joystickVM = new viewModelJoystick(c);
             DataContext = joystickVM;
         }
-
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
-
         private void ai_TextChanged(object sender, TextChangedEventArgs e)
         {
 

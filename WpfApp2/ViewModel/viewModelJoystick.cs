@@ -10,9 +10,10 @@ namespace WpfApp2.ViewModel
 {
     public class viewModelJoystick: INotifyPropertyChanged
     {
+        /***Data Members***/
         private IClientModel clientModel;
         public event PropertyChangedEventHandler PropertyChanged;
-
+        /***Properties***/
         public float VM_aileron
         {
             get
@@ -28,7 +29,6 @@ namespace WpfApp2.ViewModel
                 }
             }
         }
-
         public float VM_elevator
         {
             get
@@ -37,14 +37,13 @@ namespace WpfApp2.ViewModel
             }
             set
             {
-                if (VM_aileron != value)
+                if (VM_elevator != value)
                 {
                     clientModel.Aileron = value;
                     onPropertyChanged("VM_elevator");
                 }
             }
         }
-
         public float VM_rudder
         {
             get
@@ -60,7 +59,6 @@ namespace WpfApp2.ViewModel
                 }
             }
         }
-
         public float VM_throttle
         {
             get
@@ -76,7 +74,6 @@ namespace WpfApp2.ViewModel
                 }
             }
         }
-
         public float VM_airspeed
         {
             get
@@ -92,7 +89,6 @@ namespace WpfApp2.ViewModel
                 }
             }
         }
-
         public float VM_altimeter
         {
             get
@@ -138,7 +134,6 @@ namespace WpfApp2.ViewModel
                 }
             }
         }
-
         public float VM_pitch
         {
             get
@@ -169,27 +164,30 @@ namespace WpfApp2.ViewModel
                 }
             }
         }
-
+        /***Methods***/
         public viewModelJoystick(IClientModel c)
         {
-            this.clientModel = c;
+            clientModel = c;
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
                 onPropertyChanged("VM_" + e.PropertyName);
             };
             //initialization the flight variables
-            c.Rudder = 108;
-            c.Throttle = 108;
-            c.Airspeed = 0;
-            c.Altimeter = 0;
-            c.Roll = 0;
-            c.Pitch = 0;
-            c.Yaw = 0;
-            c.Heading = 0;
-            c.Aileron = 125;
-            c.Elevator = 125;
+            initFlightVar();
         }
-
+        public void initFlightVar()
+        {
+            clientModel.Rudder = 108;
+            clientModel.Throttle = 108;
+            clientModel.Airspeed = 0;
+            clientModel.Altimeter = 0;
+            clientModel.Roll = 0;
+            clientModel.Pitch = 0;
+            clientModel.Yaw = 0;
+            clientModel.Heading = 0;
+            clientModel.Aileron = 125;
+            clientModel.Elevator = 125;
+        }
         public void onPropertyChanged(string propName)
         {
             if (PropertyChanged != null)
