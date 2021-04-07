@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AdvancedCoding2;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AdvancedCoding2;
 
 namespace WpfApp2.ViewModel
 {
-    public class viewModelJoystick: INotifyPropertyChanged
+    public class viewModelJoystick : INotifyPropertyChanged
     {
+        /***Data Members***/
         private IClientModel clientModel;
         public event PropertyChangedEventHandler PropertyChanged;
-
+        /***Properties***/
         public float VM_aileron
         {
             get
@@ -28,7 +24,6 @@ namespace WpfApp2.ViewModel
                 }
             }
         }
-
         public float VM_elevator
         {
             get
@@ -44,7 +39,7 @@ namespace WpfApp2.ViewModel
                 }
             }
         }
-
+        /***Methods***/
         public viewModelJoystick(IClientModel c)
         {
             this.clientModel = c;
@@ -53,7 +48,6 @@ namespace WpfApp2.ViewModel
                 onPropertyChanged("VM_" + e.PropertyName);
             };
         }
-
         public void onPropertyChanged(string propName)
         {
             if (PropertyChanged != null)

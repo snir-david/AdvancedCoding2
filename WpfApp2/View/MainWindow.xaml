@@ -14,17 +14,17 @@
         </Grid.RowDefinitions>
 
         <Button x:Name="pause_button1" Margin="303,61,390.333,139" Click="Pause_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" Visibility="Hidden">
-            <Image x:Name="pause_button" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\pause.jpg" RenderTransformOrigin="0.5,0.5" ForceCursor="True" Height="40" Width="50"/>
+            <Image x:Name="pause_button" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\pause.png" RenderTransformOrigin="0.5,0.5" ForceCursor="True" Height="40" Width="50"/>
         </Button>
         <Button x:Name="play_button1" Margin="340,61,338.333,139" Click="Play_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}">
-            <Image x:Name="play_button" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\play.jpg" Height="40"  Width="50" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+            <Image x:Name="play_button" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\play.png" Height="40"  Width="50" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
         </Button>
         <Button x:Name="for_button1" Margin="405,63,256.333,137" Click="Forw_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}">
-            <Image x:Name="for_button" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\for.jpg" Width="70" Height="50">
+            <Image x:Name="for_button" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\forw.png" Width="70" Height="50">
             </Image>
         </Button>
         <Button x:Name="prev_button1" Margin="225,61,448.333,139" Click="Prev_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}">
-            <Image x:Name="prev_button" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\prev.jpg" Width="70" Height="50">
+            <Image x:Name="prev_button" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\prev.png" Width="70" Height="50">
             </Image>
         </Button>
         <TextBox x:Name="play_speed" IsReadOnly="True" TextAlignment="Center" Margin="340,139,289.333,81" TextWrapping="Wrap" Text="Play Speed" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False"/>
@@ -33,9 +33,9 @@
 
         <Slider x:Name="time_slider"  Value="{Binding VM_lineNumber, Mode=TwoWay}" Maximum="{Binding VM_simLen}" TickFrequency="1" Margin="89,181,51.333,39" Cursor="None" ValueChanged="time_slider_ValueChanged" Background="{x:Null}" BorderBrush="{x:Null}"/>
 
-        <Button x:Name="CSV_button" Margin="307,0,313.333,229" Click="Openfile_Click" Visibility="Hidden">Open CSV File</Button>
-        <Button x:Name="XML_button" Margin="307,22,313.333,207" Click="OpenXML_Click" Visibility="Hidden">Open XML File</Button>
-        <Button x:Name="Folder_button" Margin="307,0,313.333,229" Click="Openfolder_Click" Height="21" Visibility="Hidden">FlightGear Path</Button>
+        <Button x:Name="CSV_button" Content="Open CSV File" Margin="307,0,313.333,229" Click="Openfile_Click" Visibility="Hidden"/>
+        <Button x:Name="XML_button" Content="Open XML File" Margin="307,22,313.333,207" Click="OpenXML_Click" Visibility="Hidden"/>
+        <Button x:Name="Folder_button" Content="FlightGear Path" Margin="307,0,313.333,229" Click="Openfolder_Click" Height="21" Visibility="Hidden"/>
 
 
     </Grid>

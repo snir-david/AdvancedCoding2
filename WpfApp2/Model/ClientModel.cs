@@ -1,48 +1,45 @@
-﻿using System;
+﻿using DesktopFGApp.Model;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Xml;
-using System.Collections.Generic;
-using DesktopFGApp.Model;
 
 namespace AdvancedCoding2
 {
     public class Client : IClientModel
     {
+        /***Data Members***/
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private int port, csvRowsNum;
-        private volatile int playSpeed, lineNum;
-        private string server, copyLine , chosen , corralative;
-        private volatile string filePath, xmlPath;
-        private List<string> chunksName, ailList= new List<string>(), elvList = new List<string>();
-        private List<List<string>> currAtt = new List<List<string>>();
-
+        private int port, csvRowsNum, aileronInx, elevatorInx;
+        private string server, attChosen, corrToChose;
+        private List<string> chunksName, ailList, elvList;
+        private List<List<string>> currAtt;
         private String[] csvCopy;
-
-        private int aileronInx, elevatorInx;
+        //variables that need to be accessable outside of thread
+        private volatile string filePath, xmlPath;
         private volatile float aileron, elevator;
-
-
-        public int TransSpeed { 
+        private volatile int playSpeed, lineNum;
+        /***Properties***/
+        //properties that we want to notify changed
+        public int TransSpeed
+        {
             get
             {
                 return playSpeed;
             }
             set
             {
-                if(TransSpeed != value)
+                if (TransSpeed != value)
                 {
                     playSpeed = value;
                     NotifyPropertyChanged("playSpeed");
                 }
             }
         }
-
         public int simLen
         {
             get
@@ -58,7 +55,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-      
         public int lineNumber
         {
             get
@@ -72,32 +68,6 @@ namespace AdvancedCoding2
                     lineNum = value;
                     NotifyPropertyChanged("lineNumber");
                 }
-            }
-        }
-
-        public string fpath
-        {
-            get
-            {
-                return filePath;
-            }
-            set
-            {
-                if (fpath != value)
-                    filePath = value;
-            }
-        }
-
-        public string XMLpath
-        {
-            get
-            {
-                return xmlPath;
-            }
-            set
-            {
-                if (XMLpath != value)
-                    xmlPath = value;
             }
         }
         public float Aileron
@@ -115,7 +85,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-
         public float Elevator
         {
             get
@@ -131,7 +100,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-
         public List<string> HeaderNames
         {
             get
@@ -148,15 +116,38 @@ namespace AdvancedCoding2
 
             }
         }
-        public List<List<string>> CurrentAtt
+        //properties not suposed to changed during running
+        public string fpath
+        {
+            get
+            {
+                return filePath;
+            }
+            set
+            {
+                if (fpath != value)
+                    filePath = value;
+            }
+        }
+        public string XMLpath
+        {
+            get
+            {
+                return xmlPath;
+            }
+            set
+            {
+                if (XMLpath != value)
+                    xmlPath = value;
+            }
+        }
+        public List<List<string>> ListOfListOfAtt
         {
             get
             {
                 return currAtt;
             }
         }
-
-        // i added it in order to call splitAtt from view model controller.
         public String[] CSVcopy
         {
             get
@@ -168,39 +159,35 @@ namespace AdvancedCoding2
                 if (CSVcopy != value)
                 {
                     csvCopy = value;
-                    NotifyPropertyChanged("CSVcopy");
                 }
             }
         }
-
-        // this property is the chosen data (the button that had been pressed).
-        public string Chosen
+        public string attributeChosen
         {
             get
             {
-                return chosen; ;
+                return attChosen; ;
             }
             set
             {
-                if (Chosen != value)
-                    chosen = value;
+                if (attributeChosen != value)
+                    attChosen = value;
             }
         }
-
-        // this property is the corralative data.
         public string Corralative
         {
             get
             {
-                return corralative; ;
+                return corrToChose; ;
             }
             set
             {
                 if (Corralative != value)
-                    corralative = value;
+                    corrToChose = value;
             }
         }
-
+        /***Methods***/
+        //notify on change function
         public void NotifyPropertyChanged(string propName)
         {
             if (this.PropertyChanged != null)
@@ -208,61 +195,70 @@ namespace AdvancedCoding2
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
-
+        //constructor - getting server and port number
         public Client(String server, int port)
         {
             this.port = port;
             this.server = server;
+            //intiliaze lists
+            ailList = new List<string>();
+            elvList = new List<string>();
+            currAtt = new List<List<string>>();
         }
-
+        /*taking xml file and exctracting headers name (only output chucnks) */
         public void xmlParser()
         {
             chunksName = new List<string>();
             XmlDocument doc = new XmlDocument();
             doc.Load(XMLpath);
+            //finding the output node 
             XmlNode node = doc.DocumentElement.SelectSingleNode("/PropertyList/generic/output");
+            //iterating all childer nodes in output node
             foreach (XmlNode n in node)
             {
+                //checking if node names equals to chunck - if it is - taking name attribute from chunck
                 if (n.LocalName.Equals("chunk"))
                 {
                     string name = n.SelectSingleNode("name").InnerText;
                     chunksName.Add(name);
-                    //currAtt.Add(new List<string>());
-
                 }
             }
-            
-        }
 
+        }
+        /*getting csv file as string array and splitting it by the "," */
         public void attSplit(string[] csvFile)
         {
             int counter = 0;
-
+            //iterating array - splitting every cell (line) in array
             foreach (string line in csvFile)
             {
-                string[] curr = line.Split(',');    
+                string[] curr = line.Split(',');
+                //adding attributes to the right header list
                 for (int i = 0; i < curr.Length; i++)
                 {
-                    if(counter <= curr.Length - 1)
+                    if (counter <= curr.Length - 1)
                     {
                         currAtt.Add(new List<string>());
                         counter++;
-                    }           
+                    }
                     currAtt[i].Add(curr[i]);
 
                 }
             }
         }
-
+        /*sending values of x and y for jostick movement*/
         public void joyStickPos()
         {
-            ailList = CurrentAtt[aileronInx];
-            elvList = CurrentAtt[elevatorInx];
+            ailList = ListOfListOfAtt[aileronInx];
+            elvList = ListOfListOfAtt[elevatorInx];
+            //convert string to float
             float ail = float.Parse(ailList[lineNumber]);
             float elev = float.Parse(elvList[lineNumber]);
+            //"normalized" value for joystick postion
             Aileron = ail * 30 + 48;
             Elevator = elev * 30 + 48;
         }
+        /*inti joystick postion - finding aileron and elevator index from list of list */
         public void initJoystick()
         {
             aileronInx = HeaderNames.FindIndex(a => a.Contains("aileron"));
@@ -270,49 +266,40 @@ namespace AdvancedCoding2
             Aileron = 78;
             Elevator = 78;
         }
-
+        /* connect to server and start stream data*/
         public void connect()
         {
             try
             {
-                
-                // Create a TcpClient.
-                // Note, for this client to work you need to have a TcpServer
-                // connected to the same address as specified by the server, port
-                // combination.
+                /* Create a TcpClient. Note, for this client to work you need to have a TcpServer
+                 connected to the same address as specified by the server, port combination.*/
                 TcpClient client = new TcpClient(server, port);
-                // Get a client stream for reading and writing.
+                //Get a client stream for reading and writing.
                 var stream = client.GetStream();
-
-                // reading csv file into string array of lines
+                //reading csv file into string array of lines - open and close the file
                 String[] csvLine = File.ReadAllLines(fpath);
-                //String[] csvCopy = csvLine;
-                this.csvCopy = csvLine;
-
-                // getting number of rows
+                csvCopy = csvLine;
+                //getting number of rows
                 simLen = csvLine.Length;
-                //this.xmlParser();
-                //setting up playing speed to 100 mill-sec
+                //setting up playing speed to 100 mill-sec - 10 lines in second
                 TransSpeed = 100;
                 initJoystick();
-                //attSplit(csvCopy);
-
-                // sending one line at a time to server
+                // while loope - as long there is data to send - send one line at a time to server
                 while (simLen > lineNumber)
                 {
-                    //get a line from array
+                    //adding end of line to the current line
                     csvLine[lineNumber] += "\n";
                     //Encode to bytes
                     Byte[] lineBytes = System.Text.Encoding.ASCII.GetBytes(csvLine[lineNumber]);
                     // Send the message to the connected TcpServer
                     stream.Write(lineBytes, 0, lineBytes.Length);
+                    //calculating joystick position
                     joyStickPos();
                     //inc index to next line
                     lineNumber++;
                     //sleep for playspeed mil-sec for sending ten times in a second
                     Thread.Sleep(playSpeed);
                 }
-
                 // Close - stream and socket
                 stream.Close();
                 client.Close();
@@ -327,20 +314,16 @@ namespace AdvancedCoding2
             {
                 Console.WriteLine("SocketException: {0}", e);
                 MessageBox.Show("Please make sure to open FlightGear simulator with following additional setting and than try again:\n" +
-                    "--generic=socket,in,10,127.0.0.1,5400,tcp,playback_small\n--fdm = null" , "Couldn't Reach Server", MessageBoxButton.OK, MessageBoxImage.Error);
-
+                    "--generic=socket,in,10,127.0.0.1,5400,tcp,playback_small\n--fdm = null", "Couldn't Reach Server", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         // ****************** shani's functions *******************//
-
         private float avg(List<float> x, int size)
         {
             float sum = 0;
             for (int i = 0; i < size; sum += x[i], i++) ;
             return sum / size;
         }
-
         // returns the variance of X and Y
         private float var(List<float> x, int size)
         {
@@ -352,7 +335,6 @@ namespace AdvancedCoding2
             }
             return sum / size - av * av;
         }
-
         // returns the Covariance of X and Y
         private float cov(List<float> x, List<float> y, int size)
         {
@@ -362,22 +344,13 @@ namespace AdvancedCoding2
                 sum += x[i] * y[i];
             }
             sum /= size;
-
             return sum - avg(x, size) * avg(y, size);
         }
-
-
         // returns the Pearson correlation coefficient of X and Y
         public double pearson(List<float> x, List<float> y, int size)
         {
-            /*if (Math.Sqrt(var(x, size)) * Math.Sqrt(var(y, size)) == 0)
-            {
-                return 0;
-            }*/
-            
             return cov(x, y, size) / (Math.Sqrt(var(x, size)) * Math.Sqrt(var(y, size)));
         }
-
         // performs a linear regression and returns the line equation
         public Line linear_reg(List<DesktopFGApp.Model.Point> points, int size)
         {
@@ -390,13 +363,9 @@ namespace AdvancedCoding2
             }
             float a = cov(x, y, size) / var(x, size);
             float b = avg(y, size) - a * (avg(x, size));
-
-            Line l = new Line(a , b);
-            
+            Line l = new Line(a, b);
             return l;
         }
-
     }
-
 }
 

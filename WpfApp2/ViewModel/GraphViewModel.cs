@@ -1,106 +1,93 @@
 ﻿using AdvancedCoding2;
+using DesktopFGApp.Model;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OxyPlot;
-using OxyPlot.Annotations;
-using OxyPlot.Series;
-using OxyPlot.Axes;
+using System.Diagnostics;
 using System.Threading;
-using DesktopFGApp.Model;
 
 namespace DesktopFGApp.ViewModel
 {
     class GraphViewModel : INotifyPropertyChanged
     {
+        /***Data Members***/
         private IClientModel clientModel;
         private ViewModelController viewModelController;
         public event PropertyChangedEventHandler PropertyChanged;
-        private List<string> attList, corrList;
-        private PlotModel plotModel1, plotModel2, plotModel3;
+        private Stopwatch timer;
+        private long lastUpdate;
+        private int attChooseIdx, corrChooseIdx;
+        private string corrItemName;
+        private List<string> attList;
+        private List<float> floatAttList, floatCorrList;
+        private PlotModel AttPlotModel, CorrPlotModel, regLinePlotModel;
         private OxyPlot.Wpf.PlotView VM_pvAtt, VM_pvCorr, VM_pvLR;
-
-        // property for the chart of the chosen.
-        public PlotModel VM_PlotModel1
+        /***Properties***/
+        public PlotModel VM_AttPlotModel
         {
             get
             {
-                return plotModel1;
+                return AttPlotModel;
             }
             set
             {
-                if (VM_PlotModel1 != value)
+                if (VM_AttPlotModel != value)
                 {
-                    plotModel1 = value;
-                    onPropertyChanged("VM_PlotModel1");
+                    AttPlotModel = value;
+                    onPropertyChanged("VM_AttPlotModel");
 
                 }
             }
         }
-
-        // property for the chart of the corr.
-        public PlotModel VM_PlotModel2
+        public PlotModel VM_CorrPlotModel
         {
             get
             {
-                return plotModel2;
+                return CorrPlotModel;
             }
             set
             {
-                if (VM_PlotModel2 != value)
+                if (VM_CorrPlotModel != value)
                 {
-                    plotModel2 = value;
-                    onPropertyChanged("VM_PlotModel2");
-
+                    CorrPlotModel = value;
+                    onPropertyChanged("VM_CorrPlotModel");
                 }
             }
         }
-
-        // property for the Linear Reg.
-        public PlotModel VM_PlotModel3
+        public PlotModel VM_RegLinePlotModel
         {
             get
             {
-                return plotModel3;
+                return regLinePlotModel;
             }
             set
             {
-                if (VM_PlotModel3 != value)
+                if (VM_RegLinePlotModel != value)
                 {
-                    plotModel3 = value;
-                    onPropertyChanged("VM_PlotModel3");
-
+                    regLinePlotModel = value;
+                    onPropertyChanged("VM_RegLinePlotModel");
                 }
             }
         }
-        // property of the list of att.
-        public List<String> nameList
+        public string VM_AttUserChoose
         {
             get
             {
-                return clientModel.HeaderNames;
-            }
-        }
-        // property of the chosen att.
-        public string VM_chosen
-        {
-            get
-            {
-                return clientModel.Chosen;
+                return clientModel.attributeChosen;
             }
             set
             {
-                if (VM_chosen != value)
+                if (VM_AttUserChoose != value)
                 {
-                    clientModel.Chosen = value;
-                    onPropertyChanged("VM_chosen");
+                    clientModel.attributeChosen = value;
+                    onPropertyChanged("VM_AttUserChoose");
                 }
             }
         }
-        // property for the corralative feature.
         public string VM_corralative
         {
             get
@@ -116,7 +103,6 @@ namespace DesktopFGApp.ViewModel
                 }
             }
         }
-        // property of the current line we are in.
         public int VM_currLine
         {
             get
@@ -124,15 +110,13 @@ namespace DesktopFGApp.ViewModel
                 return clientModel.lineNumber;
             }
         }
-        // property of the list of all the values of the atts.
-        public List<List<string>> VM_attsList
+        public List<List<string>> VM_ListOfListAtt
         {
             get
             {
-                return clientModel.CurrentAtt;
+                return clientModel.ListOfListOfAtt;
             }
         }
-        // property of the list of the att's names.
         public List<string> VM_attsName
         {
             get
@@ -140,51 +124,73 @@ namespace DesktopFGApp.ViewModel
                 return clientModel.HeaderNames;
             }
         }
-
-        // the constructor of the Graph View Model.
-        public GraphViewModel(IClientModel c, OxyPlot.Wpf.PlotView pv1, OxyPlot.Wpf.PlotView pv2, OxyPlot.Wpf.PlotView pv3)
+        public List<float> VM_attChooseFloatList
         {
-            this.clientModel = c;
-            this.VM_pvAtt = pv1;
-            this.VM_pvCorr = pv2;
-            this.VM_pvLR = pv3;
+            get
+            {
+                return floatAttList;
+            }
+        }
+        public List<float> VM_corrFloatList
+        {
+            get
+            {
+                return floatCorrList;
+            }
+        }
+        /***Methods***/
+        // the constructor of the Graph View Model - getting a client object and 3 plotviews for graphs
+        public GraphViewModel(IClientModel c, OxyPlot.Wpf.PlotView Attpv, OxyPlot.Wpf.PlotView Corrpv, OxyPlot.Wpf.PlotView regLinepv)
+        {
+            //getting args from constructor
+            clientModel = c;
+            VM_pvAtt = Attpv;
+            VM_pvCorr = Corrpv;
+            VM_pvLR = regLinepv;
+            //setting up timer
+            timer = new Stopwatch();
+            lastUpdate = 0;
+            timer.Start();
 
             clientModel.xmlParser();
-            this.viewModelController = new ViewModelController(this.clientModel);
-            VM_PlotModel1 = new PlotModel();
-            VM_PlotModel2 = new PlotModel();
-            VM_PlotModel3 = new PlotModel();
 
+            viewModelController = new ViewModelController(this.clientModel);
+            //Plot models inti
+            VM_AttPlotModel = new PlotModel();
+            VM_CorrPlotModel = new PlotModel();
+            VM_RegLinePlotModel = new PlotModel();
+            //init list for later
+            floatAttList = new List<float>();
+            floatCorrList = new List<float>();
+            //onPropertyChanged methods
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
                 onPropertyChanged("VM_" + e.PropertyName);
             };
-            
-            // responsibles of updating the graph.
+            // responsible of updating the graphs
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
-                if (e.PropertyName == "lineNumber" && VM_chosen != null && VM_corralative != null && VM_pvLR != null)
+                if (e.PropertyName == "lineNumber" && VM_AttUserChoose != null && VM_corralative != null && VM_pvLR != null)
                 {
-                    double playSpeed = (10 * (2.00 - viewModelController.VM_TransSpeed / 100));
-                    if ((VM_currLine  % playSpeed == 0.0 && playSpeed < 1.9) || (VM_currLine % 20 == 0.0 && playSpeed >= 1.9))
+                    if (timer.ElapsedMilliseconds - lastUpdate > 500)
                     {
-                        VM_PlotModel1.Series.Clear();
-                        LoadAttData(VM_currLine, VM_pvAtt);
+                        VM_AttPlotModel.Series.Clear();
+                        LoadLineDataGraph(VM_currLine, VM_pvAtt, floatAttList);
                         VM_pvAtt.InvalidatePlot(true);
 
-                        VM_PlotModel2.Series.Clear();
-                        LoadCorrData(VM_currLine, VM_pvCorr);
+                        VM_CorrPlotModel.Series.Clear();
+                        LoadLineDataGraph(VM_currLine, VM_pvCorr, floatCorrList);
                         VM_pvCorr.InvalidatePlot(true);
 
-                        VM_PlotModel3.Series.Clear();
-                        LoadLRData(VM_currLine, VM_pvLR);
+                        VM_RegLinePlotModel.Series.Clear();
+                        LoadScatterGraphData(VM_currLine, VM_pvLR, floatAttList, floatCorrList);
                         VM_pvLR.InvalidatePlot(true);
+                        //updating lastUpdate timer
+                        lastUpdate = timer.ElapsedMilliseconds;
                     }
                 }
             };
-               
         }
-
         public void onPropertyChanged(string propName)
         {
             if (PropertyChanged != null)
@@ -192,9 +198,8 @@ namespace DesktopFGApp.ViewModel
                 this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
-
-        // gets a list of strings and returns a list of floats.
-        /************* only this class uses this function. *************/
+        // gets a list of strings and returns a list of floats
+        /************* only this class uses this function *************/
         private List<float> stringToFloat(List<string> list)
         {
             List<float> result = new List<float>();
@@ -204,153 +209,100 @@ namespace DesktopFGApp.ViewModel
             }
             return result;
         }
-        
         // finds the corralated feature.
         /************ the graph view uses it ***********/
-        public string FindCorralativeFeature(string s)
+        public string FindCorralativeFeature(string attName)
         {
-            string corrFeature;
-            List<string> valuesOfChosen = new List<string>();
-            List<string> valuesOfCorr = new List<string>();
-
-            int index = viewModelController.VM_headerNames.FindIndex(a => a.Contains(s));
-            // the values of the chosen feature.
-            valuesOfChosen = viewModelController.VM_currentAtt[index];
-            List<float> valuesOfChosenInFloat = new List<float>();
-            valuesOfChosenInFloat = stringToFloat(valuesOfChosen);
-
-            int indexOfCorr = 0;
             int counter = 0;
             double max = 0;
             double result = 0;
-
+            corrChooseIdx = 0;
+            //finding attributes choseb index in list of list
+            attChooseIdx = viewModelController.VM_headerNames.FindIndex(a => a.Contains(attName));
+            // the values of the chosen feature
+            attList = viewModelController.VM_currentAtt[attChooseIdx];
+            floatAttList = stringToFloat(attList);
+            //finding most corrleative attribute            
             foreach (List<string> list in viewModelController.VM_currentAtt)
             {
-               
-                List<float> valuesInFloat = new List<float>();
-                if (counter == index)
+                if (counter == attChooseIdx)
                 {
                     counter++;
-                    
                 }
                 else
                 {
-                    valuesInFloat = stringToFloat(list);
-                    result = Math.Abs(clientModel.pearson(valuesOfChosenInFloat, valuesInFloat,valuesInFloat.Count));
+                    floatCorrList = stringToFloat(list);
+                    result = Math.Abs(clientModel.pearson(floatAttList, floatCorrList, floatCorrList.Count));
                     if (result > max)
                     {
                         max = result;
-                        indexOfCorr = counter;
+                        corrChooseIdx = counter;
                     }
                     counter++;
                 }
             }
-            // takes care of the atts with vector 0.
-            if(indexOfCorr == 0 && s != viewModelController.VM_headerNames[0])
+            // takes care of the atts with vector 0
+            if (corrChooseIdx == 0 && attName != viewModelController.VM_headerNames[0])
             {
-                corrFeature = s;
-                VM_corralative = corrFeature;
-                return corrFeature;
+                corrItemName = attName;
+                VM_corralative = corrItemName;
+                return corrItemName;
             }
-
-            corrFeature = viewModelController.VM_headerNames[indexOfCorr];
-            VM_corralative = corrFeature;
-            return corrFeature;
+            corrItemName = viewModelController.VM_headerNames[corrChooseIdx];
+            VM_corralative = corrItemName;
+            return corrItemName;
         }
-
-        // creates the chosen graph.
-        public void LoadAttData(int lineNumber, OxyPlot.Wpf.PlotView pv)
+        // creates the chosen graph
+        public void LoadLineDataGraph(int lineNumber, OxyPlot.Wpf.PlotView pv, List<float> valueList)
         {
-            int idx = VM_attsName.FindIndex(a => a.Contains(VM_chosen));
-            attList = VM_attsList[idx];
-
-            var lineSerie = new LineSeries()
-            {
-                StrokeThickness = 2,
-                Color = OxyColors.Black,
-                
-            };
-
-
-            for (int i = 0; i < lineNumber; i++)
-            {
-                lineSerie.Points.Add(new DataPoint(i, Double.Parse(attList[i])));
-            }
-
-            VM_PlotModel1.Series.Add(lineSerie);
-        }
-        
-        // creates the corralative graph.
-        // ********** maybe we can put it in the view graph ***********/
-        public void LoadCorrData(int lineNumber, OxyPlot.Wpf.PlotView pv)
-        {
-            int idx = VM_attsName.FindIndex(a => a.Contains(VM_corralative));
-            corrList = VM_attsList[idx];
-
-            var lineSerie = new LineSeries
+           var lineSerie = new LineSeries()
             {
                 StrokeThickness = 2,
                 Color = OxyColors.Black,
             };
-
             for (int i = 0; i < lineNumber; i++)
             {
-                lineSerie.Points.Add(new DataPoint(i, Double.Parse(corrList[i])));
+                lineSerie.Points.Add(new DataPoint(i, valueList[i]));
             }
-
-            VM_PlotModel2.Series.Add(lineSerie);
+            //adding lineSeries to plotModel
+            VM_AttPlotModel.Series.Add(lineSerie);
         }
-
-        public void LoadLRData(int lineNumber, OxyPlot.Wpf.PlotView pv)
+        public void LoadScatterGraphData(int lineNumber, OxyPlot.Wpf.PlotView pv, List<float> attList, List<float> corrList)
         {
-            int idx = VM_attsName.FindIndex(a => a.Contains(VM_chosen));
-            attList = VM_attsList[idx];
-
-            idx = VM_attsName.FindIndex(a => a.Contains(VM_corralative));
-            corrList = VM_attsList[idx];
-
-            //LineSeries for reg line
+          //LineSeries for reg line
             var lineSeries = new LineSeries()
             {
                 Color = OxyColors.Red,
                 StrokeThickness = 2
             };
             //converting attList and corrList to floats list and than making a point list for linear_reg function
-            List<float> valuesOfChosenInFloat = new List<float>();
-            List<float> valuesOfChosen2InFloat = new List<float>();
             List<Point> pointList = new List<Point>();
-            valuesOfChosenInFloat = stringToFloat(attList);
-            valuesOfChosen2InFloat = stringToFloat(corrList);
-            for(int i = 0; i < attList.Count; i++)
+            for (int i = 0; i < attList.Count; i++)
             {
-                pointList.Add(new Point(valuesOfChosenInFloat[i], valuesOfChosen2InFloat[i]));
+                pointList.Add(new Point(attList[i], corrList[i]));
             }
             //finding reg Line
             Line regLine = clientModel.linear_reg(pointList, pointList.Count);
             //finding max and min values of attList;
-            float max = valuesOfChosenInFloat.Max();
-            float min = valuesOfChosenInFloat.Min();
+            float max = attList.Max();
+            float min = corrList.Min();
             //drawing line between to extrem points
             lineSeries.Points.Add(new DataPoint(max, regLine.f(max)));
             lineSeries.Points.Add(new DataPoint(min, regLine.f(min)));
-
             var scatterPoint = new ScatterSeries
             {
                 MarkerType = MarkerType.Circle
-
             };
-
             //TODO - Make 300 last points in red
             for (int i = 0; i < lineNumber; i++)
             {
-                scatterPoint.Points.Add(new ScatterPoint( Double.Parse(attList[i]), Double.Parse(corrList[i]), 2, 100));
+                scatterPoint.Points.Add(new ScatterPoint(attList[i], corrList[i], 2, 100));
             }
-
-            VM_PlotModel3.Series.Add(scatterPoint);
-            VM_PlotModel3.Series.Add(lineSeries);
+            //adding reg line and points to ploat model
+            VM_RegLinePlotModel.Series.Add(scatterPoint);
+            VM_RegLinePlotModel.Series.Add(lineSeries);
         }
-
-        // sets up a given "graph".
+        // sets up a given graph
         public void SetUpModel(PlotModel pm)
         {
             pm = new PlotModel();
@@ -365,7 +317,7 @@ namespace DesktopFGApp.ViewModel
             pm.Axes.Add(timeAxis);
             var valueAxis = new LinearAxis() { Position = AxisPosition.Left, MajorGridlineStyle = LineStyle.Solid, MinorGridlineStyle = LineStyle.Dot, Title = "Value" };
             pm.Axes.Add(valueAxis);
-            
+
         }
     }
 

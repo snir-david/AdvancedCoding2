@@ -121,17 +121,35 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
+    <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\for_button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="buttons\forw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="buttons\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="buttons\pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="buttons\prev.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="buttons\joystick.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
