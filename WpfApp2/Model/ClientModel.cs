@@ -346,8 +346,8 @@ namespace AdvancedCoding2
             //joystick properties
             float ail = float.Parse(ailList[lineNumber]);
             float elev = float.Parse(elvList[lineNumber]);
-            Aileron = ail * 50 + 125;
-            Elevator = elev * 50 + 125;
+            Aileron = ail * 50 + 60;
+            Elevator = elev * 50 + 60;
         }
 
         // find the indx in data for flight variables

@@ -6,9 +6,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"   
         mc:Ignorable="d"
-        Title="JoystickView" Height="556" Width="1208">
+        Title="JoystickView" Height="388" Width="1208">
 
-    <Grid>
+    <Grid Margin="10,0,0.333,-19.333">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="121*"/>
             <ColumnDefinition Width="241*"/>
@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
 
         <Canvas Margin="56,82,51.667,18.667" Grid.Row="1">
-            <Rectangle Fill="Blue" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="236" Canvas.Top="2"/>
+            <Rectangle Fill="SkyBlue" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="236" Canvas.Top="2"/>
             <Rectangle Fill="Black" HorizontalAlignment="Left" Height="30" Stroke="Black" VerticalAlignment="Top" Width="20" Canvas.Left="{Binding VM_rudder}"/>
         </Canvas>
         <Canvas Margin="24,20,96.667,59.667" Grid.RowSpan="2">
@@ -57,15 +57,15 @@
         <TextBox x:Name ="altimeterFtText" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="21.333,183,0,0" TextWrapping="Wrap" Text="ft" VerticalAlignment="Top" Width="18" FontFamily="Agency FB" FontSize="15"  Background="{x:Null}" BorderBrush="{x:Null}"/>
         <Canvas Margin="176.333,-40,64.667,105.667" Grid.RowSpan="2" Grid.Column="1">
             <Border  x:Name ="headingBack" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="100" Width="100" BorderBrush="Orange"
-                BorderThickness="2 2 2 0" CornerRadius="300 300 300 300" Background="#FF151515" Grid.RowSpan="2" Canvas.Left="235" Canvas.Top="157"/>
+                BorderThickness="2 2 2 0" CornerRadius="300 300 300 300" Background="#FF151515" Grid.RowSpan="2" Canvas.Left="235" Canvas.Top="88"/>
             <Border x:Name ="headingborder" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="100" Width="100" BorderBrush="#FFCF5D1D"
-                BorderThickness="0 2 0 0" CornerRadius="300 300 300 300" Grid.RowSpan="2" Canvas.Left="235" Canvas.Top="157" RenderTransformOrigin="3.453,2.28">
+                BorderThickness="0 2 0 0" CornerRadius="300 300 300 300" Grid.RowSpan="2" Canvas.Left="235" Canvas.Top="88" RenderTransformOrigin="3.453,2.28">
                 <Border.Effect>
                     <DropShadowEffect Color="#FFFFC7A7" BlurRadius="10" ShadowDepth="2"/>
                 </Border.Effect>
             </Border>
             <Border  x:Name ="headingDial" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Height="21" Grid.RowSpan="2" VerticalAlignment="Bottom" Width="5"
-                     CornerRadius="120 120 0 0" Background="Orange" RenderTransformOrigin="0.5 2" Canvas.Left="284" Canvas.Top="166" 
+                     CornerRadius="120 120 0 0" Background="Orange" RenderTransformOrigin="0.5 2" Canvas.Left="284" Canvas.Top="104" 
                 >
                 <Border.RenderTransform>
                     <TransformGroup>
@@ -77,11 +77,11 @@
                 </Border.RenderTransform>
             </Border>
         </Canvas>
-        <TextBox x:Name ="heading0" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="216.333,145,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="18" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
-        <TextBox x:Name ="heading90" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="231.333,161,0,0" TextWrapping="Wrap" Text="90" VerticalAlignment="Top" Width="17" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
-        <TextBox x:Name ="heading180" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="214.333,177,0,0" TextWrapping="Wrap" Text="180" VerticalAlignment="Top" Width="20" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
-        <TextBox x:Name ="heading270" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="198.333,161,0,0" TextWrapping="Wrap" Text="270" VerticalAlignment="Top" Width="30" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
-        <Image x:Name="pitch" Source="C:\Users\tallor\Downloads\pitch.png" Grid.Column="2" Margin="140.333,215,500.667,0" RenderTransformOrigin="0.5,0.5">
+        <TextBox x:Name ="heading0" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="216.667,76,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="18" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <TextBox x:Name ="heading90" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="231.667,92,0,0" TextWrapping="Wrap" Text="90" VerticalAlignment="Top" Width="17" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <TextBox x:Name ="heading180" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="214.667,108,0,0" TextWrapping="Wrap" Text="180" VerticalAlignment="Top" Width="20" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <TextBox x:Name ="heading270" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="198.667,92,0,0" TextWrapping="Wrap" Text="270" VerticalAlignment="Top" Width="30" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <Image x:Name="pitch" Source="C:\Users\tallor\Downloads\pitch.png" Grid.Column="2" Margin="140.667,146,500.667,69" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -91,7 +91,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image x:Name="roll" Source="C:\Users\tallor\Downloads\roll.png" Grid.Column="2" Margin="120.333,223,443.667,59.667" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2">
+        <Image x:Name="roll" Source="C:\Users\tallor\Downloads\roll.png" Grid.Column="2" Margin="120.667,154,443.667,129" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -101,7 +101,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image x:Name="yaw" Source="C:\Users\tallor\Downloads\yaw.png" Grid.Column="2" Margin="140.333,64,500.667,-8.333" RenderTransformOrigin="0.5,0.5" Grid.Row="1">
+        <Image x:Name="yaw" Source="C:\Users\tallor\Downloads\yaw.png" Grid.Column="2" Margin="140.667,219,500.667,61" RenderTransformOrigin="0.5,0.5" Grid.Row="0" Grid.RowSpan="2">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -111,6 +111,11 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
+        <Canvas Grid.ColumnSpan="2" Margin="86,44,68.333,82" Grid.RowSpan="2">
+            <Image  Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\joystick.png" HorizontalAlignment="Left" Height="252" VerticalAlignment="Top" Width="205"/>
+            <Image Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\joystickcenter.png" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="75" Canvas.Left="{Binding VM_aileron}" Canvas.Top="{Binding VM_elevator}"/>
+
+        </Canvas>
 
     </Grid>
 
