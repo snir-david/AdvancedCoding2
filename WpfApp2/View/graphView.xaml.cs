@@ -31,15 +31,15 @@ namespace DesktopFGApp.View
         private string attName , corrName;
         PlotModel pml1 = new PlotModel();
         PlotModel pml2 = new PlotModel();
-        //PlotModel pml3 = new PlotModel();
-        OxyPlot.Wpf.PlotView pv1, pv2; //, pv3;
+        PlotModel pml3 = new PlotModel();
+        OxyPlot.Wpf.PlotView pv1, pv2 , pv3;
         
 
 
         public graphView(IClientModel c)
         {
             InitializeComponent();
-            this.graphViewModel = new GraphViewModel(c, attPlot , corrPlot /*,LRPlot*/);
+            this.graphViewModel = new GraphViewModel(c, attPlot, corrPlot ,LRPlot);
             this.DataContext = graphViewModel;
             StackPanel stackPanel = new StackPanel();
             foreach(string name in graphViewModel.nameList)
@@ -52,7 +52,7 @@ namespace DesktopFGApp.View
             scorllButtons.Content = stackPanel;
             pv1 = attPlot;
             pv2 = corrPlot;
-            //pv3 = pvLR;
+            pv3 = LRPlot;
             
         }
 
@@ -76,7 +76,12 @@ namespace DesktopFGApp.View
             pml2.Series.Clear();
             graphViewModel.LoadCorrData(graphViewModel.VM_currLine, pv2);
             corrPlot.InvalidatePlot(true);
-            
+
+            graphViewModel.SetUpModel(pml3);
+            pml3.Series.Clear();
+            graphViewModel.LoadLRData(graphViewModel.VM_currLine, pv3);
+            LRPlot.InvalidatePlot(true);
+
         }
 
         

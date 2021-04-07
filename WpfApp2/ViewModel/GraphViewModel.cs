@@ -12,16 +12,17 @@ using OxyPlot.Axes;
 
 namespace DesktopFGApp.ViewModel
 {
-    class GraphViewModel: INotifyPropertyChanged
+    class GraphViewModel : INotifyPropertyChanged
     {
         private IClientModel clientModel;
         private ViewModelController viewModelController;
         public event PropertyChangedEventHandler PropertyChanged;
         private List<string> attList;
+        private List<string> corrList;
         private PlotModel plotModel1, pml1 = new PlotModel();
         private PlotModel plotModel2, pml2 = new PlotModel();
-        //private PlotModel plotModel3, pml3 = new PlotModel();
-        private OxyPlot.Wpf.PlotView VM_pvAtt , VM_pvCorr; //, VM_pvLR;
+        private PlotModel plotModel3, pml3 = new PlotModel();
+        private OxyPlot.Wpf.PlotView VM_pvAtt, VM_pvCorr, VM_pvLR;
 
         // property for the chart of the chosen.
         public PlotModel VM_PlotModel1
@@ -60,7 +61,7 @@ namespace DesktopFGApp.ViewModel
         }
 
         // property for the Linear Reg.
-        /*public PlotModel VM_PlotModel3
+        public PlotModel VM_PlotModel3
         {
             get
             {
@@ -75,7 +76,7 @@ namespace DesktopFGApp.ViewModel
 
                 }
             }
-        }*/
+        }
         // property of the list of att.
         public List<String> nameList
         {
@@ -142,18 +143,18 @@ namespace DesktopFGApp.ViewModel
         }
 
         // the constructor of the Graph View Model.
-        public GraphViewModel(IClientModel c, OxyPlot.Wpf.PlotView pv1 , OxyPlot.Wpf.PlotView pv2 /*, OxyPlot.Wpf.PlotView pv3*/)
+        public GraphViewModel(IClientModel c, OxyPlot.Wpf.PlotView pv1, OxyPlot.Wpf.PlotView pv2, OxyPlot.Wpf.PlotView pv3)
         {
             this.clientModel = c;
             this.VM_pvAtt = pv1;
             this.VM_pvCorr = pv2;
-            //this.VM_pvLR = pv3;
+            this.VM_pvLR = pv3;
 
             clientModel.xmlParser();
             this.viewModelController = new ViewModelController(this.clientModel);
             VM_PlotModel1 = new PlotModel();
             VM_PlotModel2 = new PlotModel();
-            //VM_PlotModel3 = new PlotModel();
+            VM_PlotModel3 = new PlotModel();
 
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
@@ -175,9 +176,10 @@ namespace DesktopFGApp.ViewModel
                     LoadCorrData(VM_currLine, VM_pvCorr);
                     VM_pvCorr.InvalidatePlot(true);
 
-                    /*pml3.Series.Clear();
-                    SetUpModel(pml3);                                                        
-                    VM_pvLR.InvalidatePlot(true);*/
+                    pml3.Series.Clear();
+                    SetUpModel(pml3);
+                    LoadLRData(VM_currLine, VM_pvLR);
+                    VM_pvLR.InvalidatePlot(true);
                 }
             };
                
@@ -262,17 +264,20 @@ namespace DesktopFGApp.ViewModel
             int idx = VM_attsName.FindIndex(a => a.Contains(VM_chosen));
             attList = VM_attsList[idx];
 
-            var lineSerie = new LineSeries
+            var lineSerie = new LineSeries()
             {
                 StrokeThickness = 2,
                 Color = OxyColors.Black,
+                
             };
 
             for (int i = 0; i < lineNumber; i++)
             {
                 lineSerie.Points.Add(new DataPoint(i, Double.Parse(attList[i])));
             }
+            
 
+            
             pml1.Series.Add(lineSerie);
             VM_PlotModel1 = pml1;
         }
@@ -282,7 +287,7 @@ namespace DesktopFGApp.ViewModel
         public void LoadCorrData(int lineNumber, OxyPlot.Wpf.PlotView pv)
         {
             int idx = VM_attsName.FindIndex(a => a.Contains(VM_corralative));
-            attList = VM_attsList[idx];
+            corrList = VM_attsList[idx];
 
             var lineSerie = new LineSeries
             {
@@ -292,11 +297,40 @@ namespace DesktopFGApp.ViewModel
 
             for (int i = 0; i < lineNumber; i++)
             {
-                lineSerie.Points.Add(new DataPoint(i, Double.Parse(attList[i])));
+                lineSerie.Points.Add(new DataPoint(i, Double.Parse(corrList[i])));
             }
 
             pml2.Series.Add(lineSerie);
             VM_PlotModel2 = pml2;
+        }
+
+        public void LoadLRData(int lineNumber, OxyPlot.Wpf.PlotView pv)
+        {
+            int idx = VM_attsName.FindIndex(a => a.Contains(VM_chosen));
+            attList = VM_attsList[idx];
+
+            idx = VM_attsName.FindIndex(a => a.Contains(VM_corralative));
+            corrList = VM_attsList[idx];
+
+           
+
+            var lineSerie = new LineSeries
+            {
+                StrokeThickness = 2,
+                //Color = 
+                Color = OxyColors.Black,
+                LineStyle = LineStyle.None,
+                MarkerType = MarkerType.Circle
+
+            };
+
+            for (int i = 0; i < lineNumber; i++)
+            {
+                lineSerie.Points.Add(new DataPoint(Double.Parse(attList[i]), Double.Parse(corrList[i])));
+            }
+
+            pml3.Series.Add(lineSerie);
+            VM_PlotModel3 = pml3;
         }
 
         // sets up a given "graph".
