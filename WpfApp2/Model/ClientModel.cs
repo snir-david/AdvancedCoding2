@@ -317,28 +317,8 @@ namespace AdvancedCoding2
             
         }
 
-        // insert update values to properties for joystick 
-        public void joyStickPos()
-        {
-            ailList = CurrentAtt[aileronInx];
-            elvList = CurrentAtt[elevatorInx];
-            float ail = float.Parse(ailList[lineNumber]);
-            float elev = float.Parse(elvList[lineNumber]);
-            Aileron = ail * 50 + 125;
-            Elevator = elev * 50 + 125;
-        }
-
-        // initialization the joystick
-        public void initJoystick()
-        {
-            aileronInx = HeaderNames.FindIndex(a => a.Contains("aileron"));
-            elevatorInx = HeaderNames.FindIndex(a => a.Contains("elevator"));
-            Aileron = 125;
-            Elevator = 125;
-        }
-
-        // insert update values to properties for flight variables
-        public void ruddersPos()
+        // update positions to flight variables properties
+        public void flightVarPos()
         {
             rudList = CurrentAtt[rudderInx];
             thrList = CurrentAtt[throttleInx];
@@ -348,6 +328,9 @@ namespace AdvancedCoding2
             pitList = CurrentAtt[pitchInx];
             yawList = CurrentAtt[yawInx];
             headingList = CurrentAtt[headingInx];
+            //joystick lists
+            ailList = CurrentAtt[aileronInx];
+            elvList = CurrentAtt[elevatorInx];
 
             Airspeed = float.Parse(airList[lineNumber]);
             Altimeter = float.Parse(altList[lineNumber]);
@@ -357,13 +340,18 @@ namespace AdvancedCoding2
             Heading = float.Parse(headingList[lineNumber]);
             float rudd = float.Parse(rudList[lineNumber]);
             float throttle = float.Parse(thrList[lineNumber]);
+            //calc new position for Rudder and Throttle
             Rudder = rudd * 108 + 108;
             Throttle = throttle * -226 + 226;
-            
+            //joystick properties
+            float ail = float.Parse(ailList[lineNumber]);
+            float elev = float.Parse(elvList[lineNumber]);
+            Aileron = ail * 50 + 125;
+            Elevator = elev * 50 + 125;
         }
 
-        // initialization the flight variables
-        public void initRudders()
+        // find the indx in data for flight variables
+        public void inxFlightVar()
         {
             rudderInx = HeaderNames.FindIndex(a => a.Contains("rudder"));
             throttleInx = HeaderNames.FindIndex(a => a.Contains("throttle"));
@@ -373,16 +361,8 @@ namespace AdvancedCoding2
             pitchInx = HeaderNames.FindIndex(a => a.Contains("pitch-deg"));
             yawInx = HeaderNames.FindIndex(a => a.Contains("side-slip-deg"));
             headingInx = HeaderNames.FindIndex(a => a.Contains("heading-deg"));
-
-            Rudder = 108;
-            Throttle = 108;
-            Airspeed = 0;
-            Altimeter = 0;
-            Roll = 0;
-            Pitch = 0;
-            Yaw = 0;
-            Heading = 0;
-
+            aileronInx = HeaderNames.FindIndex(a => a.Contains("aileron"));
+            elevatorInx = HeaderNames.FindIndex(a => a.Contains("elevator"));
         }
 
         public void connect()
@@ -406,9 +386,8 @@ namespace AdvancedCoding2
                 this.xmlParser();
                 //setting up playing speed to 100 mill-sec
                 playSpeed = 100;
-                //initialize jostick and flight variables
-                initJoystick();
-                initRudders();
+                //find indx to flight variables
+                inxFlightVar();
                 attSplit(csvCopy);
 
                 // sending one line at a time to server
@@ -420,9 +399,8 @@ namespace AdvancedCoding2
                     Byte[] lineBytes = System.Text.Encoding.ASCII.GetBytes(csvLine[lineNumber]);
                     // Send the message to the connected TcpServer
                     stream.Write(lineBytes, 0, lineBytes.Length);
-                    // get jostick and flight variables new position
-                    joyStickPos();
-                    ruddersPos();
+                    // get flight variables new position
+                    flightVarPos();
                     //inc index to next line
                     lineNumber++;
                     //sleep for playspeed mil-sec for sending ten times in a second

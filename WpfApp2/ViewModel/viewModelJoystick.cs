@@ -177,6 +177,17 @@ namespace WpfApp2.ViewModel
             {
                 onPropertyChanged("VM_" + e.PropertyName);
             };
+            //initialization the flight variables
+            c.Rudder = 108;
+            c.Throttle = 108;
+            c.Airspeed = 0;
+            c.Altimeter = 0;
+            c.Roll = 0;
+            c.Pitch = 0;
+            c.Yaw = 0;
+            c.Heading = 0;
+            c.Aileron = 125;
+            c.Elevator = 125;
         }
 
         public void onPropertyChanged(string propName)
