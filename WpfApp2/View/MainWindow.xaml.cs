@@ -15,16 +15,17 @@ namespace AdvancedCoding2
     {
         /***Data Members***/
         public ViewModelController controllerViewModel;
+        private IClientModel clientModel;
+        private JoystickView joystickView;
+        private graphView graphV;
         /***Methods***/
         public MainWindow()
         {
             InitializeComponent();
             //creating a client instance
             Client c = new Client("localhost", 5400);
-            //TODO - changing joystick view to buttons
-            JoystickView joystick = new JoystickView(c);
-            joystick.Show();
-            controllerViewModel = new ViewModelController(c);
+            clientModel = c;
+           controllerViewModel = new ViewModelController(c);
             this.DataContext = controllerViewModel;
             //checking if FG folder is in the "normal" place
             if (Directory.Exists("C:\\Program Files\\FlightGear 2020.3.6"))
@@ -51,8 +52,7 @@ namespace AdvancedCoding2
                 Folder_button.Visibility = Visibility.Visible;
             }
             //TODO - changing graph view to buttons
-            graphView g = new graphView(c);
-            g.Show();
+            
         }
         private void Pause_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -70,6 +70,8 @@ namespace AdvancedCoding2
                 controllerViewModel.VM_TransSpeed = 100;
                 pause_button1.Visibility = Visibility.Visible;
                 play_button1.Visibility = Visibility.Hidden;
+                graph_button.Visibility = Visibility.Visible;
+                joystick_button.Visibility = Visibility.Visible;
             }
         }
         private void Prev_Button_Click(object sender, RoutedEventArgs e)
@@ -135,6 +137,39 @@ namespace AdvancedCoding2
         {
             String[] csvLine = File.ReadAllLines(controllerViewModel.VM_fpath);
             controllerViewModel.VM_CSVcopy = csvLine;
+        }
+
+        private void graph_button_Click(object sender, RoutedEventArgs e)
+        {
+            graphV = new graphView(clientModel);
+            graphV.Show();
+            graph_button.Visibility = Visibility.Hidden;
+            hide_graph_button.Visibility = Visibility.Visible;
+        }
+        private void hide_graph_button_Click(object sender, RoutedEventArgs e)
+        {
+            if(graphV != null)
+            {
+                graphV.Close();
+                graph_button.Visibility = Visibility.Visible;
+                hide_graph_button.Visibility = Visibility.Hidden;
+            }
+        }
+        private void close_joystick_button_Click(object sender, RoutedEventArgs e)
+        {
+            if (joystickView != null)
+            {
+                joystickView.Close();
+                joystick_button.Visibility = Visibility.Visible;
+                close_joystick_button.Visibility = Visibility.Hidden;
+            }
+        }
+        private void joystick_button_Click(object sender, RoutedEventArgs e)
+        {
+            joystickView = new JoystickView(clientModel);
+            joystickView.Show();
+            joystick_button.Visibility = Visibility.Hidden;
+            close_joystick_button.Visibility = Visibility.Visible;
         }
     }
 }
