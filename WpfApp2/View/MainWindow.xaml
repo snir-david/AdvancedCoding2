@@ -5,36 +5,33 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdvancedCoding2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="165" Width="750" Background="#FF7E7E7E"
+        Title="MainWindow" Height="165" Width="570" Background="#FF7E7E7E"
         WindowStartupLocation="Manual">
 
-    <Grid Margin="0,7,0.333,0" Height="115" VerticalAlignment="Top" >
+    <Grid Margin="0,7,0,0" Height="115" VerticalAlignment="Top" HorizontalAlignment="Left" Width="590" >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="591*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="25*"/>
-            <ColumnDefinition Width="127*"/>
+            <ColumnDefinition Width="197*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="750"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="pause_button1" Margin="571,57,13.666,664" Click="Pause_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" Visibility="Hidden" Grid.ColumnSpan="3">
+        <Button x:Name="pause_button1" Margin="479,57,86,664" Click="Pause_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" Visibility="Hidden">
             <Image x:Name="pause_button" Source="/images/pause.png" RenderTransformOrigin="0.5,0.5" ForceCursor="True" Height="20" Width="20"/>
         </Button>
-        <Button x:Name="play_button1" Margin="3.667,55,122.333,661" Click="Play_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Column="1" Grid.ColumnSpan="3">
+        <Button x:Name="play_button1" Margin="484,55,0,661" Click="Play_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Left" Width="35">
             <Image x:Name="play_button" Source="/images/play.png" Height="20"  Width="20" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
         </Button>
-        <Button x:Name="for_button1" Margin="17.667,55,80.333,0" Click="Forw_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Column="2" Height="36" VerticalAlignment="Top" Grid.ColumnSpan="2">
+        <Button x:Name="for_button1" Margin="517,55,0,0" Click="Forw_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" Height="36" VerticalAlignment="Top" HorizontalAlignment="Left" Width="34">
             <Image x:Name="for_button" Source="/images/forw.png" Width="30" Height="30"/>
 
         </Button>
-        <Button x:Name="prev_button1" Margin="528,51,7.333,0" Click="Prev_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" Height="40" VerticalAlignment="Top">
+        <Button x:Name="prev_button1" Margin="420,51,0,0" Click="Prev_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="38">
             <Image x:Name="prev_button" Source="/images/prev.png" Width="30" Height="30"/>
         </Button>
 
-        <TextBox x:Name="play_speed" IsReadOnly="True" TextAlignment="Center" Margin="312,49,152.333,0" TextWrapping="Wrap" Text="Play Speed" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Height="35" VerticalAlignment="Top"/>
-        <TextBox x:Name="play_speed_box" IsReadOnly="True" TextAlignment="Center" FontSize="20" Margin="0,51,57.333,672" TextWrapping="Wrap" Text="{Binding VM_playSpeed}" IsEnabled="False" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Width="70" RenderTransformOrigin="0.5,0.5" >
+        <TextBox x:Name="play_speed" IsReadOnly="True" TextAlignment="Center" Margin="148,53,0,0" TextWrapping="Wrap" Text="Play Speed" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="195"/>
+        <TextBox x:Name="play_speed_box" IsReadOnly="True" TextAlignment="Center" FontSize="20" Margin="0,55,209,668" TextWrapping="Wrap" Text="{Binding VM_playSpeed}" IsEnabled="False" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Width="70" RenderTransformOrigin="0.5,0.5" >
 
             <TextBox.RenderTransform>
                 <TransformGroup>
@@ -45,17 +42,17 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox x:Name ="current_time_box" IsReadOnly="True" TextAlignment="Center"  FontSize="25" Margin="83,51,313.333,0" TextWrapping="Wrap" Text="{Binding VM_Time}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Height="33" VerticalAlignment="Top"/>
+        <TextBox x:Name ="current_time_box" IsReadOnly="True" TextAlignment="Center"  FontSize="25" Margin="27,53,447,0" TextWrapping="Wrap" Text="{Binding VM_Time}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Height="33" VerticalAlignment="Top"/>
 
-        <Slider x:Name="time_slider"  Value="{Binding VM_lineNumber, Mode=TwoWay}" Maximum="{Binding VM_simLen}" TickFrequency="1" Margin="67,89,73.333,0" Cursor="Arrow" ValueChanged="time_slider_ValueChanged" Background="{x:Null}" BorderBrush="{x:Null}" Height="18" VerticalAlignment="Top" Grid.ColumnSpan="4" IsSnapToTickEnabled="True"/>
-        
-        <Button x:Name="Folder_button" Content="FlightGear Path" Margin="303,0,154.333,0" Click="Openfolder_Click" Height="21" Visibility="Hidden" VerticalAlignment="Top"/>
-        <Button x:Name="XML_button" Content="Load XML" Margin="304,0,153.333,0" Click="OpenXML_Click" Height="21" Visibility="Hidden" VerticalAlignment="Top"/>
-        <Button x:Name="CSV_button" Content="Load CSV" Margin="303,22,154.333,0" Click="Openfile_Click" Height="21" Visibility="Hidden" VerticalAlignment="Top"/>
-        <Button x:Name="graph_button" Content="Show Graph View" Margin="551,20,58.678,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Grid.ColumnSpan="4" Click="graph_button_Click"/>
-        <Button x:Name="hide_graph_button" Content="Close Graph View" Margin="551,20,58.678,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Grid.ColumnSpan="4" Click="hide_graph_button_Click"/>
-        <Button x:Name="joystick_button" Content="Show Joystick View" Margin="43,22,414.333,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Click="joystick_button_Click"/>
-        <Button x:Name="close_joystick_button" Content="Close Joystick View" Margin="43,22,414.333,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Click="close_joystick_button_Click"/>
+        <Slider x:Name="time_slider"  Value="{Binding VM_lineNumber, Mode=TwoWay}" Maximum="{Binding VM_simLen}" TickFrequency="1" Margin="13,91,37,0" Cursor="Arrow" ValueChanged="time_slider_ValueChanged" Background="{x:Null}" BorderBrush="{x:Null}" Height="16" VerticalAlignment="Top" IsSnapToTickEnabled="True"/>
+
+        <Button x:Name="Folder_button" Content="FlightGear Path" Margin="225,0,233,729" Click="Openfolder_Click" Height="21" Visibility="Hidden" VerticalAlignment="Bottom"/>
+        <Button x:Name="XML_button" Content="Load XML" Margin="226,0,232,0" Click="OpenXML_Click" Height="21" Visibility="Hidden" VerticalAlignment="Top"/>
+        <Button x:Name="CSV_button" Content="Load CSV" Margin="225,20,233,0" Click="Openfile_Click" Height="21" Visibility="Hidden" VerticalAlignment="Top"/>
+        <Button x:Name="graph_button" Content="Show Graph View" Margin="43,6,415,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Click="graph_button_Click"/>
+        <Button x:Name="hide_graph_button" Content="Close Graph View" Margin="44,6,415,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Click="hide_graph_button_Click"/>
+        <Button x:Name="joystick_button" Content="Show Joystick View" Margin="43,30,415,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Click="joystick_button_Click"/>
+        <Button x:Name="close_joystick_button" Content="Close Joystick View" Margin="43,30,415,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Click="close_joystick_button_Click"/>
 
     </Grid>
 </Window>
