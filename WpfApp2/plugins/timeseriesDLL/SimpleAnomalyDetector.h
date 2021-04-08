@@ -1,7 +1,8 @@
+ï»¿#pragma once
 /*
  * SimpleAnomalyDetector.h
  *
- *  Created on: 8 áàå÷× 2020
+ *  Created on: 8 Ã¡Ã Ã¥Ã·Ã— 2020
  *      Author: Eli
  */
 
@@ -14,12 +15,12 @@
 #include <algorithm>
 #include <string.h>
 #include <math.h>
-// mabey move out to make the code elegant
+ // mabey move out to make the code elegant
 class VectorWrapper {
 public:
 	std::vector<AnomalyReport> anomalyVec;
 	//think....
-	VectorWrapper(){}
+	VectorWrapper() {}
 	int VecSize() {
 		return anomalyVec.size();
 	}
@@ -77,17 +78,17 @@ extern "C" __declspec(dllexport) void learnnig(SimpleAnomalyDetector * sad, cons
 	TimeSeries ts(CSVfileName);
 	sad->learnNormal(ts);
 	return;
-	}
+}
 
 //detect anomalies by creating time series
-extern "C" __declspec(dllexport) void detecting(SimpleAnomalyDetector * sad, VectorWrapper * wrapAR ,const char* detectfileName) {
+extern "C" __declspec(dllexport) void detecting(SimpleAnomalyDetector * sad, VectorWrapper * wrapAR, const char* detectfileName) {
 	//create TimeSeries for anomaly file
 	TimeSeries ts(detectfileName);
 	//get anomaly report vector from detect func
 	//vector<AnomalyReport>  ar = sad->detect(ts);
 	// insert the anomaly report to wraper vector 
 	//wrapAR->anomalyVec = ar;
-	}
+}
 /// extern func to vector rapper
 extern "C" __declspec(dllexport) void* CreateVectorWrapper() {
 	return (void*) new VectorWrapper;

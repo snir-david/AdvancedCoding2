@@ -44,13 +44,13 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts) {
 			//vals[i][j] = x[j];
 		}
 	}
-
+	//problem with subscript vector here
 	for (size_t i = 0; i < atts.size(); i++) {
 		string f1 = atts[i];
 		float max = 0;
 		size_t jmax = 0;
 		for (size_t j = i + 1; j < atts.size(); j++) {
-			float p = abs(pearson((vals+ i *len), (vals + j * len), len));
+			float p = abs(pearson((vals + i * len), (vals + j * len), len));
 			if (p > max) {
 				max = p;
 				jmax = j;

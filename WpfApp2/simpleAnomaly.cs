@@ -10,9 +10,9 @@ namespace DesktopFGApp
     class simpleAnomaly
     {
         // need to insert user input for dll filr
-        [DllImport("C:\\Users\\tallor\\source\\repos\\snir-david\\DesktopFGApp\\WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll")]
+        [DllImport("C:\\Users\\snira\\source\\repos\\snir-david\\DesktopFGApp\\WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll",CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Create();
-        [DllImport("C:\\Users\\tallor\\source\\repos\\snir-david\\DesktopFGApp\\WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll")]
+        [DllImport("C:\\Users\\snira\\source\\repos\\snir-david\\DesktopFGApp\\WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void learnnig(IntPtr sad, string CSVfileName);
 
 
@@ -20,7 +20,7 @@ namespace DesktopFGApp
         {
             IntPtr a = Create();
             Console.WriteLine("Hello World!");
-           // learnnig(a,"reg_flight.csv");
+            learnnig(a, "C:\\Users\\snira\\source\\repos\\snir-david\\DesktopFGApp\\WpfApp2\\reg_flight.csv");
             Console.WriteLine("Hello World22222!");
         }
     }
