@@ -16,6 +16,14 @@ namespace WpfApp2.View
             InitializeComponent();
             joystickVM = new viewModelJoystick(c);
             DataContext = joystickVM;
+            Loaded += JoystickView_Loaded;
+        }
+
+        private void JoystickView_Loaded(object sender, RoutedEventArgs e)
+        {
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            this.Left = desktopWorkingArea.Left;
+            this.Top = desktopWorkingArea.Bottom - this.Height;
         }
     }
 }

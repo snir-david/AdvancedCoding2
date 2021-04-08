@@ -174,16 +174,20 @@ namespace DesktopFGApp.ViewModel
                 {
                     if (timer.ElapsedMilliseconds - lastUpdate > 500)
                     {
+                        //setting up attPlotModel
                         VM_AttPlotModel.Series.Clear();
-                        LoadLineDataGraph(VM_currLine, VM_pvAtt, floatAttList);
+                        SetUpModel(VM_AttPlotModel);
+                        LoadLineDataGraph(VM_currLine, VM_pvAtt, floatAttList,VM_AttPlotModel );
                         VM_pvAtt.InvalidatePlot(true);
-
+                        //setting up corrPlotModel
                         VM_CorrPlotModel.Series.Clear();
-                        LoadLineDataGraph(VM_currLine, VM_pvCorr, floatCorrList);
+                        SetUpModel(VM_CorrPlotModel);
+                        LoadLineDataGraph(VM_currLine, VM_pvCorr, floatCorrList, VM_CorrPlotModel);
                         VM_pvCorr.InvalidatePlot(true);
-
+                        //setting up regLinePlotModel
                         VM_RegLinePlotModel.Series.Clear();
-                        LoadScatterGraphData(VM_currLine, VM_pvLR, floatAttList, floatCorrList);
+                        SetUpModel(VM_RegLinePlotModel);
+                        LoadScatterGraphData(VM_currLine, VM_pvLR, floatAttList, floatCorrList, VM_RegLinePlotModel);
                         VM_pvLR.InvalidatePlot(true);
                         //updating lastUpdate timer
                         lastUpdate = timer.ElapsedMilliseconds;
@@ -246,6 +250,7 @@ namespace DesktopFGApp.ViewModel
             {
                 corrItemName = attName;
                 VM_corralative = corrItemName;
+                floatCorrList = floatAttList;
                 return corrItemName;
             }
             corrItemName = viewModelController.VM_headerNames[corrChooseIdx];
@@ -253,7 +258,7 @@ namespace DesktopFGApp.ViewModel
             return corrItemName;
         }
         // creates the chosen graph
-        public void LoadLineDataGraph(int lineNumber, OxyPlot.Wpf.PlotView pv, List<float> valueList)
+        public void LoadLineDataGraph(int lineNumber, OxyPlot.Wpf.PlotView pv, List<float> valueList, PlotModel pm)
         {
            var lineSerie = new LineSeries()
             {
@@ -265,9 +270,9 @@ namespace DesktopFGApp.ViewModel
                 lineSerie.Points.Add(new DataPoint(i, valueList[i]));
             }
             //adding lineSeries to plotModel
-            VM_AttPlotModel.Series.Add(lineSerie);
+            pm.Series.Add(lineSerie);
         }
-        public void LoadScatterGraphData(int lineNumber, OxyPlot.Wpf.PlotView pv, List<float> attList, List<float> corrList)
+        public void LoadScatterGraphData(int lineNumber, OxyPlot.Wpf.PlotView pv, List<float> attList, List<float> corrList, PlotModel pm)
         {
           //LineSeries for reg line
             var lineSeries = new LineSeries()
@@ -285,22 +290,44 @@ namespace DesktopFGApp.ViewModel
             Line regLine = clientModel.linear_reg(pointList, pointList.Count);
             //finding max and min values of attList;
             float max = attList.Max();
-            float min = corrList.Min();
+            float min = attList.Min();
             //drawing line between to extrem points
             lineSeries.Points.Add(new DataPoint(max, regLine.f(max)));
             lineSeries.Points.Add(new DataPoint(min, regLine.f(min)));
+            //all points besides last 300
             var scatterPoint = new ScatterSeries
             {
-                MarkerType = MarkerType.Circle
+                MarkerType = MarkerType.Circle,
+                MarkerFill = OxyColors.Black
             };
-            //TODO - Make 300 last points in red
-            for (int i = 0; i < lineNumber; i++)
+            //last 30 seconds points - in red
+            var scatter300Point = new ScatterSeries
             {
-                scatterPoint.Points.Add(new ScatterPoint(attList[i], corrList[i], 2, 100));
+                MarkerType = MarkerType.Circle,
+                MarkerFill = OxyColors.Red
+            };
+            //Make 300 last points in red
+            if (lineNumber > 300)
+            {
+                for (int i = 0; i < lineNumber - 300; i++)
+                {
+                    scatterPoint.Points.Add(new ScatterPoint(attList[i], corrList[i], 2));
+                }
+                for (int i = lineNumber - 300; i < lineNumber; i++)
+                {
+                    scatter300Point.Points.Add(new ScatterPoint(attList[i], corrList[i], 3));
+                }
+            } else
+            {
+                for (int i = 0; i < lineNumber; i++)
+                {
+                    scatter300Point.Points.Add(new ScatterPoint(attList[i], corrList[i], 3));
+                }
             }
             //adding reg line and points to ploat model
-            VM_RegLinePlotModel.Series.Add(scatterPoint);
-            VM_RegLinePlotModel.Series.Add(lineSeries);
+            pm.Series.Add(scatter300Point);
+            pm.Series.Add(scatterPoint);
+            pm.Series.Add(lineSeries);
         }
         // sets up a given graph
         public void SetUpModel(PlotModel pm)
@@ -320,6 +347,5 @@ namespace DesktopFGApp.ViewModel
 
         }
     }
-
 }
 

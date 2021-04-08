@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DesktopFGApp.View" 
         mc:Ignorable="d"
         Title="JoystickView" Height="350" Width="350"
-        WindowStartupLocation="Manual" Left="0" Top="300">
+        WindowStartupLocation="Manual">
     <Grid>
         <Canvas Margin="80,67,128.333,46.667">
             <Image x:Name="joyStick" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\joystick.png" Height="200" VerticalAlignment="Top" Width="200" Canvas.Left="-2"/>

@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:AdvancedCoding2"
         mc:Ignorable="d"
         Title="MainWindow" Height="165" Width="750" Background="#FF7E7E7E"
-        WindowStartupLocation="Manual"
-        Left="550" Top="500">
+        WindowStartupLocation="Manual">
 
     <Grid Margin="0,7,0.333,0" Height="115" VerticalAlignment="Top" >
         <Grid.ColumnDefinitions>
@@ -48,7 +47,7 @@
         </TextBox>
         <TextBox x:Name ="current_time_box" IsReadOnly="True" TextAlignment="Center"  FontSize="25" Margin="83,51,313.333,0" TextWrapping="Wrap" Text="{Binding VM_Time}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Height="33" VerticalAlignment="Top"/>
 
-        <Slider x:Name="time_slider"  Value="{Binding VM_lineNumber, Mode=TwoWay}" Maximum="{Binding VM_simLen}" TickFrequency="1" Margin="67,89,73.333,0" Cursor="None" ValueChanged="time_slider_ValueChanged" Background="{x:Null}" BorderBrush="{x:Null}" Height="18" VerticalAlignment="Top" Grid.ColumnSpan="4"/>
+        <Slider x:Name="time_slider"  Value="{Binding VM_lineNumber, Mode=TwoWay}" Maximum="{Binding VM_simLen}" TickFrequency="1" Margin="67,89,73.333,0" Cursor="Arrow" ValueChanged="time_slider_ValueChanged" Background="{x:Null}" BorderBrush="{x:Null}" Height="18" VerticalAlignment="Top" Grid.ColumnSpan="4" IsSnapToTickEnabled="True"/>
         
         <Button x:Name="Folder_button" Content="FlightGear Path" Margin="303,0,154.333,0" Click="Openfolder_Click" Height="21" Visibility="Hidden" VerticalAlignment="Top"/>
         <Button x:Name="XML_button" Content="Load XML" Margin="304,0,153.333,0" Click="OpenXML_Click" Height="21" Visibility="Hidden" VerticalAlignment="Top"/>

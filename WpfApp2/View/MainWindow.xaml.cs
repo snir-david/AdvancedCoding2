@@ -51,9 +51,16 @@ namespace AdvancedCoding2
                 //FG folder is not in place - asking from user to choose right folder
                 Folder_button.Visibility = Visibility.Visible;
             }
-            //TODO - changing graph view to buttons
-            
+            Loaded += MainWindow_Loaded;
         }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            this.Left = desktopWorkingArea.Right - this.Width;
+            this.Top = desktopWorkingArea.Bottom - this.Height;
+        }
+
         private void Pause_Button_Click(object sender, RoutedEventArgs e)
         {
             controllerViewModel.pauseConnection();

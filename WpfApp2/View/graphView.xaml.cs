@@ -7,7 +7,7 @@ using System.Windows.Controls;
 namespace DesktopFGApp.View
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for graphView.xaml
     /// </summary>
     public partial class graphView : Window
     {
@@ -34,6 +34,13 @@ namespace DesktopFGApp.View
             Attpv = attPlot;
             Corrpv = corrPlot;
             RegLinepv = LRPlot;
+            Loaded += GraphView_Loaded;
+        }
+        private void GraphView_Loaded(object sender, RoutedEventArgs e)
+        {
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            this.Left = desktopWorkingArea.Left ;
+            this.Top = desktopWorkingArea.Top;
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -45,17 +52,17 @@ namespace DesktopFGApp.View
             //setting up 3 plot models - attPlot
             graphViewModel.SetUpModel(graphViewModel.VM_AttPlotModel);
             graphViewModel.VM_AttPlotModel.Series.Clear();
-            graphViewModel.LoadLineDataGraph(graphViewModel.VM_currLine, Attpv, graphViewModel.VM_attChooseFloatList);
+            graphViewModel.LoadLineDataGraph(graphViewModel.VM_currLine, Attpv, graphViewModel.VM_attChooseFloatList, graphViewModel.VM_AttPlotModel);
             attPlot.InvalidatePlot(true);
             //corrPlot
             graphViewModel.SetUpModel(graphViewModel.VM_CorrPlotModel);
             graphViewModel.VM_CorrPlotModel.Series.Clear();
-            graphViewModel.LoadLineDataGraph(graphViewModel.VM_currLine, Corrpv, graphViewModel.VM_corrFloatList);
+            graphViewModel.LoadLineDataGraph(graphViewModel.VM_currLine, Corrpv, graphViewModel.VM_corrFloatList, graphViewModel.VM_CorrPlotModel);
             corrPlot.InvalidatePlot(true);
             //regLine plot
             graphViewModel.SetUpModel(graphViewModel.VM_RegLinePlotModel);
             graphViewModel.VM_RegLinePlotModel.Series.Clear();
-            graphViewModel.LoadScatterGraphData(graphViewModel.VM_currLine, RegLinepv, graphViewModel.VM_attChooseFloatList, graphViewModel.VM_corrFloatList);
+            graphViewModel.LoadScatterGraphData(graphViewModel.VM_currLine, RegLinepv, graphViewModel.VM_attChooseFloatList, graphViewModel.VM_corrFloatList, graphViewModel.VM_RegLinePlotModel);
             LRPlot.InvalidatePlot(true);
         }
     }

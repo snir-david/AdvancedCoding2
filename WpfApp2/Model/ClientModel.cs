@@ -242,7 +242,6 @@ namespace AdvancedCoding2
                         counter++;
                     }
                     currAtt[i].Add(curr[i]);
-
                 }
             }
         }
@@ -271,14 +270,13 @@ namespace AdvancedCoding2
         {
             try
             {
-                /* Create a TcpClient. Note, for this client to work you need to have a TcpServer
-                 connected to the same address as specified by the server, port combination.*/
+                // Create a TcpClient. Note, for this client to work you need to have a TcpServer
+                // connected to the same address as specified by the server, port combination.
                 TcpClient client = new TcpClient(server, port);
                 //Get a client stream for reading and writing.
                 var stream = client.GetStream();
                 //reading csv file into string array of lines - open and close the file
                 String[] csvLine = File.ReadAllLines(fpath);
-                csvCopy = csvLine;
                 //getting number of rows
                 simLen = csvLine.Length;
                 //setting up playing speed to 100 mill-sec - 10 lines in second

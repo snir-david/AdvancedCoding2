@@ -7,31 +7,24 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
         Title="graphView" Height="460" Width="800"
-        WindowStartupLocation="Manual" Left="0" Top="0">
+        WindowStartupLocation="Manual">
     <Grid>
         <Grid x:Name="GridScroll" Margin="0,0,2,-1">
             <ScrollViewer x:Name="scorllButtons" HorizontalAlignment="Left" Height="420" VerticalAlignment="Top" Width="271">
-              
             </ScrollViewer>
+            
             <Grid Background="Gray" HorizontalAlignment="Left" Height="165" Margin="528,10,0,0" VerticalAlignment="Top" Width="244">
-                
-                <oxy:PlotView x:Name="attPlot" Model="{Binding VM_PlotModel1}" Margin="10,22,10,10"/>
-             
+                <oxy:PlotView x:Name="attPlot" Model="{Binding VM_AttPlotModel}" Margin="10,22,10,10"/>
             </Grid>
             <Grid Background="Gray" HorizontalAlignment="Left" Height="165" Margin="276,10,0,0" VerticalAlignment="Top" Width="244">
-                <oxy:PlotView x:Name="corrPlot" Model="{Binding VM_PlotModel2}" Margin="10,22,10,10"/>
+                <oxy:PlotView x:Name="corrPlot" Model="{Binding VM_CorrPlotModel}" Margin="10,22,10,10"/>
             </Grid>
             <Grid Background="Gray" HorizontalAlignment="Left" Height="240" Margin="276,180,0,0" VerticalAlignment="Top" Width="496">
-                <oxy:PlotView x:Name="LRPlot" Model="{Binding VM_PlotModel3}" Margin="10,22,10,10"/>
+                <oxy:PlotView x:Name="LRPlot" Model="{Binding VM_RegLinePlotModel}" Margin="10,22,10,10"/>
             </Grid>
-            <TextBox x:Name="chosen" IsReadOnly="True" TextAlignment="Center" Margin="545,10,34,374" TextWrapping="Wrap" Text="{Binding VM_chosen}" FontSize="13" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False"/>
-
+            
+            <TextBox x:Name="chosen" IsReadOnly="True" TextAlignment="Center" Margin="545,10,34,374" TextWrapping="Wrap" Text="{Binding VM_AttUserChoose}" FontSize="13" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False"/>
             <TextBox x:Name="corr" IsReadOnly="True" TextAlignment="Center" Margin="296,10,287,374" TextWrapping="Wrap" Text="{Binding VM_corralative}" FontSize="13" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False"/>
-           
         </Grid>
     </Grid>
-
-
-
-
 </Window>
