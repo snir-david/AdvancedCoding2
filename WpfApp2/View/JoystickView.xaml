@@ -81,7 +81,7 @@
         <TextBox x:Name ="heading90" IsEnabled ="False" Grid.Column="3"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="27,74,0,0" TextWrapping="Wrap" Text="90" VerticalAlignment="Top" Width="17" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
         <TextBox x:Name ="heading180" IsEnabled ="False" Grid.Column="3"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="4,96,0,0" TextWrapping="Wrap" Text="180" VerticalAlignment="Top" Width="20" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
         <TextBox x:Name ="heading270" IsEnabled ="False" Grid.Column="1"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="242.333,74,0,0" TextWrapping="Wrap" Text="270" VerticalAlignment="Top" Width="30" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}" Grid.ColumnSpan="3"/>
-        <Image x:Name="pitch" Source="/images/forPlane.jpeg" Grid.Column="3" Margin="85.334,20,0,102" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="156">
+        <Image x:Name="pitch" Source="/images/sidePLane.jpeg" Grid.Column="3" Margin="85.334,20,0,102" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="156">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -101,7 +101,7 @@
                 </TransformGroup>
             </Image.RenderTransform>
         </Image>
-        <Image x:Name="yaw" Source="/images/sidePlane.jpeg" Grid.Column="3" Margin="85,37,52,0" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Height="98" VerticalAlignment="Top">
+        <Image x:Name="yaw" Source="/images/forPlane.jpeg" Grid.Column="3" Margin="85,37,52,0" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Height="98" VerticalAlignment="Top">
             <Image.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
