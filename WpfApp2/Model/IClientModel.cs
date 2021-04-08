@@ -1,45 +1,118 @@
-﻿using System;
+﻿using DesktopFGApp.Model;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
-
 
 namespace AdvancedCoding2
 {
     public interface IClientModel : INotifyPropertyChanged
     {
-        //Transmission speed of data to server
+        /***Properties***/
         int TransSpeed
         {
             get;
             set;
         }
-
-        //similutar lenght - giving CSV file checking number of rows
         int simLen
         {
             get;
             set;
         }
-
-        
-        //current "time" in stream file
         int lineNumber
         {
             get;
             set;
         }
-
-        // CSV file path
         string fpath
         {
             get;
             set;
         }
-
-        //method to open socket with server
+        string XMLpath
+        {
+            get;
+            set;
+        }
+        float Aileron
+        {
+            get;
+            set;
+        }
+        float Elevator
+        {
+            get;
+            set;
+        }
+        float Rudder
+        {
+            get;
+            set;
+        }
+        float Throttle
+        {
+            get;
+            set;
+        }
+        float Airspeed
+        {
+            get;
+            set;
+        }
+        float Altimeter
+        {
+            get;
+            set;
+        }
+        float Pitch
+        {
+            get;
+            set;
+        }
+        float Roll
+        {
+            get;
+            set;
+        }
+        float Yaw
+        {
+            get;
+            set;
+        }
+        float Heading
+        {
+            get;
+            set;
+        }
+        List<string> HeaderNames
+        {
+            get;
+            set;
+        }
+        string attributeChosen
+        {
+            get;
+            set;
+        }
+        string Corralative
+        {
+            get;
+            set;
+        }
+        List<List<string>> ListOfListOfAtt
+        {
+            get;
+        }
+        String[] CSVcopy
+        {
+            get;
+            set;
+        }
+        /***Methods***/
         void connect();
-    }
+        void xmlParser();
+        double pearson(List<float> x, List<float> y, int size);
+        void attSplit(string[] csvFile);
+        Line linear_reg(List<DesktopFGApp.Model.Point> points, int size);
+       
+        }
 }

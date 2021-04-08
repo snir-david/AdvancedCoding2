@@ -1,25 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.ComponentModel;
-using System.Windows;
 using System.IO;
+using System.Threading;
+using System.Windows;
+using WpfApp2.ViewModel;
 
 namespace AdvancedCoding2
 {
-    public class ViewModelController : INotifyPropertyChanged
+    public class ViewModelController : IViewModel
     {
+        /***Data Members***/
         private IClientModel clientModel;
-        public bool isConnected = false;
-        private double playSpeed = 0;
-        private string xmlPath, FGPath;
+        public bool isConnected;
+        private double playSpeed;
+        private string FGPath;
         private Thread connectThread;
         private TimeSpan Time;
         public event PropertyChangedEventHandler PropertyChanged;
+        /***Properties***/
+        public String[] VM_CSVcopy
+        {
+            get
+            {
+                return clientModel.CSVcopy;
+            }
+            set
+            {
+                if (VM_CSVcopy != value)
+                    clientModel.CSVcopy = value;
+            }
+        }
+        public List<List<string>> VM_currentAtt
+        {
+            get
+            {
+                return clientModel.ListOfListOfAtt;
+            }
 
-
+        }
         public double VM_playSpeed
         {
             get
@@ -35,7 +54,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-
         public int VM_TransSpeed
         {
             get
@@ -48,7 +66,6 @@ namespace AdvancedCoding2
                     clientModel.TransSpeed = value;
             }
         }
-
         public int VM_simLen
         {
             get
@@ -57,7 +74,6 @@ namespace AdvancedCoding2
             }
 
         }
-
         public TimeSpan VM_Time
         {
             get
@@ -73,7 +89,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-
         public int VM_lineNumber
         {
             get
@@ -89,7 +104,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-
         public string VM_fpath
         {
             get
@@ -103,24 +117,22 @@ namespace AdvancedCoding2
                     clientModel.fpath = value;
                     onPropertyChanged("VM_path");
                 }
-                    
+
 
             }
         }
-
         public string VM_XMLPath
         {
             get
             {
-                return xmlPath;
+                return clientModel.XMLpath;
             }
             set
             {
                 if (VM_XMLPath != value)
-                    xmlPath = value;
+                    clientModel.XMLpath = value;
             }
         }
-
         public string VM_FGPath
         {
             get
@@ -133,20 +145,36 @@ namespace AdvancedCoding2
                     FGPath = value;
             }
         }
-
+        public List<string> VM_headerNames
+        {
+            get
+            {
+                return clientModel.HeaderNames;
+            }
+        }
+        /***Methods***/
+        public void onPropertyChanged(string propName)
+        {
+            if (PropertyChanged != null)
+            {
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            }
+        }
         public ViewModelController(IClientModel m)
         {
             this.clientModel = m;
+            playSpeed = 0;
             Time = new TimeSpan(0, 0, 0);
+            isConnected = false;
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
                 onPropertyChanged("VM_" + e.PropertyName);
             };
         }
-
         public void connect()
         {
-            if(VM_fpath != null)
+            //checking if there is path for FG
+            if (VM_fpath != null)
             {
                 //checking if thread is already exist and alive - if not creating new thread for connection
                 if (connectThread == null || !connectThread.IsAlive)
@@ -157,7 +185,6 @@ namespace AdvancedCoding2
                         isConnected = false;
                     });
                 }
-
                 //if thread is suspend - resume thread
                 if ((connectThread.ThreadState & ThreadState.Suspended) == ThreadState.Suspended)
                 {
@@ -167,57 +194,57 @@ namespace AdvancedCoding2
                 {
                     isConnected = true;
                     connectThread.Start();
-
                 }
-            } else
-            {
-                MessageBox.Show("Please load a CSV and XML file before running the simulation","File Missing", MessageBoxButton.OK, MessageBoxImage.Error);
-
             }
-
-
+            else
+            {
+                //if user didn't load any csv file
+                MessageBox.Show("Please load a CSV and XML file before running the simulation", "File Missing", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
-
+        /*setting up time - every second passed*/
         public void settingUpTime()
         {
             int min, sec, hours;
+            //regular streaming is 10 line in second (sleep of 100 milsec) - calculating time accordingly
             sec = VM_lineNumber / 10;
             min = VM_lineNumber / 600;
             hours = VM_lineNumber / 6000;
             VM_Time = new TimeSpan(hours, min, sec);
         }
-
         public void resumeConnection()
         {
             connectThread.Resume();
         }
         public void pauseConnection()
         {
-            if(connectThread != null)
+            if (connectThread != null && connectThread.IsAlive)
                 connectThread.Suspend();
         }
-
+        /*copy XML if doesn't in protocol folder. User should select XML file*/
         public void copyXML()
         {
+            //destfolder should be in protocol folder of FG folder
             string fileName = "\\data\\Protocol\\playback_small.xml";
-            string destFile = VM_FGPath+ fileName;
+            string destFile = VM_FGPath + fileName;
+            //trying copy file
             try
             {
                 File.Copy(VM_XMLPath, destFile, true);
-            } catch (UnauthorizedAccessException e)
+            }
+            catch (UnauthorizedAccessException)
             {
+                //if user doesn't have any authorized to copy file
                 MessageBox.Show("UnAuthorizedAccessException: Unable to access file.\nPleae Allow access and than try again.", "Access Denied", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        public void onPropertyChanged(string propName)
+        public void splitAtt()
         {
-            if (PropertyChanged != null)
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propName));
-            }
+            clientModel.attSplit(this.VM_CSVcopy);
         }
-
+        public void xmlPraser()
+        {
+            clientModel.xmlParser();
+        }
     }
-
 }

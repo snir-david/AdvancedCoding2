@@ -1,0 +1,122 @@
+﻿<Window 
+    x:Class="WpfApp2.View.JoystickView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"   
+        mc:Ignorable="d"
+        Title="JoystickView" Height="388" Width="704" Background="#FFF7F7F7">
+
+    <Grid Margin="10,0,3,-19.333">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="123*"/>
+            <ColumnDefinition Width="245*"/>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="296*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="190*"/>
+            <RowDefinition Height="131*"/>
+        </Grid.RowDefinitions>
+
+        <Canvas Margin="56,82,51.667,19" Grid.Row="1">
+            <Rectangle Fill="SkyBlue" HorizontalAlignment="Left" Height="24" Stroke="Black" VerticalAlignment="Top" Width="236" Canvas.Top="2"/>
+            <Rectangle Fill="Black" HorizontalAlignment="Left" Height="30" Stroke="Black" VerticalAlignment="Top" Width="20" Canvas.Left="{Binding VM_rudder}"/>
+        </Canvas>
+        <Canvas Margin="24,20,94.667,60" Grid.RowSpan="2">
+            <Rectangle  x:Name="throttle" Fill="Gray" HorizontalAlignment="Right" Stroke="Black" Width="24" Height="236" Canvas.Left="3" Canvas.Top="5"/>
+            <Rectangle Fill="Black" HorizontalAlignment="Right" Height="20" Stroke="Black" VerticalAlignment="Top" Width="30" Canvas.Top="{Binding VM_throttle}"/>
+        </Canvas>
+        <Canvas Margin="203.333,48,34.333,19" Grid.Row="1" Grid.Column="1">
+            <Border  x:Name ="airspeed" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="64" Width="129" BorderBrush="Orange"
+                BorderThickness="2 2 2 0" CornerRadius="300 300 0 0" Background="#FF151515"/>
+            <Border HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="64" Width="129" BorderBrush="#FFCF5D1D"
+                BorderThickness="0 2 0 0" CornerRadius="300 300 0 0">
+                <Border.Effect>
+                    <DropShadowEffect Color="#FFFFC7A7" BlurRadius="10" ShadowDepth="2"/>
+                </Border.Effect>
+            </Border>
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Height="30" Grid.RowSpan="2" VerticalAlignment="Bottom" Width="5"
+                     CornerRadius="120 120 0 0" Background="Orange" RenderTransformOrigin="0.5 2" Canvas.Left="61" Canvas.Top="5" 
+                />
+        </Canvas>
+        <TextBox x:Name ="airspeedText"  IsEnabled ="False" Grid.Column="1"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="63" Margin="218.333,79,0,0" TextWrapping="Wrap" Text="{Binding VM_airspeed}" VerticalAlignment="Top" Width="120" FontFamily="Agency FB" FontSize="30" Grid.Row="1"  Background="{x:Null}" BorderBrush="{x:Null}" Grid.ColumnSpan="3"/>
+        <TextBox x:Name ="airspeedKtText" IsEnabled ="False"  Grid.Column="3"  Foreground="#FF95D4FF" Height="22" Margin="12,64,248,0" TextWrapping="Wrap" Text="kt" VerticalAlignment="Top" FontFamily="Agency FB" FontSize="15" Grid.Row="1"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <Canvas Margin="180.333,120,57,86" Grid.RowSpan="2" Grid.Column="1">
+            <Border  x:Name ="altimeter" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="100" Width="100" BorderBrush="Orange"
+                BorderThickness="2 2 2 0" CornerRadius="300 300 300 300" Background="#FF151515" Grid.RowSpan="2" Canvas.Left="46" Canvas.Top="28"/>
+            <Border HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="100" Width="100" BorderBrush="#FFCF5D1D"
+                BorderThickness="0 2 0 0" CornerRadius="300 300 300 300" Grid.RowSpan="2" Canvas.Left="46" Canvas.Top="28">
+                <Border.Effect>
+                    <DropShadowEffect Color="#FFFFC7A7" BlurRadius="10" ShadowDepth="2"/>
+                </Border.Effect>
+            </Border>
+        </Canvas>
+        <TextBox x:Name ="altimeterText" IsEnabled ="False" Grid.Column="1"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="63" Margin="234,177,0,0" TextWrapping="Wrap" Text="{Binding VM_altimeter}" VerticalAlignment="Top" Width="96" FontFamily="Agency FB" FontSize="25"  Background="{x:Null}" BorderBrush="{x:Null}" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+        <TextBox x:Name ="altimeterFtText" IsEnabled ="False" Grid.Column="3"  Foreground="#FF95D4FF" Margin="4,221,275,138" TextWrapping="Wrap" Text="ft" FontFamily="Agency FB" FontSize="15"  Background="{x:Null}" BorderBrush="{x:Null}" Grid.RowSpan="2"/>
+        <Canvas Margin="180.333,-24,212,60" Grid.Column="1" Grid.ColumnSpan="3">
+            <Border  x:Name ="headingBack" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="100" Width="100" BorderBrush="Orange"
+                BorderThickness="2 2 2 0" CornerRadius="300 300 300 300" Background="#FF151515" Grid.RowSpan="2" Canvas.Left="45" Canvas.Top="48"/>
+            <Border x:Name ="headingborder" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="100" Width="100" BorderBrush="#FFCF5D1D"
+                BorderThickness="0 2 0 0" CornerRadius="300 300 300 300" Grid.RowSpan="2" Canvas.Left="45" Canvas.Top="48" RenderTransformOrigin="3.453,2.28">
+                <Border.Effect>
+                    <DropShadowEffect Color="#FFFFC7A7" BlurRadius="10" ShadowDepth="2"/>
+                </Border.Effect>
+            </Border>
+            <Border  x:Name ="headingDial" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Height="21" Grid.RowSpan="2" VerticalAlignment="Bottom" Width="5"
+                     CornerRadius="120 120 0 0" Background="Orange" RenderTransformOrigin="0.5 2" Canvas.Left="92" Canvas.Top="52" 
+                >
+                <Border.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="{Binding VM_heading}"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Border.RenderTransform>
+            </Border>
+        </Canvas>
+        <TextBox x:Name ="heading0" IsEnabled ="False" Grid.Column="3"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="2,59,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="18" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <TextBox x:Name ="heading90" IsEnabled ="False" Grid.Column="3"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="17,74,0,0" TextWrapping="Wrap" Text="90" VerticalAlignment="Top" Width="17" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <TextBox x:Name ="heading180" IsEnabled ="False" Grid.Column="3"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="2,88,0,0" TextWrapping="Wrap" Text="180" VerticalAlignment="Top" Width="20" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <TextBox x:Name ="heading270" IsEnabled ="False" Grid.Column="2"  Foreground="#FF95D4FF" HorizontalAlignment="Left" Height="19" Margin="3,74,0,0" TextWrapping="Wrap" Text="270" VerticalAlignment="Top" Width="30" FontFamily="Agency FB" FontSize="10"  Background="{x:Null}" BorderBrush="{x:Null}" Grid.ColumnSpan="2"/>
+        <Image x:Name="pitch" Source="/images/sidePLane.jpeg" Grid.Column="3" Margin="85.334,20,0,102" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="156">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="{Binding VM_pitch}"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="roll" Source="/images/upPlane.jpeg" Grid.Column="3" Margin="113.334,139,0,144" RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2" HorizontalAlignment="Left" Width="128">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="{Binding VM_roll}"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="yaw" Source="/images/forPlane.jpeg" Grid.Column="3" Margin="85,37,52,0" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Height="98" VerticalAlignment="Top">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="{Binding VM_yaw}"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Canvas Grid.ColumnSpan="2" Margin="90,64,64,62" Grid.RowSpan="2">
+            <Image  Source="/images/joystick.png" HorizontalAlignment="Left" Height="252" VerticalAlignment="Top" Width="205"/>
+            <Image Source="/images/joystickcenter.png" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="75" Canvas.Left="{Binding VM_aileron}" Canvas.Top="{Binding VM_elevator}"/>
+
+        </Canvas>
+
+    </Grid>
+
+</Window>
