@@ -69,14 +69,14 @@ protected:
 
 //create SimpleAnomalyDetector
 extern "C" __declspec(dllexport) void* Create() {
-
 	return (void*) new SimpleAnomalyDetector();
 }
 
 //learn normal by creating time series
 extern "C" __declspec(dllexport) void learnnig(SimpleAnomalyDetector * sad, const char* CSVfileName) {
-		TimeSeries ts(CSVfileName);
+	TimeSeries ts(CSVfileName);
 	sad->learnNormal(ts);
+	return;
 	}
 
 //detect anomalies by creating time series
@@ -84,9 +84,9 @@ extern "C" __declspec(dllexport) void detecting(SimpleAnomalyDetector * sad, Vec
 	//create TimeSeries for anomaly file
 	TimeSeries ts(detectfileName);
 	//get anomaly report vector from detect func
-	vector<AnomalyReport>  ar = sad->detect(ts);
+	//vector<AnomalyReport>  ar = sad->detect(ts);
 	// insert the anomaly report to wraper vector 
-	wrapAR->anomalyVec = ar;
+	//wrapAR->anomalyVec = ar;
 	}
 /// extern func to vector rapper
 extern "C" __declspec(dllexport) void* CreateVectorWrapper() {

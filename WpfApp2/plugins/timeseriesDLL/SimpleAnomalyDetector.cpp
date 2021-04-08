@@ -1,5 +1,6 @@
-
+#include "pch.h"
 #include "SimpleAnomalyDetector.h"
+
 
 SimpleAnomalyDetector::SimpleAnomalyDetector() {
 	threshold = 0.9;
@@ -31,11 +32,16 @@ float SimpleAnomalyDetector::findThreshold(Point** ps, size_t len, Line rl) {
 void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts) {
 	vector<string> atts = ts.gettAttributes();
 	size_t len = ts.getRowSize();
-	float vals[atts.size()][len];
+	float* vals;
+	vals = (float*)malloc(atts.size() * sizeof(float) * len);
+	if (vals == NULL) {
+		exit(-1);
+	}
 	for (size_t i = 0; i < atts.size(); i++) {
 		vector<float> x = ts.getAttributeData(atts[i]);
 		for (size_t j = 0; j < len; j++) {
-			vals[i][j] = x[j];
+			*(vals + i * len + j) = x[j];
+			//vals[i][j] = x[j];
 		}
 	}
 
@@ -44,7 +50,7 @@ void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts) {
 		float max = 0;
 		size_t jmax = 0;
 		for (size_t j = i + 1; j < atts.size(); j++) {
-			float p = abs(pearson(vals[i], vals[j], len));
+			float p = abs(pearson((vals+ i *len), (vals + j * len), len));
 			if (p > max) {
 				max = p;
 				jmax = j;

@@ -51,4 +51,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\..\..\..\Documents\שנה ב\סמסטר ב\מתקדם 2\קבצים לפרויקט-20210329\reg_flight.csv" />
+  </ItemGroup>
 </Project>

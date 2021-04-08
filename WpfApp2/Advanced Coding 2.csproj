@@ -89,6 +89,7 @@
     </ApplicationDefinition>
     <Compile Include="Model\Line.cs" />
     <Compile Include="Model\Point.cs" />
+    <Compile Include="simpleAnomaly.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
     <Compile Include="ViewModel\IViewModel.cs" />
     <Compile Include="ViewModel\ViewModelController.cs" />
@@ -137,6 +138,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <None Include="reg_flight.csv" />
     <None Include="Resources\upPlane.jpeg" />
     <None Include="Resources\sidePlane.jpeg" />
     <None Include="Resources\joystickcenter.png" />

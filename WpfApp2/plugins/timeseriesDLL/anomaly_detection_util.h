@@ -3,6 +3,7 @@
 #define ANOMALYDETECTORUTIL_H_
 
 #include <math.h>
+#include <corecrt_malloc.h>
 #include <stdlib.h>
 
 float avg(float* x, int size);

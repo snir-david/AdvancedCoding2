@@ -4,8 +4,10 @@
  *  Created on: 11 срхїз 2020
  *      Author: Eli
  */
-
+#include "pch.h"
 #include "anomaly_detection_util.h"
+
+
 
 float avg(float* x, int size){
 	float sum=0;
@@ -42,14 +44,20 @@ float pearson(float* x, float* y, int size){
 
 // performs a linear regression and returns the line equation
 Line linear_reg(Point** points, int size){
-	float x[size],y[size];
+	float* x,*y;
+	x = (float*)malloc(size * sizeof(float));
+	y = (float*)malloc(size * sizeof(float));
+	if (x == NULL || y == NULL) {
+		exit(-1);
+	}
 	for(int i=0;i<size;i++){
 		x[i]=points[i]->x;
 		y[i]=points[i]->y;
 	}
 	float a=cov(x,y,size)/var(x,size);
 	float b=avg(y,size) - a*(avg(x,size));
-
+	free(x);
+	free(y);
 	return Line(a,b);
 }
 
@@ -61,7 +69,7 @@ float dev(Point p,Point** points, int size){
 
 // returns the deviation between point p and the line
 float dev(Point p,Line l){
-	return abs(p.y-l.f(p.x));
+	return labs(p.y-l.f(p.x));
 }
 
 
