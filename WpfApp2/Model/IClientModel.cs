@@ -73,6 +73,53 @@ namespace AdvancedCoding2
         double pearson(List<float> x, List<float> y, int size);
         void attSplit(string[] csvFile);
         Line linear_reg(List<DesktopFGApp.Model.Point> points, int size);
+        float Rudder
+        {
+            get;
+            set;
+        }
 
+        float Throttle
+        {
+            get;
+            set;
+        }
+
+        float Airspeed
+        {
+            get;
+            set;
+        }
+
+        float Altimeter
+        {
+            get;
+            set;
+        }
+        float Pitch
+        {
+            get;
+            set;
+        }
+        float Roll
+        {
+            get;
+            set;
+        }
+
+        float Yaw
+        {
+            get;
+            set;
+        }
+
+        float Heading
+        {
+            get;
+            set;
+        }
+        
+        //method to open socket with server
+        void connect();
     }
 }

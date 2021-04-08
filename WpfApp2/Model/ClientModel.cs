@@ -14,19 +14,20 @@ namespace AdvancedCoding2
     {
         /***Data Members***/
         public event PropertyChangedEventHandler PropertyChanged;
-        private int port, csvRowsNum, aileronInx, elevatorInx;
+        private int port, csvRowsNum, aileronInx, elevatorInx,  rudderInx, throttleInx, airspeedInx, altimeterInx, rollInx, pitchInx, yawInx, headingInx;
+;
         private string server, attChosen, corrToChose;
-        private List<string> chunksName, ailList, elvList;
+        private List<string> chunksName, ailList, elvList, rudList = new List<string>(), thrList = new List<string>(),
+            airList = new List<string>(), altList = new List<string>(), rolList = new List<string>();
         private List<List<string>> currAtt;
         private String[] csvCopy;
         //variables that need to be accessable outside of thread
         private volatile string filePath, xmlPath;
-        private volatile float aileron, elevator;
+        private volatile float aileron, elevator,  rudder, throttle, airspeed, altimeter, roll, pitch, yaw, heading;
         private volatile int playSpeed, lineNum;
         /***Properties***/
         //properties that we want to notify changed
-        public int TransSpeed
-        {
+        public int TransSpeed { 
             get
             {
                 return playSpeed;
@@ -162,6 +163,134 @@ namespace AdvancedCoding2
                 }
             }
         }
+
+        public float Rudder
+        {
+            get
+            {
+                return rudder;
+            }
+            set
+            {
+                if (Rudder != value)
+                {
+                    rudder = value;
+                    NotifyPropertyChanged("rudder");
+                }
+            }
+        }
+
+        public float Throttle
+        {
+            get
+            {
+                return throttle;
+            }
+            set
+            {
+                if (Throttle != value)
+                {
+                    throttle = value;
+                    NotifyPropertyChanged("throttle");
+                }
+            }
+        }
+
+        public float Airspeed
+        {
+            get
+            {
+                return airspeed;
+            }
+            set
+            {
+                if (Airspeed != value)
+                {
+                    airspeed = value;
+                    NotifyPropertyChanged("airspeed");
+                }
+            }
+        }
+        public float Altimeter
+        {
+            get
+            {
+                return altimeter;
+            }
+            set
+            {
+                if (Altimeter != value)
+                {
+                    altimeter = value;
+                    NotifyPropertyChanged("altimeter");
+                }
+            }
+        }
+
+        public float Roll
+        {
+            get
+            {
+                return roll;
+            }
+            set
+            {
+                if (Roll != value)
+                {
+                    roll = value;
+                    NotifyPropertyChanged("roll");
+                }
+            }
+        }
+
+        public float Pitch
+        {
+            get
+            {
+                return pitch;
+            }
+            set
+            {
+                if (Pitch != value)
+                {
+                    pitch = value;
+                    NotifyPropertyChanged("pitch");
+                }
+            }
+        }
+
+        public float Yaw
+        {
+            get
+            {
+                return yaw;
+            }
+            set
+            {
+                if (Yaw != value)
+                {
+                    yaw = value;
+                    NotifyPropertyChanged("yaw");
+                }
+            }
+        }
+
+        public float Heading
+        {
+            get
+            {
+                return heading;
+            }
+            set
+            {
+                if (Heading != value)
+                {
+                    heading = value;
+                    NotifyPropertyChanged("heading");
+                }
+            }
+        }
+        public List<string> HeaderNames
         public string attributeChosen
         {
             get
@@ -259,11 +388,53 @@ namespace AdvancedCoding2
         }
         /*inti joystick postion - finding aileron and elevator index from list of list */
         public void initJoystick()
+
+        // update positions to flight variables properties
+        public void flightVarPos()
         {
+            rudList = CurrentAtt[rudderInx];
+            thrList = CurrentAtt[throttleInx];
+            airList = CurrentAtt[airspeedInx];
+            altList = CurrentAtt[altimeterInx];
+            rolList = CurrentAtt[rollInx];
+            pitList = CurrentAtt[pitchInx];
+            yawList = CurrentAtt[yawInx];
+            headingList = CurrentAtt[headingInx];
+            //joystick lists
+            ailList = CurrentAtt[aileronInx];
+            elvList = CurrentAtt[elevatorInx];
+
+            Airspeed = float.Parse(airList[lineNumber]);
+            Altimeter = float.Parse(altList[lineNumber]);
+            Roll = float.Parse(rolList[lineNumber]);
+            Pitch = float.Parse(pitList[lineNumber]);
+            Yaw = float.Parse(yawList[lineNumber]);
+            Heading = float.Parse(headingList[lineNumber]);
+            float rudd = float.Parse(rudList[lineNumber]);
+            float throttle = float.Parse(thrList[lineNumber]);
+            //calc new position for Rudder and Throttle
+            Rudder = rudd * 108 + 108;
+            Throttle = throttle * -226 + 226;
+            //joystick properties
+            float ail = float.Parse(ailList[lineNumber]);
+            float elev = float.Parse(elvList[lineNumber]);
+            Aileron = ail * 50 + 60;
+            Elevator = elev * 50 + 60;
+        }
+
+        // find the indx in data for flight variables
+        public void inxFlightVar()
+        {
+            rudderInx = HeaderNames.FindIndex(a => a.Contains("rudder"));
+            throttleInx = HeaderNames.FindIndex(a => a.Contains("throttle"));
+            airspeedInx = HeaderNames.FindIndex(a => a.Contains("airspeed-kt"));
+            altimeterInx = HeaderNames.FindIndex(a => a.Contains("altimeter_indicated-altitude-ft"));
+            rollInx = HeaderNames.FindIndex(a => a.Contains("roll-deg"));
+            pitchInx = HeaderNames.FindIndex(a => a.Contains("pitch-deg"));
+            yawInx = HeaderNames.FindIndex(a => a.Contains("side-slip-deg"));
+            headingInx = HeaderNames.FindIndex(a => a.Contains("heading-deg"));
             aileronInx = HeaderNames.FindIndex(a => a.Contains("aileron"));
             elevatorInx = HeaderNames.FindIndex(a => a.Contains("elevator"));
-            Aileron = 78;
-            Elevator = 78;
         }
         /* connect to server and start stream data*/
         public void connect()
@@ -282,7 +453,9 @@ namespace AdvancedCoding2
                 //setting up playing speed to 100 mill-sec - 10 lines in second
                 TransSpeed = 100;
                 initJoystick();
+                inxFlightVar();
                 // while loope - as long there is data to send - send one line at a time to server
+                // sending one line at a time to server
                 while (simLen > lineNumber)
                 {
                     //adding end of line to the current line
@@ -293,6 +466,8 @@ namespace AdvancedCoding2
                     stream.Write(lineBytes, 0, lineBytes.Length);
                     //calculating joystick position
                     joyStickPos();
+                    // get flight variables new position
+                    flightVarPos();
                     //inc index to next line
                     lineNumber++;
                     //sleep for playspeed mil-sec for sending ten times in a second

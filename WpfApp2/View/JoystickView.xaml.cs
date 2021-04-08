@@ -9,8 +9,9 @@ namespace WpfApp2.View
     /// </summary>
     public partial class JoystickView : Window
     {
-        private viewModelJoystick joystickVM;
-
+        /***Data Members***/
+        public viewModelJoystick joystickVM;
+        /***Methods***/
         public JoystickView(IClientModel c)
         {
             InitializeComponent();
@@ -24,6 +25,14 @@ namespace WpfApp2.View
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             this.Left = desktopWorkingArea.Left;
             this.Top = desktopWorkingArea.Bottom - this.Height;
+        }
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+        private void ai_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
