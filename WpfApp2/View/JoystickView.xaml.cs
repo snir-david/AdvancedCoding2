@@ -19,20 +19,12 @@ namespace WpfApp2.View
             DataContext = joystickVM;
             Loaded += JoystickView_Loaded;
         }
-
         private void JoystickView_Loaded(object sender, RoutedEventArgs e)
         {
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             this.Left = desktopWorkingArea.Left;
             this.Top = desktopWorkingArea.Bottom - this.Height;
         }
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
 
-        }
-        private void ai_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }

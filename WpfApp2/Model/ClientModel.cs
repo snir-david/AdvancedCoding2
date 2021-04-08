@@ -14,20 +14,20 @@ namespace AdvancedCoding2
     {
         /***Data Members***/
         public event PropertyChangedEventHandler PropertyChanged;
-        private int port, csvRowsNum, aileronInx, elevatorInx,  rudderInx, throttleInx, airspeedInx, altimeterInx, rollInx, pitchInx, yawInx, headingInx;
-;
+        private int port, csvRowsNum, aileronInx, elevatorInx, rudderInx, throttleInx, airspeedInx, altimeterInx, rollInx, pitchInx, yawInx, headingInx;
         private string server, attChosen, corrToChose;
         private List<string> chunksName, ailList, elvList, rudList = new List<string>(), thrList = new List<string>(),
-            airList = new List<string>(), altList = new List<string>(), rolList = new List<string>();
+            airList = new List<string>(), altList = new List<string>(), rolList = new List<string>(), pitList = new List<string>(),
+            yawList = new List<string>(), headingList = new List<string>();
         private List<List<string>> currAtt;
         private String[] csvCopy;
         //variables that need to be accessable outside of thread
         private volatile string filePath, xmlPath;
-        private volatile float aileron, elevator,  rudder, throttle, airspeed, altimeter, roll, pitch, yaw, heading;
+        private volatile float aileron, elevator, rudder, throttle, airspeed, altimeter, roll, pitch, yaw, heading;
         private volatile int playSpeed, lineNum;
         /***Properties***/
         //properties that we want to notify changed
-        public int TransSpeed { 
+        public int TransSpeed {
             get
             {
                 return playSpeed;
@@ -163,7 +163,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-
         public float Rudder
         {
             get
@@ -179,7 +178,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-
         public float Throttle
         {
             get
@@ -195,7 +193,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-
         public float Airspeed
         {
             get
@@ -226,7 +223,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-
         public float Roll
         {
             get
@@ -242,7 +238,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-
         public float Pitch
         {
             get
@@ -258,7 +253,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-
         public float Yaw
         {
             get
@@ -274,7 +268,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-
         public float Heading
         {
             get
@@ -290,7 +283,6 @@ namespace AdvancedCoding2
                 }
             }
         }
-        public List<string> HeaderNames
         public string attributeChosen
         {
             get
@@ -387,23 +379,23 @@ namespace AdvancedCoding2
             Elevator = elev * 30 + 48;
         }
         /*inti joystick postion - finding aileron and elevator index from list of list */
-        public void initJoystick()
+        public void initJoystick() {
 
+        }
         // update positions to flight variables properties
         public void flightVarPos()
         {
-            rudList = CurrentAtt[rudderInx];
-            thrList = CurrentAtt[throttleInx];
-            airList = CurrentAtt[airspeedInx];
-            altList = CurrentAtt[altimeterInx];
-            rolList = CurrentAtt[rollInx];
-            pitList = CurrentAtt[pitchInx];
-            yawList = CurrentAtt[yawInx];
-            headingList = CurrentAtt[headingInx];
+            rudList = ListOfListOfAtt[rudderInx];
+            thrList = ListOfListOfAtt[throttleInx];
+            airList = ListOfListOfAtt[airspeedInx];
+            altList = ListOfListOfAtt[altimeterInx];
+            rolList = ListOfListOfAtt[rollInx];
+            pitList = ListOfListOfAtt[pitchInx];
+            yawList = ListOfListOfAtt[yawInx];
+            headingList = ListOfListOfAtt[headingInx];
             //joystick lists
-            ailList = CurrentAtt[aileronInx];
-            elvList = CurrentAtt[elevatorInx];
-
+            ailList = ListOfListOfAtt[aileronInx];
+            elvList = ListOfListOfAtt[elevatorInx];
             Airspeed = float.Parse(airList[lineNumber]);
             Altimeter = float.Parse(altList[lineNumber]);
             Roll = float.Parse(rolList[lineNumber]);
@@ -421,7 +413,6 @@ namespace AdvancedCoding2
             Aileron = ail * 50 + 60;
             Elevator = elev * 50 + 60;
         }
-
         // find the indx in data for flight variables
         public void inxFlightVar()
         {
@@ -490,7 +481,7 @@ namespace AdvancedCoding2
                     "--generic=socket,in,10,127.0.0.1,5400,tcp,playback_small\n--fdm = null", "Couldn't Reach Server", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        // ****************** shani's functions *******************//
+        // ****************** Linear Reg Lines functions *******************//
         private float avg(List<float> x, int size)
         {
             float sum = 0;

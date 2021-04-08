@@ -53,14 +53,12 @@ namespace AdvancedCoding2
             }
             Loaded += MainWindow_Loaded;
         }
-
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
             this.Left = desktopWorkingArea.Right - this.Width;
             this.Top = desktopWorkingArea.Bottom - this.Height;
         }
-
         private void Pause_Button_Click(object sender, RoutedEventArgs e)
         {
             controllerViewModel.pauseConnection();
@@ -145,7 +143,6 @@ namespace AdvancedCoding2
             String[] csvLine = File.ReadAllLines(controllerViewModel.VM_fpath);
             controllerViewModel.VM_CSVcopy = csvLine;
         }
-
         private void graph_button_Click(object sender, RoutedEventArgs e)
         {
             graphV = new graphView(clientModel);

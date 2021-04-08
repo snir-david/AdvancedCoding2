@@ -7,7 +7,7 @@ namespace AdvancedCoding2
 {
     public interface IClientModel : INotifyPropertyChanged
     {
-        //properties of client
+        /***Properties***/
         int TransSpeed
         {
             get;
@@ -43,6 +43,46 @@ namespace AdvancedCoding2
             get;
             set;
         }
+        float Rudder
+        {
+            get;
+            set;
+        }
+        float Throttle
+        {
+            get;
+            set;
+        }
+        float Airspeed
+        {
+            get;
+            set;
+        }
+        float Altimeter
+        {
+            get;
+            set;
+        }
+        float Pitch
+        {
+            get;
+            set;
+        }
+        float Roll
+        {
+            get;
+            set;
+        }
+        float Yaw
+        {
+            get;
+            set;
+        }
+        float Heading
+        {
+            get;
+            set;
+        }
         List<string> HeaderNames
         {
             get;
@@ -67,59 +107,12 @@ namespace AdvancedCoding2
             get;
             set;
         }
-        /***methods***/
+        /***Methods***/
         void connect();
         void xmlParser();
         double pearson(List<float> x, List<float> y, int size);
         void attSplit(string[] csvFile);
         Line linear_reg(List<DesktopFGApp.Model.Point> points, int size);
-        float Rudder
-        {
-            get;
-            set;
+       
         }
-
-        float Throttle
-        {
-            get;
-            set;
-        }
-
-        float Airspeed
-        {
-            get;
-            set;
-        }
-
-        float Altimeter
-        {
-            get;
-            set;
-        }
-        float Pitch
-        {
-            get;
-            set;
-        }
-        float Roll
-        {
-            get;
-            set;
-        }
-
-        float Yaw
-        {
-            get;
-            set;
-        }
-
-        float Heading
-        {
-            get;
-            set;
-        }
-        
-        //method to open socket with server
-        void connect();
-    }
 }
