@@ -37,8 +37,8 @@ public:
 		string att;
 		stringstream hss(head);
 		while (getline(hss, att, ',')) {
-			ts.emplace(att, vector<float>());
-			atts.push_back(att);
+				ts.emplace(att, vector<float>());
+				atts.push_back(att);
 		}
 
 		while (!in.eof()) {
@@ -48,7 +48,9 @@ public:
 			stringstream lss(line);
 			int i = 0;
 			while (getline(lss, val, ',')) {
-				ts[atts[i]].push_back(stof(val));
+				if (ts[atts[i]].size() == 0) {
+					ts[atts[i]].push_back(stof(val));
+				}
 				i++;
 			}
 		}

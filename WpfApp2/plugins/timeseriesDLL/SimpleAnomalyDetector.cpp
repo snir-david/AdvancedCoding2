@@ -32,25 +32,28 @@ float SimpleAnomalyDetector::findThreshold(Point** ps, size_t len, Line rl) {
 void SimpleAnomalyDetector::learnNormal(const TimeSeries& ts) {
 	vector<string> atts = ts.gettAttributes();
 	size_t len = ts.getRowSize();
-	float* vals;
-	vals = (float*)malloc(atts.size() * sizeof(float) * len);
+	float** vals = (float**)malloc(atts.size() * sizeof(float*));
+	for (int i = 0; i < atts.size(); i++) {
+		vals[i] = (float*)malloc(len * sizeof(float));
+	}
+	//vals = (float*)malloc(atts.size() * sizeof(float) * len);
 	if (vals == NULL) {
 		exit(-1);
 	}
 	for (size_t i = 0; i < atts.size(); i++) {
 		vector<float> x = ts.getAttributeData(atts[i]);
 		for (size_t j = 0; j < len; j++) {
-			*(vals + i * len + j) = x[j];
+			vals[i][j] = x[j];
 			//vals[i][j] = x[j];
 		}
 	}
-	//problem with subscript vector here
+
 	for (size_t i = 0; i < atts.size(); i++) {
 		string f1 = atts[i];
 		float max = 0;
 		size_t jmax = 0;
 		for (size_t j = i + 1; j < atts.size(); j++) {
-			float p = abs(pearson((vals + i * len), (vals + j * len), len));
+			float p = abs(pearson(vals[i], vals[j], len));
 			if (p > max) {
 				max = p;
 				jmax = j;
