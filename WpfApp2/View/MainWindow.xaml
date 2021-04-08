@@ -20,17 +20,17 @@
         </Grid.RowDefinitions>
 
         <Button x:Name="pause_button1" Margin="571,57,13.666,664" Click="Pause_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" Visibility="Hidden" Grid.ColumnSpan="3">
-            <Image x:Name="pause_button" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\pause.png" RenderTransformOrigin="0.5,0.5" ForceCursor="True" Height="20" Width="20"/>
+            <Image x:Name="pause_button" Source="/images/pause.png" RenderTransformOrigin="0.5,0.5" ForceCursor="True" Height="20" Width="20"/>
         </Button>
         <Button x:Name="play_button1" Margin="3.667,55,122.333,661" Click="Play_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Column="1" Grid.ColumnSpan="3">
-            <Image x:Name="play_button" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\play.png" Height="20"  Width="20" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
+            <Image x:Name="play_button" Source="/images/play.png" Height="20"  Width="20" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
         </Button>
         <Button x:Name="for_button1" Margin="17.667,55,80.333,0" Click="Forw_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Column="2" Height="36" VerticalAlignment="Top" Grid.ColumnSpan="2">
-            <Image x:Name="for_button" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\forw.png" Width="30" Height="30"/>
+            <Image x:Name="for_button" Source="/images/forw.png" Width="30" Height="30"/>
 
         </Button>
         <Button x:Name="prev_button1" Margin="528,51,7.333,0" Click="Prev_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" Height="40" VerticalAlignment="Top">
-            <Image x:Name="prev_button" Source="C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\buttons\prev.png" Width="30" Height="30"/>
+            <Image x:Name="prev_button" Source="/images/prev.png" Width="30" Height="30"/>
         </Button>
 
         <TextBox x:Name="play_speed" IsReadOnly="True" TextAlignment="Center" Margin="312,49,152.333,0" TextWrapping="Wrap" Text="Play Speed" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Height="35" VerticalAlignment="Top"/>
