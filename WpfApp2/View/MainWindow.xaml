@@ -8,7 +8,7 @@
         Title="MainWindow" Height="165" Width="570" Background="#FF7E7E7E"
         WindowStartupLocation="Manual">
 
-    <Grid Margin="0,7,0,0" Height="115" VerticalAlignment="Top" HorizontalAlignment="Left" Width="590" >
+    <Grid Height="140" VerticalAlignment="Top" HorizontalAlignment="Left" Width="560" Margin="0,0,0,-4" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="197*"/>
         </Grid.ColumnDefinitions>
