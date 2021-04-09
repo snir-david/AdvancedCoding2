@@ -14,6 +14,7 @@
 #include<map>
 #include <vector>
 #include <string.h>
+#include <utility>
  //#include <bits/stdc++.h>
 #include <algorithm>
 #include <sstream>
@@ -23,8 +24,8 @@ using namespace std;
 
 class TimeSeries {
 
-
-	map<string, vector<float>> ts;
+	vector <pair<string, vector<float>>> ts;
+	//map<string, vector<float>> ts;
 	vector<string> atts;
 	size_t dataRowSize;
 public:
@@ -37,8 +38,10 @@ public:
 		string att;
 		stringstream hss(head);
 		while (getline(hss, att, ',')) {
-				ts.emplace(att, vector<float>());
-				atts.push_back(att);
+			pair<string, vector<float>> p;
+			p.first = att;
+			ts.push_back(p);
+			atts.push_back(att);
 		}
 
 		while (!in.eof()) {
@@ -48,20 +51,25 @@ public:
 			stringstream lss(line);
 			int i = 0;
 			while (getline(lss, val, ',')) {
-				if (ts[atts[i]].size() == 0) {
-					ts[atts[i]].push_back(stof(val));
-				}
+				ts[i].second.push_back(stof(val));
 				i++;
 			}
 		}
 		in.close();
 
-		dataRowSize = ts[atts[0]].size();
+		dataRowSize = ts[0].second.size();
 
 	}
 
 	const vector<float>& getAttributeData(string name)const {
-		return ts.at(name);
+		int idx = 0;
+		for (int i = 0; i < dataRowSize; i++) {
+			if (ts[i].first == name) {
+				idx = i;
+				break;
+			}
+		}
+		return ts[idx].second;
 	}
 
 	const vector<string>& gettAttributes()const {

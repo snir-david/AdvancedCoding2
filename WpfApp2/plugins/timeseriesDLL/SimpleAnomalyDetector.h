@@ -1,11 +1,4 @@
 ﻿#pragma once
-/*
- * SimpleAnomalyDetector.h
- *
- *  Created on: 8 áàå÷× 2020
- *      Author: Eli
- */
-
 #ifndef SIMPLEANOMALYDETECTOR_H_
 #define SIMPLEANOMALYDETECTOR_H_
 
@@ -21,17 +14,8 @@ public:
 	std::vector<AnomalyReport> anomalyVec;
 	//think....
 	VectorWrapper() {}
-	int VecSize() {
-		return anomalyVec.size();
-	}
-
-	long getTimeStepByIndex(int x) {
-		return anomalyVec[x].timeStep;
-	}
-
-	string getDescriptionByIndex(int x) {
-		return anomalyVec[x].description;
-	}
+	~VectorWrapper() {}
+	
 };
 
 struct correlatedFeatures {
@@ -85,24 +69,29 @@ extern "C" __declspec(dllexport) void detecting(SimpleAnomalyDetector * sad, Vec
 	//create TimeSeries for anomaly file
 	TimeSeries ts(detectfileName);
 	//get anomaly report vector from detect func
-	//vector<AnomalyReport>  ar = sad->detect(ts);
+	vector<AnomalyReport>  ar = sad->detect(ts);
 	// insert the anomaly report to wraper vector 
-	//wrapAR->anomalyVec = ar;
+	wrapAR->anomalyVec = ar;
 }
+
 /// extern func to vector rapper
 extern "C" __declspec(dllexport) void* CreateVectorWrapper() {
 	return (void*) new VectorWrapper;
 }
 
-extern "C" __declspec(dllexport) int vectorSize(VectorWrapper * v) {
-	return v->VecSize();
+extern "C" __declspec(dllexport) int vectorSize(VectorWrapper* v) {
+	return v->anomalyVec.size();
 }
 
-extern "C" __declspec(dllexport) long getTS(VectorWrapper * v, int index) {
-	return v->getTimeStepByIndex(index);
+extern "C" __declspec(dllexport) long getTS(VectorWrapper* v, int index) {
+	return v->anomalyVec[index].timeStep;
 }
 
-extern "C" __declspec(dllexport) string getDP(VectorWrapper * v, int index) {
-	return v->getDescriptionByIndex(index);
+extern "C" __declspec(dllexport) void getDP(VectorWrapper* v, int index, char *str) {
+		strcpy (str, v->anomalyVec[index].description.c_str);
+}
+
+extern "C" __declspec(dllexport) int getDPLen(VectorWrapper* v, int index) {
+	return v->anomalyVec[index].description.size();
 }
 #endif /* SIMPLEANOMALYDETECTOR_H_ */
