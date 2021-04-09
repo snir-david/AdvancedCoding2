@@ -23,7 +23,7 @@ namespace DesktopFGApp
         [DllImport("C:\\Users\\snira\\source\\repos\\snir-david\\DesktopFGApp\\WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern long getTS(IntPtr vec, int x);
         [DllImport("C:\\Users\\snira\\source\\repos\\snir-david\\DesktopFGApp\\WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr getDP(IntPtr vec, int x);
+        public static extern void getDP(IntPtr vec, int x, StringBuilder str);
         [DllImport("C:\\Users\\snira\\source\\repos\\snir-david\\DesktopFGApp\\WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int getDPLen(IntPtr vec, int x);
         [DllImport("C:\\Users\\snira\\source\\repos\\snir-david\\DesktopFGApp\\WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -40,7 +40,7 @@ namespace DesktopFGApp
             for (int i =0; i < vs; i++ )
             {
                 long val = getTS(vec, i);
-
+                StringBuilder st = new StringBuilder(getDPLen(vec, i));
                 IntPtr desc = getDP(vec, i);
                 /*
                 if (AnomalyReport.ContainsKey(desc))
