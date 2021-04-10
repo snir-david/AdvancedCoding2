@@ -88,7 +88,7 @@ extern "C" __declspec(dllexport) long getTS(VectorWrapper* v, int index) {
 }
 
 extern "C" __declspec(dllexport) void getDP(VectorWrapper* v, int index, char *str) {
-		strcpy (str, v->anomalyVec[index].description.c_str);
+		strcpy(str, v->anomalyVec[index].description.c_str());
 }
 
 extern "C" __declspec(dllexport) int getDPLen(VectorWrapper* v, int index) {

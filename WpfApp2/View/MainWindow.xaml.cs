@@ -23,7 +23,8 @@ namespace AdvancedCoding2
         {
             InitializeComponent();
             //creating a client instance
-            DesktopFGApp.simpleAnomaly.dllrunner();
+            DesktopFGApp.simpleAnomaly sa = new DesktopFGApp.simpleAnomaly();
+            sa.findAnomaly();
             Client c = new Client("localhost", 5400);
             clientModel = c;
            controllerViewModel = new ViewModelController(c);
