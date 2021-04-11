@@ -14,7 +14,7 @@ namespace AdvancedCoding2
         private IClientModel clientModel;
         public bool isConnected;
         private double playSpeed;
-        private string FGPath;
+        private string FGPath, dllPath;
         private Thread connectThread;
         private TimeSpan Time;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -145,6 +145,19 @@ namespace AdvancedCoding2
                     FGPath = value;
             }
         }
+        public string VM_DLLPath
+        {
+            get
+            {
+                return dllPath;
+            }
+            set
+            {
+                if (VM_DLLPath != value)
+                    dllPath  = value;
+            }
+        }
+
         public List<string> VM_headerNames
         {
             get

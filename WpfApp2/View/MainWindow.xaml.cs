@@ -2,6 +2,7 @@
 using DesktopFGApp.View;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Forms;
 using WpfApp2.View;
@@ -25,11 +26,9 @@ namespace AdvancedCoding2
         {
             InitializeComponent();
             //creating a client instance
-            DesktopFGApp.CircleAnomalyDetector sa = new DesktopFGApp.CircleAnomalyDetector();
-            sa.findAnomaly();
             Client c = new Client("localhost", 5400);
             clientModel = c;
-           controllerViewModel = new ViewModelController(c);
+            controllerViewModel = new ViewModelController(c);
             this.DataContext = controllerViewModel;
             //checking if FG folder is in the "normal" place
             if (Directory.Exists("C:\\Program Files\\FlightGear 2020.3.6"))
@@ -46,6 +45,7 @@ namespace AdvancedCoding2
                 {
                     //if XML found - only CSV button visible and than save XML path and parse XML
                     CSV_button.Visibility = Visibility.Visible;
+                    AnomalyDll_button.Visibility = Visibility.Visible;
                     controllerViewModel.VM_XMLPath = "C:\\Program Files\\FlightGear 2020.3.6\\data\\Protocol\\playback_small.xml";
                     controllerViewModel.xmlPraser();
                 }
@@ -126,6 +126,7 @@ namespace AdvancedCoding2
             controllerViewModel.copyXML();
             controllerViewModel.xmlPraser();
             XML_button.Visibility = Visibility.Hidden;
+            AnomalyDll_button.Visibility = Visibility.Visible;
         }
         private void Openfolder_Click(object sender, RoutedEventArgs e)
         {
@@ -178,6 +179,23 @@ namespace AdvancedCoding2
             joystickView.Show();
             joystick_button.Visibility = Visibility.Hidden;
             close_joystick_button.Visibility = Visibility.Visible;
+        }
+        private void anomaly_detector_algorithim(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+                controllerViewModel.VM_DLLPath = openFileDialog.FileName;
+            string algoPath = "@" + controllerViewModel.VM_DLLPath;
+            Type interfaceType = typeof(IAnomalyDetector);
+            var dllAlgo = Assembly.LoadFile(algoPath);
+            foreach(Type t in dllAlgo.GetExportedTypes())
+            {
+                if (interfaceType.IsAssignableFrom(t))
+                {
+                    dynamic c = Activator.CreateInstance(t);
+                    c.findAnomaly();
+                }
+            }
         }
     }
 }

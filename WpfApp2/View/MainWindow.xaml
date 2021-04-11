@@ -54,5 +54,8 @@
         <Button x:Name="joystick_button" Content="Show Joystick View" Margin="43,30,415,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Click="joystick_button_Click"/>
         <Button x:Name="close_joystick_button" Content="Close Joystick View" Margin="43,30,415,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Click="close_joystick_button_Click"/>
 
+        <Button x:Name="AnomalyDll_button" Content="Load Anomaly Detector Algorithim" Margin="226,0,232,0" Click="anomaly_detector_algorithim" Height="21" Visibility="Hidden" VerticalAlignment="Top"/>
+
+
     </Grid>
 </Window>
