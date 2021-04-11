@@ -13,7 +13,7 @@ HybridAnomalyDetector::~HybridAnomalyDetector() {
 void HybridAnomalyDetector::learnHelper(const TimeSeries& ts,float p/*pearson*/,string f1, string f2,Point** ps){
 	SimpleAnomalyDetector::learnHelper(ts,p,f1,f2,ps);
 	if(p>0.5 && p<threshold){
-		Circle cl = findMinCircle(ps,ts.getRowSize());
+		Circle cl = findMinCircle(ps,ts.get RowSize());
 		correlatedFeatures c;
 		c.feature1=f1;
 		c.feature2=f2;

@@ -108,6 +108,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CircleAnomalyDetector.cs" />
+    <Compile Include="IAnomalyDetector.cs" />
     <Compile Include="Model\Line.cs" />
     <Compile Include="Model\Point.cs" />
     <Compile Include="simpleAnomaly.cs" />

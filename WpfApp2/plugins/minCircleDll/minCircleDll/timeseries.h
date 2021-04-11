@@ -80,6 +80,10 @@ public:
 		return dataRowSize;
 	}
 
+	vector <pair<string, vector<float>>> getVec() {
+		return ts;
+	}
+
 	~TimeSeries() {
 	}
 };

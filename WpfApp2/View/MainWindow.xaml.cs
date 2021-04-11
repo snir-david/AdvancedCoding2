@@ -1,4 +1,5 @@
-﻿using DesktopFGApp.View;
+﻿using DesktopFGApp;
+using DesktopFGApp.View;
 using System;
 using System.IO;
 using System.Windows;
@@ -15,6 +16,7 @@ namespace AdvancedCoding2
     {
         /***Data Members***/
         public ViewModelController controllerViewModel;
+        private IAnomalyDetector anomalyDetector;
         private IClientModel clientModel;
         private JoystickView joystickView;
         private graphView graphV;
@@ -23,7 +25,7 @@ namespace AdvancedCoding2
         {
             InitializeComponent();
             //creating a client instance
-            DesktopFGApp.simpleAnomaly sa = new DesktopFGApp.simpleAnomaly();
+            DesktopFGApp.CircleAnomalyDetector sa = new DesktopFGApp.CircleAnomalyDetector();
             sa.findAnomaly();
             Client c = new Client("localhost", 5400);
             clientModel = c;

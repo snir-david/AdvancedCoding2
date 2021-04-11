@@ -156,14 +156,15 @@
   <ItemGroup>
     <ClInclude Include="AnomalyDetector.h" />
     <ClInclude Include="anomaly_detection_util.h" />
+    <ClInclude Include="CircleAnomalyDetector.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="minCircle.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="SimpleAnomalyDetector.h" />
     <ClInclude Include="timeseries.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="anomaly_detection_util.cpp" />
+    <ClCompile Include="CircleAnomalyDetector.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="minCircle.cpp" />
     <ClCompile Include="pch.cpp">
@@ -171,9 +172,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="SimpleAnomalyDetector.cpp">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\plugins\minCircleDll;C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\plugins\minCircleDll\minCircleDll;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="timeseries.cpp" />
   </ItemGroup>

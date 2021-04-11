@@ -30,10 +30,10 @@
     <ClInclude Include="minCircle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleAnomalyDetector.h">
+    <ClInclude Include="timeseries.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="timeseries.h">
+    <ClInclude Include="CircleAnomalyDetector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,10 +50,10 @@
     <ClCompile Include="minCircle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleAnomalyDetector.cpp">
+    <ClCompile Include="timeseries.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="timeseries.cpp">
+    <ClCompile Include="CircleAnomalyDetector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
