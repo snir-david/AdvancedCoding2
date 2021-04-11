@@ -21,16 +21,13 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\Downloads\הפרויקט של תכנות מתקדם 1-20210408\solution4\solution\minCircle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\..\Downloads\הפרויקט של תכנות מתקדם 1-20210408\solution4\solution\HybridAnomalyDetector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="anomaly_detection_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AnomalyDetector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="minCircle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SimpleAnomalyDetector.h">
@@ -47,13 +44,10 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\..\Downloads\הפרויקט של תכנות מתקדם 1-20210408\solution4\solution\minCircle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\..\..\..\..\Downloads\הפרויקט של תכנות מתקדם 1-20210408\solution4\solution\HybridAnomalyDetector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="anomaly_detection_util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="minCircle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SimpleAnomalyDetector.cpp">

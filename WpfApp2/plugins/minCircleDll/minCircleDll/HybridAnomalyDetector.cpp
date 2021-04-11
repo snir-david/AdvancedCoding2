@@ -1,4 +1,3 @@
-
 #include "HybridAnomalyDetector.h"
 
 HybridAnomalyDetector::HybridAnomalyDetector() {

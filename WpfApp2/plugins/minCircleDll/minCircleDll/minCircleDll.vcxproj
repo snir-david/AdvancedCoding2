@@ -89,10 +89,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;MINCIRCLEDLL_EXPORTS;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\plugins\minCircleDll;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\plugins\minCircleDll\minCircleDll;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -154,27 +154,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\..\..\Downloads\הפרויקט של תכנות מתקדם 1-20210408\solution4\solution\HybridAnomalyDetector.h" />
-    <ClInclude Include="..\..\..\..\..\..\..\..\Downloads\הפרויקט של תכנות מתקדם 1-20210408\solution4\solution\minCircle.h" />
     <ClInclude Include="AnomalyDetector.h" />
     <ClInclude Include="anomaly_detection_util.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="minCircle.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SimpleAnomalyDetector.h" />
     <ClInclude Include="timeseries.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\..\..\Downloads\הפרויקט של תכנות מתקדם 1-20210408\solution4\solution\HybridAnomalyDetector.cpp" />
-    <ClCompile Include="..\..\..\..\..\..\..\..\Downloads\הפרויקט של תכנות מתקדם 1-20210408\solution4\solution\minCircle.cpp" />
     <ClCompile Include="anomaly_detection_util.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="minCircle.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="SimpleAnomalyDetector.cpp" />
+    <ClCompile Include="SimpleAnomalyDetector.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\plugins\minCircleDll;C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\plugins\minCircleDll\minCircleDll;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="timeseries.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
