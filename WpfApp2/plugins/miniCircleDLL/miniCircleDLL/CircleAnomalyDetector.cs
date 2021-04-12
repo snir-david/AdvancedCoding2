@@ -19,6 +19,7 @@ namespace DesktopFGApp
     {
         public Dictionary<string, List<int>> AnomalyReport = new Dictionary<string, List<int>>();
         public Dictionary<string, Tuple<Point,int>> Attfeatures = new Dictionary<string, Tuple<Point, int>>();
+        public IntPtr CircleAnomalyDete;
 
         // need to insert user input for dll filr
         [DllImport("plugins\\minCircleDll\\Debug\\minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -43,11 +44,14 @@ namespace DesktopFGApp
         public static extern float getCenterX(IntPtr cad);
         [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern float getCenterY(IntPtr cad);
-        
 
-            public void findAnomaly(string anomalyCSVPath, List<string> headersList)
+        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void findMinCircle(IntPtr cad, int attIdx, int corrIdx);
+
+
+        public void findAnomaly(string anomalyCSVPath, List<string> headersList)
         {
-            IntPtr CircleAnomalyDete = Create();
+            this.CircleAnomalyDete = Create();
             learnnig(CircleAnomalyDete, "reg_flight.csv");
             var CSV = File.ReadAllLines(anomalyCSVPath);
             List<List<string>> csvWithHeaders = CSV.Select(x => x.Split(',').ToList()).ToList();
@@ -81,5 +85,11 @@ namespace DesktopFGApp
         {
             return Attfeatures;
         }
+    
+           public void findMinCirc (int indexAtt , int indexCorr)
+           {
+                findMinCircle(CircleAnomalyDete, indexAtt , indexCorr);
+           }
+    
     }
 }

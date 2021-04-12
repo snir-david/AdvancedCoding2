@@ -23,7 +23,10 @@ namespace AdvancedCoding2
         private TimeSpan Time;
         public event PropertyChangedEventHandler PropertyChanged;
         public Dictionary<string, List<int>> VM_AnomalyReport;
+        public Dictionary<string, Tuple<Point, int>> VM_Attfeatures;
         public bool isRegLine, isCircel;
+        public dynamic dllAlgo;
+
 
         /***Properties***/
         public String[] VM_CSVcopy
@@ -200,6 +203,7 @@ namespace AdvancedCoding2
             playSpeed = 0;
             Time = new TimeSpan(0, 0, 0);
             VM_AnomalyReport = new Dictionary<string, List<int>>();
+            VM_Attfeatures = new Dictionary<string, Tuple<Point, int>>();
             isConnected = false;
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
@@ -302,8 +306,10 @@ namespace AdvancedCoding2
                   if( i.Name == "IAnomalyDetector")
                     {
                         dynamic anomalyAlgo = Activator.CreateInstance(type);
-                        anomalyAlgo.findAnomaly(VM_fpath, VM_headerNames);
+                        dllAlgo = anomalyAlgo;
+                        anomalyAlgo.findAnomaly(VM_fpath, VM_headerNames);     
                         VM_AnomalyReport = anomalyAlgo.getAnomalyReport();
+                        
                     }
                 }
             }

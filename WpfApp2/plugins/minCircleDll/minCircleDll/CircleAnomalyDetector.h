@@ -95,7 +95,7 @@ extern "C" __declspec(dllexport) int getDPLen(VectorWrapper * v, int index) {
 	return v->anomalyVec[index].description.size();
 }
 
-extern "C" __declspec(dllexport) void findMinCircle(VectorWrapper * v, CircleAnomalyDetector * cad, int attIdx, int corrIdx, size_t size) {
+extern "C" __declspec(dllexport) void findMinCircle( CircleAnomalyDetector * cad, int attIdx, int corrIdx) {
 	vector<float> att = cad->tsCSV.getAttributeDataIdx(attIdx);
 	vector<float> corr = cad->tsCSV.getAttributeDataIdx(corrIdx);
 	Point** p = new Point *[att.size()];
