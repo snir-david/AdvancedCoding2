@@ -12,7 +12,7 @@ namespace DesktopFGApp
         public Dictionary<string, List<float>> AnomalyReport = new Dictionary<string, List<float>>();
 
         // need to insert user input for dll filr
-        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("plugins\\minCircleDll\\Debug\\minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Create();
         [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void learnnig(IntPtr sad, string CSVfileName);
@@ -28,16 +28,11 @@ namespace DesktopFGApp
         public static extern int getDPLen(IntPtr vec, int x);
         [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vectorSize(IntPtr vec);
-
-         static void Main()
-        {
-            CircleAnomalyDetector c = new CircleAnomalyDetector();
-            c.findAnomaly(@"C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\anomaly_flight.csv");
-        }
+      
         public void findAnomaly(string flightCSVPath)
         {
             IntPtr timeSeries = Create();
-            learnnig(timeSeries, "WpfApp2\\reg_flight.csv");
+            learnnig(timeSeries, "reg_flight.csv");
             IntPtr anomalyVector = CreateVectorWrapper();
             detecting(timeSeries, anomalyVector, flightCSVPath);
             int vs = vectorSize(anomalyVector);

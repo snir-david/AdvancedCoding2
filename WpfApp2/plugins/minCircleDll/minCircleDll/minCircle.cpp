@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "minCircle.h"
 
 float dist(Point a, Point b){

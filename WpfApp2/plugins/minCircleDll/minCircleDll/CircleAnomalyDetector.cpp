@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "CircleAnomalyDetector.h"
 #include "minCircle.h"
 using namespace std;
