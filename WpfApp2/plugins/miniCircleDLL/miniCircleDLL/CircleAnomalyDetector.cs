@@ -66,7 +66,7 @@ namespace DesktopFGApp
                     AnomalyReport[attName.ToString()].Add(val);
                 }
                 else
-                {
+                {                                                                              EXCEPINFO
                     AnomalyReport.Add(attName.ToString(), new List<int>());
                     AnomalyReport[attName.ToString()].Add(val);
                     Attfeatures.Add(attName.ToString(), new Tuple<Point, int>(new Point(getCenterX(CircleAnomalyDete), getCenterY(CircleAnomalyDete)), getRadius(CircleAnomalyDete)));
