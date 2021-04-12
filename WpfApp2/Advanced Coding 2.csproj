@@ -109,9 +109,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="IAnomalyDetector.cs" />
-    <Compile Include="Model\Circle.cs" />
     <Compile Include="Model\Line.cs" />
-    <Compile Include="Model\ModelUtil.cs" />
     <Compile Include="Model\Point.cs" />
     <Compile Include="ViewModel\GraphViewModel.cs" />
     <Compile Include="ViewModel\IViewModel.cs" />

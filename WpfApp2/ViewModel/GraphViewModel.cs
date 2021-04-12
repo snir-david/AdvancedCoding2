@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Diagnostics;
 using System.Threading;
+using OxyPlot.Annotations;
 
 namespace DesktopFGApp.ViewModel
 {
@@ -28,7 +29,6 @@ namespace DesktopFGApp.ViewModel
         private List<float> floatAttList, floatCorrList;
         private PlotModel AttPlotModel, CorrPlotModel, regLinePlotModel;
         private OxyPlot.Wpf.PlotView VM_pvAtt, VM_pvCorr, VM_pvLR;
-        public Circle c;
 
         /***Properties***/
         public PlotModel VM_AttPlotModel
@@ -148,7 +148,7 @@ namespace DesktopFGApp.ViewModel
         {
             //getting args from constructor
             clientModel = c;
-                        viewModelController = vmc;
+            viewModelController = vmc;
 
             VM_pvAtt = Attpv;
             VM_pvCorr = Corrpv;
@@ -191,6 +191,7 @@ namespace DesktopFGApp.ViewModel
                         VM_pvCorr.InvalidatePlot(true);
                         //setting up regLinePlotModel or minCircle
                         VM_RegLinePlotModel.Series.Clear();
+                        VM_RegLinePlotModel.Annotations.Clear();
                         SetUpModel(VM_RegLinePlotModel);
                         if(viewModelController.isRegLine)
                             LoadScatterGraphData(VM_currLine, VM_pvLR, floatAttList, floatCorrList, VM_RegLinePlotModel);
@@ -259,7 +260,13 @@ namespace DesktopFGApp.ViewModel
                 corrItemName = attName;
                 VM_corralative = corrItemName;
                 floatCorrList = floatAttList;
-                return corrItemName;
+                if (viewModelController.isCircel)
+                {
+                    radius = 0;
+                    centerX = 0;
+                    centerY = viewModelController.dllAlgo.getY();
+                }
+               return corrItemName;
             }
             corrItemName = viewModelController.VM_headerNames[corrChooseIdx];
             floatCorrList = stringToFloat(viewModelController.VM_currentAtt[corrChooseIdx]);
@@ -327,16 +334,32 @@ namespace DesktopFGApp.ViewModel
                 MarkerType = MarkerType.Circle,
                 MarkerFill = OxyColors.Red
             };
+            var anomalyScatter = new ScatterSeries
+            {
+
+                MarkerType = MarkerType.Circle,
+                MarkerFill = OxyColors.SkyBlue
+            };
             //Make 300 last points in red
             if (lineNumber > 300)
             {
                 for (int i = 0; i < lineNumber - 300; i++)
-                {
+                {   
                     scatterPoint.Points.Add(new ScatterPoint(attList[i], corrList[i], 2));
                 }
                 for (int i = lineNumber - 300; i < lineNumber; i++)
                 {
                     scatter300Point.Points.Add(new ScatterPoint(attList[i], corrList[i], 3));
+                }
+                foreach (string entry in viewModelController.VM_AnomalyReport.Keys)
+                {
+                    if (entry.Contains(corrItemName))
+                    {
+                        for (int i = 0; i < viewModelController.VM_AnomalyReport[entry].Count; i++)
+                        {
+                            anomalyScatter.Points.Add(new ScatterPoint(attList[viewModelController.VM_AnomalyReport[entry][i]], corrList[viewModelController.VM_AnomalyReport[entry][i]], 4));
+                        }
+                    }
                 }
             } else
             {
@@ -346,6 +369,7 @@ namespace DesktopFGApp.ViewModel
                 }
             }
             //adding reg line and points to ploat model
+            pm.Series.Add(anomalyScatter);
             pm.Series.Add(scatter300Point);
             pm.Series.Add(scatterPoint);
             pm.Series.Add(lineSeries);
@@ -383,11 +407,11 @@ namespace DesktopFGApp.ViewModel
                     scatter300Point.Points.Add(new ScatterPoint(attList[i], corrList[i], 3));
                 }
             }
+
             //adding reg line and points to ploat model
             pm.Series.Add(scatter300Point);
             pm.Series.Add(scatterPoint);
-            pm.Series.Add(new FunctionSeries((x) => Math.Sqrt(Math.Max(Math.Pow(radius, 2) - Math.Pow(x - centerX, 2), 0)) + centerY, -radius, radius, 0.1) { Color = OxyColors.Blue });
-            pm.Series.Add(new FunctionSeries((x) => (-Math.Sqrt(Math.Max(Math.Pow(radius, 2) - Math.Pow(x - centerX, 2), 0))) + centerY, -radius, radius, 0.1) { Color = OxyColors.Blue });
+            pm.Annotations.Add(new EllipseAnnotation { X = centerX, Y = centerY, Width = radius, Height = radius, Fill = OxyColors.Transparent  ,Stroke = OxyColors.Black, StrokeThickness = 2 });
          }
         // sets up a given graph
         public void SetUpModel(PlotModel pm)

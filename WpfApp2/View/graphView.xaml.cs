@@ -1,8 +1,11 @@
 ﻿using AdvancedCoding2;
 using DesktopFGApp.ViewModel;
 using OxyPlot;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Linq;
+using System.Windows.Media;
 
 namespace DesktopFGApp.View
 {
@@ -21,7 +24,7 @@ namespace DesktopFGApp.View
         {
             InitializeComponent();
             this.vmCon = vmc;
-            this.graphViewModel = new GraphViewModel(c, vmc ,attPlot, corrPlot, LRPlot);
+            this.graphViewModel = new GraphViewModel(c, vmc, attPlot, corrPlot, LRPlot);
             this.DataContext = graphViewModel;
             StackPanel stackPanel = new StackPanel();
             //creating buttons
@@ -31,13 +34,18 @@ namespace DesktopFGApp.View
                 b.Click += Button_Click;
                 b.Content = name;
                 stackPanel.Children.Add(b);
+                if (vmCon.VM_AnomalyReport.Any(kvp => kvp.Key.Contains(b.Content.ToString())))
+                {
+                    b.Background = Brushes.SkyBlue;
+                }
+                scorllButtons.Content = stackPanel;
+                Attpv = attPlot;
+                Corrpv = corrPlot;
+                RegLinepv = LRPlot;
+                Loaded += GraphView_Loaded;
             }
-            scorllButtons.Content = stackPanel;
-            Attpv = attPlot;
-            Corrpv = corrPlot;
-            RegLinepv = LRPlot;
-            Loaded += GraphView_Loaded;
         }
+
         private void GraphView_Loaded(object sender, RoutedEventArgs e)
         {
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;

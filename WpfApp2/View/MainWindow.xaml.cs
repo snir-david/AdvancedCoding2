@@ -217,7 +217,11 @@ namespace AdvancedCoding2
                     ticksMarks.Add(i);
                 }
             }
-            time_slider.Ticks = ticksMarks;
+            if(ticksMarks.Count > 0)
+            {
+                time_slider.Ticks = ticksMarks;
+                time_slider.TickPlacement = System.Windows.Controls.Primitives.TickPlacement.BottomRight;
+            }   
         }
     }
 }

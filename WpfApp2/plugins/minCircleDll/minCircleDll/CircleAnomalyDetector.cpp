@@ -18,6 +18,7 @@ CircleAnomalyDetector::~CircleAnomalyDetector()
 
 void CircleAnomalyDetector::learnNormal(const TimeSeries& ts)
 {
+	tsCSV = ts;
 	vector<string> atts = ts.gettAttributes();
 	size_t len = ts.getRowSize();
 	float** vals = (float**)malloc(atts.size() * sizeof(float*));
@@ -31,7 +32,6 @@ void CircleAnomalyDetector::learnNormal(const TimeSeries& ts)
 		vector<float> x = ts.getAttributeData(atts[i]);
 		for (size_t j = 0; j < len; j++) {
 			vals[i][j] = x[j];
-			//vals[i][j] = x[j];
 		}
 	}
 
@@ -73,7 +73,6 @@ void CircleAnomalyDetector::learnHelper(size_t len, float p/*pearson*/, string f
 vector<AnomalyReport> CircleAnomalyDetector::detect(const TimeSeries& ts)
 {
 	vector<AnomalyReport> v;
-	tsCSV = ts;
 	for_each(cf.begin(), cf.end(), [&v, &ts, this](correlatedFeatures c) {
 		vector<float> x = ts.getAttributeData(c.feature1);
 		vector<float> y = ts.getAttributeData(c.feature2);
@@ -89,7 +88,7 @@ vector<AnomalyReport> CircleAnomalyDetector::detect(const TimeSeries& ts)
 }
 	
 bool CircleAnomalyDetector::isAnomalous(Point x, Point y, correlatedFeatures c) {
-	return (dist(x,y) < c.corrlation);
+	return (dist(x,y) > c.threshold);
 }
 
 Point** CircleAnomalyDetector::toPoints(vector<float> x, vector<float> y) {
