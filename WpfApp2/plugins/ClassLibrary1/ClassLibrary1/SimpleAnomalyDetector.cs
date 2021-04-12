@@ -4,41 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.InteropServices;
+using System.IO;
+using DesktopFGApp;
 
-namespace trldll
+namespace SimpleAnomalyDetector
 {
-    public class simpleAnomaly 
-        {
+    public class simpleAnomaly: IAnomalyDetector
+    {
         public Dictionary<string, List<float>> AnomalyReport = new Dictionary<string, List<float>>();
 
         // need to insert user input for dll filr
-        [DllImport("WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Create();
-        [DllImport("WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void learnnig(IntPtr sad, string CSVfileName);
-        [DllImport("WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void detecting(IntPtr sad, IntPtr wrapAR, string detectfileName);
-        [DllImport("WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CreateVectorWrapper();
-        [DllImport("WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern long getTS(IntPtr vec, int x);
-        [DllImport("WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void getDP(IntPtr vec, int x, StringBuilder attName);
-        [DllImport("WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int getDPLen(IntPtr vec, int x);
-        [DllImport("WpfApp2\\plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vectorSize(IntPtr vec);
 
-        static void Main() { 
-        simpleAnomaly f = new simpleAnomaly();
-            f.findAnomaly();
-        }
-        public void findAnomaly()
+       public void findAnomaly(string anomalyCSVPath)
         {
             IntPtr timeSeries = Create();
-            learnnig(timeSeries, "WpfApp2\\reg_flight.csv");
+            learnnig(timeSeries, "reg_flight.csv");
             IntPtr anomalyVector = CreateVectorWrapper();
-            detecting(timeSeries, anomalyVector, "WpfApp2\\anomaly_flight.csv");
+            detecting(timeSeries, anomalyVector, anomalyCSVPath);
             int vs = vectorSize(anomalyVector);
             for (int i = 0; i < vs; i++)
             {

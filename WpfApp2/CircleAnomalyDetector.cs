@@ -30,12 +30,12 @@ namespace DesktopFGApp
         public static extern int vectorSize(IntPtr vec);
 
 
-        public void findAnomaly()
+        public void findAnomaly(string flightCSVPath)
         {
             IntPtr timeSeries = Create();
             learnnig(timeSeries, "WpfApp2\\reg_flight.csv");
             IntPtr anomalyVector = CreateVectorWrapper();
-            detecting(timeSeries, anomalyVector, "WpfApp2\\anomaly_flight.csv");
+            detecting(timeSeries, anomalyVector, flightCSVPath);
             int vs = vectorSize(anomalyVector);
             for (int i = 0; i < vs; i++)
             {

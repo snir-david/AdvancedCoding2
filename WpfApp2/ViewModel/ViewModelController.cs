@@ -1,10 +1,14 @@
-﻿using System;
+﻿using DesktopFGApp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 using WpfApp2.ViewModel;
+using System.Linq;
+
 
 namespace AdvancedCoding2
 {
@@ -18,6 +22,8 @@ namespace AdvancedCoding2
         private Thread connectThread;
         private TimeSpan Time;
         public event PropertyChangedEventHandler PropertyChanged;
+        public Dictionary<string, List<float>> VM_AnomalyReport;
+
         /***Properties***/
         public String[] VM_CSVcopy
         {
@@ -178,6 +184,7 @@ namespace AdvancedCoding2
             this.clientModel = m;
             playSpeed = 0;
             Time = new TimeSpan(0, 0, 0);
+            VM_AnomalyReport = new Dictionary<string, List<float>>();
             isConnected = false;
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
@@ -258,6 +265,24 @@ namespace AdvancedCoding2
         public void xmlPraser()
         {
             clientModel.xmlParser();
+        }
+        public void dllHandling()
+        {
+            var dllAlgorithm = Assembly.LoadFrom(VM_DLLPath);
+            Type anomalyDetType = typeof(IAnomalyDetector);
+            foreach(Type type in dllAlgorithm.GetExportedTypes())
+            {
+                var interfaces = type.GetInterfaces();
+                foreach (Type i in interfaces)
+                {
+                  if( i.Name == "IAnomalyDetector")
+                    {
+                        dynamic anomalyAlgo = Activator.CreateInstance(type);
+                        anomalyAlgo.findAnomaly(VM_fpath);
+                        VM_AnomalyReport = anomalyAlgo.getAnomalyReport();
+                    }
+                }
+            }
         }
     }
 }

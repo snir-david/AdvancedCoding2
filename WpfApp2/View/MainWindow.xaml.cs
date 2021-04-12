@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Forms;
+using System.Runtime;
 using System.Windows.Media;
 using WpfApp2.View;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
@@ -55,7 +56,6 @@ namespace AdvancedCoding2
                 {
                     //if XML found - only CSV button visible and than save XML path and parse XML
                     CSV_button.Visibility = Visibility.Visible;
-                    AnomalyDll_button.Visibility = Visibility.Visible;
                     controllerViewModel.VM_XMLPath = "C:\\Program Files\\FlightGear 2020.3.6\\data\\Protocol\\playback_small.xml";
                     controllerViewModel.xmlPraser();
                 }
@@ -128,7 +128,8 @@ namespace AdvancedCoding2
                 //read csv and start playing simulator
                 readCSVfile();
                 controllerViewModel.splitAtt();
-                Play_Button_Click(this, null);
+                //Play_Button_Click(this, null);
+                AnomalyDll_button.Visibility = Visibility.Visible;
             }
         }
         private void OpenXML_Click(object sender, RoutedEventArgs e)
@@ -200,22 +201,18 @@ namespace AdvancedCoding2
         }
         private void anomaly_detector_algorithim(object sender, RoutedEventArgs e)
         {
-            Dictionary<string, List<float>> AnomalyReport = new Dictionary<string, List<float>>();
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+           OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
                 controllerViewModel.VM_DLLPath = openFileDialog.FileName;
-            Type interfaceType = typeof(IAnomalyDetector);
-            var dllAlgo = Assembly.LoadFile(@"C:\Users\snira\source\repos\snir-david\DesktopFGApp\WpfApp2\plugins\trydll\trydll\bin\Debug\netcoreapp3.1\trydll.dll");
-            foreach(Type type in dllAlgo.GetExportedTypes())
+            if (controllerViewModel.VM_DLLPath != null)
             {
-                dynamic c = Activator.CreateInstance(type);
-                c.findAnomaly();
+                controllerViewModel.dllHandling();
+                AnomalyDll_button.Visibility = Visibility.Hidden;
+                Play_Button_Click(this, null);
             }
 
 
-
-            
-                }
-            }
         }
+    }
+}
     
