@@ -22,6 +22,7 @@ class Circle{
 public:
 	Point center;
 	float radius;
+	Circle(){}
 	Circle(Point c,float r):center(c),radius(r){}
 };
 // --------------------------------------
@@ -38,6 +39,7 @@ Circle from3Points(Point a, Point b, Point c);
 
 Circle trivial(vector<Point>& P);
 
-Circle welzl(Point** P,vector<Point> R, size_t n);Circle findMinCircle(Point** points,size_t size);
+Circle welzl(Point** P,vector<Point> R, size_t n);
+Circle findMinCircle(Point** points,size_t size);
 
 #endif /* MINCIRCLE_H_ */

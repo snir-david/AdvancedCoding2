@@ -7,6 +7,8 @@ using namespace std;
 
 CircleAnomalyDetector::CircleAnomalyDetector()
 {
+	this->minCirc = Circle();
+	this->tsCSV = TimeSeries();
 	this->threshold = 0.5;
 }
 
@@ -71,6 +73,7 @@ void CircleAnomalyDetector::learnHelper(size_t len, float p/*pearson*/, string f
 vector<AnomalyReport> CircleAnomalyDetector::detect(const TimeSeries& ts)
 {
 	vector<AnomalyReport> v;
+	tsCSV = ts;
 	for_each(cf.begin(), cf.end(), [&v, &ts, this](correlatedFeatures c) {
 		vector<float> x = ts.getAttributeData(c.feature1);
 		vector<float> y = ts.getAttributeData(c.feature2);

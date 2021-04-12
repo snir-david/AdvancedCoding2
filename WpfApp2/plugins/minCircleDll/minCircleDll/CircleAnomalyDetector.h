@@ -5,6 +5,7 @@
 
 #include "anomaly_detection_util.h"
 #include "AnomalyDetector.h"
+#include "minCircle.h"
 #include <vector>
 #include <algorithm>
 #include <string.h>
@@ -30,6 +31,8 @@ protected:
 	vector<correlatedFeatures> cf;
 	float threshold;
 public:
+	TimeSeries tsCSV;
+	Circle minCirc;
 	CircleAnomalyDetector();
 	virtual ~CircleAnomalyDetector();
 
@@ -90,5 +93,31 @@ extern "C" __declspec(dllexport) void getDP(VectorWrapper * v, int index, char* 
 
 extern "C" __declspec(dllexport) int getDPLen(VectorWrapper * v, int index) {
 	return v->anomalyVec[index].description.size();
+}
+
+extern "C" __declspec(dllexport) void findMinCircle(VectorWrapper * v, CircleAnomalyDetector * cad, int attIdx, int corrIdx, size_t size) {
+	vector<float> att = cad->tsCSV.getAttributeDataIdx(attIdx);
+	vector<float> corr = cad->tsCSV.getAttributeDataIdx(corrIdx);
+	Point** p = new Point *[att.size()];
+	for (int i = 0; i < att.size(); i++)
+	{
+		p[i] = new Point(att[i], corr[i]);
+	}
+	cad->minCirc= findMinCircle(p, att.size());
+	for (int i = 0; i < att.size(); i++)
+	{
+		delete p[i];
+	}
+	delete []p;
+}
+
+extern "C" __declspec(dllexport) int getRadius(CircleAnomalyDetector * cad) {
+	return cad->minCirc.radius;
+}
+extern "C" __declspec(dllexport) float getCenterX(CircleAnomalyDetector * cad) {
+	return cad->minCirc.center.x;
+}
+extern "C" __declspec(dllexport) float getCenterY(CircleAnomalyDetector * cad) {
+	return cad->minCirc.center.y;
 }
 #endif /* CIRCLEANOMALYDETECTOR_H_ */

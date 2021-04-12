@@ -30,6 +30,7 @@ class TimeSeries {
 	size_t dataRowSize;
 public:
 
+	TimeSeries(){}
 
 	TimeSeries(const char* CSVfileName) {
 		ifstream in(CSVfileName);
@@ -71,6 +72,9 @@ public:
 		}
 		return ts[idx].second;
 	}
+	const vector<float>& getAttributeDataIdx(int idx)const {
+		return ts[idx].second;
+	}
 
 	const vector<string>& gettAttributes()const {
 		return atts;
@@ -83,6 +87,8 @@ public:
 	vector <pair<string, vector<float>>> getVec() {
 		return ts;
 	}
+
+
 
 	~TimeSeries() {
 	}
