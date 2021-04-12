@@ -269,7 +269,9 @@ namespace DesktopFGApp.ViewModel
             }
             if (viewModelController.isCircel)
             {
-                c = ModelUtil.findMinCircle(pointList, (pointList.Count-1)); 
+                viewModelController.VM_Attfeatures = viewModelController.dllAlgo.findMinCirc(attChooseIdx,corrChooseIdx);
+
+                //c = ModelUtil.findMinCircle(pointList, (pointList.Count-1)); 
             }
             else if (viewModelController.isRegLine)
             {

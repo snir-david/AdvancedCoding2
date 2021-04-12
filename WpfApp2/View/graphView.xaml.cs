@@ -51,6 +51,7 @@ namespace DesktopFGApp.View
             graphViewModel.VM_AttUserChoose = attName;
             corrName = graphViewModel.FindCorralativeFeature(attName);
             graphViewModel.VM_corralative = corrName;
+
             //setting up 3 plot models - attPlot
             graphViewModel.SetUpModel(graphViewModel.VM_AttPlotModel);
             graphViewModel.VM_AttPlotModel.Series.Clear();
