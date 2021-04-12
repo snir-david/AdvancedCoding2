@@ -22,6 +22,7 @@ namespace DesktopFGApp.ViewModel
         private long lastUpdate;
         private int attChooseIdx, corrChooseIdx;
         private float regMin, regMax, regFxMax, regFxMin;
+        private double radius, centerX, centerY;
         private string corrItemName;
         private List<string> attList;
         private List<float> floatAttList, floatCorrList;
@@ -261,6 +262,7 @@ namespace DesktopFGApp.ViewModel
                 return corrItemName;
             }
             corrItemName = viewModelController.VM_headerNames[corrChooseIdx];
+            floatCorrList = stringToFloat(viewModelController.VM_currentAtt[corrChooseIdx]);
             VM_corralative = corrItemName;
             List<Point> pointList = new List<Point>();
             for (int i = 0; i < attList.Count; i++)
@@ -269,9 +271,11 @@ namespace DesktopFGApp.ViewModel
             }
             if (viewModelController.isCircel)
             {
-                viewModelController.VM_Attfeatures = viewModelController.dllAlgo.findMinCirc(attChooseIdx,corrChooseIdx);
+                viewModelController.dllAlgo.findMinCirc(attChooseIdx,corrChooseIdx);
+                radius = viewModelController.dllAlgo.getRadiu();
+                centerX = viewModelController.dllAlgo.getX();
+                centerY = viewModelController.dllAlgo.getY();
 
-                //c = ModelUtil.findMinCircle(pointList, (pointList.Count-1)); 
             }
             else if (viewModelController.isRegLine)
             {
@@ -382,12 +386,9 @@ namespace DesktopFGApp.ViewModel
             //adding reg line and points to ploat model
             pm.Series.Add(scatter300Point);
             pm.Series.Add(scatterPoint);
-            if (c != null)
-            {
-                pm.Series.Add(new FunctionSeries((x) => Math.Sqrt(Math.Max(Math.Pow(c.radius, 2) - Math.Pow(x - c.center.x, 2), 0)) + c.center.y, -c.radius, c.radius, 0.1) { Color = OxyColors.Red });
-                pm.Series.Add(new FunctionSeries((x) => (-Math.Sqrt(Math.Max(Math.Pow(c.radius, 2) - Math.Pow(x - c.center.x, 2), 0))) + c.center.y, -c.radius, c.radius, 0.1) { Color = OxyColors.Red });
-            }
-        }
+            pm.Series.Add(new FunctionSeries((x) => Math.Sqrt(Math.Max(Math.Pow(radius, 2) - Math.Pow(x - centerX, 2), 0)) + centerY, -radius, radius, 0.1) { Color = OxyColors.Blue });
+            pm.Series.Add(new FunctionSeries((x) => (-Math.Sqrt(Math.Max(Math.Pow(radius, 2) - Math.Pow(x - centerX, 2), 0))) + centerY, -radius, radius, 0.1) { Color = OxyColors.Blue });
+         }
         // sets up a given graph
         public void SetUpModel(PlotModel pm)
         {

@@ -111,13 +111,13 @@ extern "C" __declspec(dllexport) void findMinCircle( CircleAnomalyDetector * cad
 	delete []p;
 }
 
-extern "C" __declspec(dllexport) int getRadius(CircleAnomalyDetector * cad) {
+extern "C" __declspec(dllexport) double getRadius(CircleAnomalyDetector * cad) {
 	return cad->minCirc.radius;
 }
-extern "C" __declspec(dllexport) float getCenterX(CircleAnomalyDetector * cad) {
+extern "C" __declspec(dllexport) double getCenterX(CircleAnomalyDetector * cad) {
 	return cad->minCirc.center.x;
 }
-extern "C" __declspec(dllexport) float getCenterY(CircleAnomalyDetector * cad) {
+extern "C" __declspec(dllexport) double getCenterY(CircleAnomalyDetector * cad) {
 	return cad->minCirc.center.y;
 }
 #endif /* CIRCLEANOMALYDETECTOR_H_ */

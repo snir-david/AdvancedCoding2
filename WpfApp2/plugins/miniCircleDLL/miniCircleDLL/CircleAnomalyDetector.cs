@@ -18,7 +18,8 @@ namespace DesktopFGApp
     public class CircleAnomalyDetector : IAnomalyDetector
     {
         public Dictionary<string, List<int>> AnomalyReport = new Dictionary<string, List<int>>();
-        public Dictionary<string, Tuple<Point,int>> Attfeatures = new Dictionary<string, Tuple<Point, int>>();
+        public int radius;
+        public double centerX, centerY;
         public IntPtr CircleAnomalyDete;
 
         // need to insert user input for dll filr
@@ -39,11 +40,11 @@ namespace DesktopFGApp
         [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vectorSize(IntPtr vec);
         [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int getRadius(IntPtr cad);
+        public static extern double getRadius(IntPtr cad);
         [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern float getCenterX(IntPtr cad);
+        public static extern double getCenterX(IntPtr cad);
         [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern float getCenterY(IntPtr cad);
+        public static extern double getCenterY(IntPtr cad);
 
         [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void findMinCircle(IntPtr cad, int attIdx, int corrIdx);
@@ -70,10 +71,9 @@ namespace DesktopFGApp
                     AnomalyReport[attName.ToString()].Add(val);
                 }
                 else
-                {                                                                              EXCEPINFO
+                {                                                                              
                     AnomalyReport.Add(attName.ToString(), new List<int>());
                     AnomalyReport[attName.ToString()].Add(val);
-                    Attfeatures.Add(attName.ToString(), new Tuple<Point, int>(new Point(getCenterX(CircleAnomalyDete), getCenterY(CircleAnomalyDete)), getRadius(CircleAnomalyDete)));
                 }
             }
         }
@@ -81,15 +81,22 @@ namespace DesktopFGApp
         {
             return AnomalyReport;
         }
-        public Dictionary<string, Tuple<Point, int>> getFeatures()
+            
+        public void findMinCirc (int indexAtt , int indexCorr)
         {
-            return Attfeatures;
+            findMinCircle(CircleAnomalyDete, indexAtt , indexCorr);
         }
-    
-           public void findMinCirc (int indexAtt , int indexCorr)
-           {
-                findMinCircle(CircleAnomalyDete, indexAtt , indexCorr);
-           }
-    
+        public double getRadiu()
+        {
+            return getRadius(CircleAnomalyDete);
+        }
+        public double getX()
+        {
+            return getCenterX(CircleAnomalyDete);
+        }
+        public double getY()
+        {
+            return getCenterY(CircleAnomalyDete);
+        }
     }
 }
