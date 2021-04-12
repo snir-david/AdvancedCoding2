@@ -13,8 +13,8 @@ using namespace std;
 class AnomalyReport{
 public:
 	string description;
-	long timeStep;
-	AnomalyReport(string description, long timeStep):description(description),timeStep(timeStep){}
+	int timeStep;
+	AnomalyReport(string description, int timeStep):description(description),timeStep(timeStep){}
 };
 
 class TimeSeriesAnomalyDetector {

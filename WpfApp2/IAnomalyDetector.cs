@@ -9,6 +9,6 @@ namespace DesktopFGApp
     interface IAnomalyDetector
     {
         void findAnomaly(string anomalyCSVPath);
-        Dictionary<string, List<float>> getAnomalyReport();
+        Dictionary<string, List<long>> getAnomalyReport();
     }
 }

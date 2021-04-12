@@ -13,13 +13,15 @@ namespace DesktopFGApp.View
     {
         /***Data Members***/
         private GraphViewModel graphViewModel;
+        private ViewModelController vmCon;
         private string attName, corrName;
         private OxyPlot.Wpf.PlotView Attpv, Corrpv, RegLinepv;
         /***Methods***/
-        public graphView(IClientModel c)
+        public graphView(IClientModel c, ViewModelController vmc)
         {
             InitializeComponent();
-            this.graphViewModel = new GraphViewModel(c, attPlot, corrPlot, LRPlot);
+            this.vmCon = vmc;
+            this.graphViewModel = new GraphViewModel(c, vmc ,attPlot, corrPlot, LRPlot);
             this.DataContext = graphViewModel;
             StackPanel stackPanel = new StackPanel();
             //creating buttons
@@ -59,10 +61,13 @@ namespace DesktopFGApp.View
             graphViewModel.VM_CorrPlotModel.Series.Clear();
             graphViewModel.LoadLineDataGraph(graphViewModel.VM_currLine, Corrpv, graphViewModel.VM_corrFloatList, graphViewModel.VM_CorrPlotModel);
             corrPlot.InvalidatePlot(true);
-            //regLine plot
+            //regLine or minCircle plot
             graphViewModel.SetUpModel(graphViewModel.VM_RegLinePlotModel);
             graphViewModel.VM_RegLinePlotModel.Series.Clear();
-            graphViewModel.LoadScatterGraphData(graphViewModel.VM_currLine, RegLinepv, graphViewModel.VM_attChooseFloatList, graphViewModel.VM_corrFloatList, graphViewModel.VM_RegLinePlotModel);
+            if (vmCon.isRegLine)
+                graphViewModel.LoadScatterGraphData(graphViewModel.VM_currLine, RegLinepv, graphViewModel.VM_attChooseFloatList, graphViewModel.VM_corrFloatList, graphViewModel.VM_RegLinePlotModel);
+            if (vmCon.isCircel)
+                graphViewModel.LoadCircleGraphData(graphViewModel.VM_currLine, RegLinepv, graphViewModel.VM_attChooseFloatList, graphViewModel.VM_corrFloatList, graphViewModel.VM_RegLinePlotModel);
             LRPlot.InvalidatePlot(true);
         }
     }

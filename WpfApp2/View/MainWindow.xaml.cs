@@ -11,6 +11,7 @@ using System.Runtime;
 using System.Windows.Media;
 using WpfApp2.View;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using System.Threading;
 
 namespace AdvancedCoding2
 {
@@ -21,26 +22,18 @@ namespace AdvancedCoding2
     {
         /***Data Members***/
         public ViewModelController controllerViewModel;
-        private IAnomalyDetector anomalyDetector;
         private IClientModel clientModel;
         private JoystickView joystickView;
         private graphView graphV;
         /***Methods***/
         public MainWindow()
         {
-            const string d = "1,2 ,3";
             InitializeComponent();
             //creating a client instance
             Client c = new Client("localhost", 5400);
             clientModel = c;
             controllerViewModel = new ViewModelController(c);
             this.DataContext = controllerViewModel;
-            /* ticks for slider - every timestamp
-            DoubleCollection ticksMarks = new DoubleCollection();
-            ticksMarks.Add(1);
-
-            time_slider.Ticks = ticksMarks; */
-
             //checking if FG folder is in the "normal" place
             if (Directory.Exists("C:\\Program Files\\FlightGear 2020.3.6"))
             {
@@ -168,7 +161,7 @@ namespace AdvancedCoding2
         private void graph_button_Click(object sender, RoutedEventArgs e)
         {
             if (graphV == null) 
-                graphV = new graphView(clientModel);
+                graphV = new graphView(clientModel, controllerViewModel);
             graphV.Show();
             graph_button.Visibility = Visibility.Hidden;
             hide_graph_button.Visibility = Visibility.Visible;
@@ -206,12 +199,25 @@ namespace AdvancedCoding2
                 controllerViewModel.VM_DLLPath = openFileDialog.FileName;
             if (controllerViewModel.VM_DLLPath != null)
             {
+                controllerViewModel.pauseConnection();
                 controllerViewModel.dllHandling();
-                AnomalyDll_button.Visibility = Visibility.Hidden;
-                Play_Button_Click(this, null);
+                ticksInit();
+                controllerViewModel.resumeConnection();
+                //Play_Button_Click(this, null);
             }
-
-
+        }
+        private void ticksInit()
+        {
+            DoubleCollection ticksMarks = new DoubleCollection();
+            foreach (KeyValuePair <string, List<int>> entry in controllerViewModel.VM_AnomalyReport)
+            {
+                foreach(int i in entry.Value)
+                {
+                    // ticks for slider - every timestamp
+                    ticksMarks.Add(i);
+                }
+            }
+            time_slider.Ticks = ticksMarks;
         }
     }
 }

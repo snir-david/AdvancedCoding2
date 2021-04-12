@@ -22,7 +22,8 @@ namespace AdvancedCoding2
         private Thread connectThread;
         private TimeSpan Time;
         public event PropertyChangedEventHandler PropertyChanged;
-        public Dictionary<string, List<float>> VM_AnomalyReport;
+        public Dictionary<string, List<int>> VM_AnomalyReport;
+        public bool isRegLine, isCircel;
 
         /***Properties***/
         public String[] VM_CSVcopy
@@ -171,6 +172,20 @@ namespace AdvancedCoding2
                 return clientModel.HeaderNames;
             }
         }
+        public Thread threadConn
+        {
+            get
+            {
+                return connectThread;
+            }        
+            set
+            {
+                if(threadConn != value)
+                {
+                    connectThread = value;
+                }
+            }
+        }
         /***Methods***/
         public void onPropertyChanged(string propName)
         {
@@ -184,7 +199,7 @@ namespace AdvancedCoding2
             this.clientModel = m;
             playSpeed = 0;
             Time = new TimeSpan(0, 0, 0);
-            VM_AnomalyReport = new Dictionary<string, List<float>>();
+            VM_AnomalyReport = new Dictionary<string, List<int>>();
             isConnected = false;
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
@@ -234,7 +249,8 @@ namespace AdvancedCoding2
         }
         public void resumeConnection()
         {
-            connectThread.Resume();
+            if(connectThread != null)
+                connectThread.Resume();
         }
         public void pauseConnection()
         {
@@ -269,16 +285,24 @@ namespace AdvancedCoding2
         public void dllHandling()
         {
             var dllAlgorithm = Assembly.LoadFrom(VM_DLLPath);
-            Type anomalyDetType = typeof(IAnomalyDetector);
             foreach(Type type in dllAlgorithm.GetExportedTypes())
             {
+                if (type.Name.Contains("simple"))
+                {
+                    isRegLine = true;
+                    isCircel = false;
+                }  else if (type.Name.Contains("Circle"))
+                {
+                    isRegLine = false;
+                    isCircel = true;
+                }
                 var interfaces = type.GetInterfaces();
                 foreach (Type i in interfaces)
                 {
                   if( i.Name == "IAnomalyDetector")
                     {
                         dynamic anomalyAlgo = Activator.CreateInstance(type);
-                        anomalyAlgo.findAnomaly(VM_fpath);
+                        anomalyAlgo.findAnomaly(VM_fpath, VM_headerNames);
                         VM_AnomalyReport = anomalyAlgo.getAnomalyReport();
                     }
                 }

@@ -21,11 +21,14 @@ namespace DesktopFGApp.ViewModel
         private Stopwatch timer;
         private long lastUpdate;
         private int attChooseIdx, corrChooseIdx;
+        private float regMin, regMax, regFxMax, regFxMin;
         private string corrItemName;
         private List<string> attList;
         private List<float> floatAttList, floatCorrList;
         private PlotModel AttPlotModel, CorrPlotModel, regLinePlotModel;
         private OxyPlot.Wpf.PlotView VM_pvAtt, VM_pvCorr, VM_pvLR;
+        public Circle c;
+
         /***Properties***/
         public PlotModel VM_AttPlotModel
         {
@@ -140,10 +143,12 @@ namespace DesktopFGApp.ViewModel
         }
         /***Methods***/
         // the constructor of the Graph View Model - getting a client object and 3 plotviews for graphs
-        public GraphViewModel(IClientModel c, OxyPlot.Wpf.PlotView Attpv, OxyPlot.Wpf.PlotView Corrpv, OxyPlot.Wpf.PlotView regLinepv)
+        public GraphViewModel(IClientModel c, ViewModelController vmc , OxyPlot.Wpf.PlotView Attpv, OxyPlot.Wpf.PlotView Corrpv, OxyPlot.Wpf.PlotView regLinepv)
         {
             //getting args from constructor
             clientModel = c;
+                        viewModelController = vmc;
+
             VM_pvAtt = Attpv;
             VM_pvCorr = Corrpv;
             VM_pvLR = regLinepv;
@@ -154,7 +159,6 @@ namespace DesktopFGApp.ViewModel
 
             clientModel.xmlParser();
 
-            viewModelController = new ViewModelController(this.clientModel);
             //Plot models inti
             VM_AttPlotModel = new PlotModel();
             VM_CorrPlotModel = new PlotModel();
@@ -184,11 +188,14 @@ namespace DesktopFGApp.ViewModel
                         SetUpModel(VM_CorrPlotModel);
                         LoadLineDataGraph(VM_currLine, VM_pvCorr, floatCorrList, VM_CorrPlotModel);
                         VM_pvCorr.InvalidatePlot(true);
-                        //setting up regLinePlotModel
+                        //setting up regLinePlotModel or minCircle
                         VM_RegLinePlotModel.Series.Clear();
                         SetUpModel(VM_RegLinePlotModel);
-                        LoadScatterGraphData(VM_currLine, VM_pvLR, floatAttList, floatCorrList, VM_RegLinePlotModel);
-                        VM_pvLR.InvalidatePlot(true);
+                        if(viewModelController.isRegLine)
+                            LoadScatterGraphData(VM_currLine, VM_pvLR, floatAttList, floatCorrList, VM_RegLinePlotModel);
+                        if(viewModelController.isCircel)
+                            LoadCircleGraphData(VM_currLine, VM_pvLR, floatAttList, floatCorrList, VM_RegLinePlotModel);
+                            VM_pvLR.InvalidatePlot(true);
                         //updating lastUpdate timer
                         lastUpdate = timer.ElapsedMilliseconds;
                     }
@@ -208,7 +215,7 @@ namespace DesktopFGApp.ViewModel
         {
             List<float> result = new List<float>();
             foreach (string s in list)
-            {
+            {   
                 result.Add(float.Parse(s));
             }
             return result;
@@ -255,6 +262,25 @@ namespace DesktopFGApp.ViewModel
             }
             corrItemName = viewModelController.VM_headerNames[corrChooseIdx];
             VM_corralative = corrItemName;
+            List<Point> pointList = new List<Point>();
+            for (int i = 0; i < attList.Count; i++)
+            {
+                pointList.Add(new Point(floatAttList[i], floatCorrList[i]));
+            }
+            if (viewModelController.isCircel)
+            {
+                c = ModelUtil.findMinCircle(pointList, (pointList.Count-1)); 
+            }
+            else if (viewModelController.isRegLine)
+            {
+                //finding reg Line
+                Line regLine = clientModel.linear_reg(pointList, pointList.Count);
+                //finding max and min values of attList;
+                regMax = floatAttList.Max();
+                regMin = floatAttList.Min();
+                regFxMax = regLine.f(regMax);
+                regFxMin = regLine.f(regMin);
+            }
             return corrItemName;
         }
         // creates the chosen graph
@@ -280,20 +306,9 @@ namespace DesktopFGApp.ViewModel
                 Color = OxyColors.Red,
                 StrokeThickness = 2
             };
-            //converting attList and corrList to floats list and than making a point list for linear_reg function
-            List<Point> pointList = new List<Point>();
-            for (int i = 0; i < attList.Count; i++)
-            {
-                pointList.Add(new Point(attList[i], corrList[i]));
-            }
-            //finding reg Line
-            Line regLine = clientModel.linear_reg(pointList, pointList.Count);
-            //finding max and min values of attList;
-            float max = attList.Max();
-            float min = attList.Min();
-            //drawing line between to extrem points
-            lineSeries.Points.Add(new DataPoint(max, regLine.f(max)));
-            lineSeries.Points.Add(new DataPoint(min, regLine.f(min)));
+           //drawing line between to extrem points
+            lineSeries.Points.Add(new DataPoint(regMax, regFxMax));
+            lineSeries.Points.Add(new DataPoint(regMin, regFxMin));
             //all points besides last 300
             var scatterPoint = new ScatterSeries
             {
@@ -328,6 +343,48 @@ namespace DesktopFGApp.ViewModel
             pm.Series.Add(scatter300Point);
             pm.Series.Add(scatterPoint);
             pm.Series.Add(lineSeries);
+        }
+        public void LoadCircleGraphData(int lineNumber, OxyPlot.Wpf.PlotView pv, List<float> attList, List<float> corrList, PlotModel pm)
+        {
+            //all points besides last 300
+            var scatterPoint = new ScatterSeries
+            {
+                MarkerType = MarkerType.Circle,
+                MarkerFill = OxyColors.Black
+            };
+            //last 30 seconds points - in red
+            var scatter300Point = new ScatterSeries
+            {
+                MarkerType = MarkerType.Circle,
+                MarkerFill = OxyColors.Red
+            };
+            //Make 300 last points in red
+            if (lineNumber > 300)
+            {
+                for (int i = 0; i < lineNumber - 300; i++)
+                {
+                    scatterPoint.Points.Add(new ScatterPoint(attList[i], corrList[i], 2));
+                }
+                for (int i = lineNumber - 300; i < lineNumber; i++)
+                {
+                    scatter300Point.Points.Add(new ScatterPoint(attList[i], corrList[i], 3));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < lineNumber; i++)
+                {
+                    scatter300Point.Points.Add(new ScatterPoint(attList[i], corrList[i], 3));
+                }
+            }
+            //adding reg line and points to ploat model
+            pm.Series.Add(scatter300Point);
+            pm.Series.Add(scatterPoint);
+            if (c != null)
+            {
+                pm.Series.Add(new FunctionSeries((x) => Math.Sqrt(Math.Max(Math.Pow(c.radius, 2) - Math.Pow(x - c.center.x, 2), 0)) + c.center.y, -c.radius, c.radius, 0.1) { Color = OxyColors.Red });
+                pm.Series.Add(new FunctionSeries((x) => (-Math.Sqrt(Math.Max(Math.Pow(c.radius, 2) - Math.Pow(x - c.center.x, 2), 0))) + c.center.y, -c.radius, c.radius, 0.1) { Color = OxyColors.Red });
+            }
         }
         // sets up a given graph
         public void SetUpModel(PlotModel pm)
