@@ -135,7 +135,6 @@ namespace AdvancedCoding2
                 controllerViewModel.copyXML();
                 controllerViewModel.xmlPraser();
                 XML_button.Visibility = Visibility.Hidden;
-                AnomalyDll_button.Visibility = Visibility.Visible;
             }
         }
         private void Openfolder_Click(object sender, RoutedEventArgs e)

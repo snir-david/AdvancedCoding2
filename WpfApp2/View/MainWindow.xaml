@@ -8,7 +8,7 @@
         Title="MainWindow" Height="165" Width="570" Background="#FF7E7E7E"
         WindowStartupLocation="Manual">
 
-    <Grid Height="140" VerticalAlignment="Top" HorizontalAlignment="Left" Width="560" Margin="0,0,0,-4" >
+    <Grid Margin="0,0,3.333,-4" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="197*"/>
         </Grid.ColumnDefinitions>
@@ -16,10 +16,10 @@
             <RowDefinition Height="750"/>
         </Grid.RowDefinitions>
 
-        <Button x:Name="pause_button1" Margin="479,57,86,664" Click="Pause_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" Visibility="Hidden">
+        <Button x:Name="pause_button1" Margin="454,55,0,661" Click="Pause_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Left" Width="35" Visibility="Hidden">
             <Image x:Name="pause_button" Source="/images/pause.png" RenderTransformOrigin="0.5,0.5" ForceCursor="True" Height="20" Width="20"/>
         </Button>
-        <Button x:Name="play_button1" Margin="484,55,0,661" Click="Play_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Left" Width="35">
+        <Button x:Name="play_button1" Margin="486,55,0,661" Click="Play_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Left" Width="34">
             <Image x:Name="play_button" Source="/images/play.png" Height="20"  Width="20" HorizontalAlignment="Center" VerticalAlignment="Center"></Image>
         </Button>
         <Button x:Name="for_button1" Margin="517,55,0,0" Click="Forw_Button_Click" BorderBrush="{x:Null}" Background="{x:Null}" Height="36" VerticalAlignment="Top" HorizontalAlignment="Left" Width="34">
@@ -42,19 +42,19 @@
                 </TransformGroup>
             </TextBox.RenderTransform>
         </TextBox>
-        <TextBox x:Name ="current_time_box" IsReadOnly="True" TextAlignment="Center"  FontSize="25" Margin="27,53,447,0" TextWrapping="Wrap" Text="{Binding VM_Time}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Height="33" VerticalAlignment="Top"/>
+        <TextBox x:Name ="current_time_box" IsReadOnly="True" TextAlignment="Center"  FontSize="25" Margin="27,53,417,0" TextWrapping="Wrap" Text="{Binding VM_Time}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Height="30" Width="Auto" VerticalAlignment="Top"/>
 
         <Slider x:Name="time_slider"  Value="{Binding VM_lineNumber, Mode=TwoWay}" Maximum="{Binding VM_simLen}" Margin="13,91,37,0" ValueChanged="time_slider_ValueChanged" Background="{x:Null}" BorderBrush="{x:Null}" Height="24" VerticalAlignment="Top" IsSnapToTickEnabled="False"/>
 
-        <Button x:Name="Folder_button" Content="FlightGear Path" Margin="225,0,233,729" Click="Openfolder_Click" Height="20" Width="Auto" Visibility="Hidden" VerticalAlignment="Bottom"/>
+        <Button x:Name="Folder_button" Content="FlightGear Path" Margin="225,0,233,729" Click="Openfolder_Click" Height="20" Visibility="Hidden" VerticalAlignment="Bottom"/>
         <Button x:Name="XML_button" Content="Load XML" Margin="226,0,232,0" Click="OpenXML_Click" Height="20" Visibility="Hidden" VerticalAlignment="Top"/>
-        <Button x:Name="CSV_button" Content="Load CSV" Margin="225,20,233,0" Click="Openfile_Click" Height="20" Visibility="Hidden" VerticalAlignment="Top"/>
-        <Button x:Name="graph_button" Content="Show Graph View" Margin="43,6,415,0"  Height="20" Visibility="Hidden" VerticalAlignment="Top" Click="graph_button_Click"/>
-        <Button x:Name="hide_graph_button" Content="Close Graph View" Margin="44,6,415,0"  Height="20" Width="Auto" Visibility="Hidden" VerticalAlignment="Top" Click="hide_graph_button_Click"/>
-        <Button x:Name="joystick_button" Content="Show Joystick View" Margin="43,30,415,0"  Height="20" Width="Auto" Visibility="Hidden" VerticalAlignment="Top" Click="joystick_button_Click"/>
-        <Button x:Name="close_joystick_button" Content="Close Joystick View" Margin="43,30,415,0"  Height="20" Width="Auto" Visibility="Hidden" VerticalAlignment="Top" Click="close_joystick_button_Click"/>
+        <Button x:Name="CSV_button" Content="Load CSV" Margin="226,20,232,0" Click="Openfile_Click" Height="20" Visibility="Hidden" VerticalAlignment="Top"/>
+        <Button x:Name="graph_button" Content="Show Data Display" Margin="43,6,394,0"  Height="20" Visibility="Hidden" VerticalAlignment="Top" Click="graph_button_Click"/>
+        <Button x:Name="hide_graph_button" Content="Close Data Display" Margin="44,6,394,0"  Height="20"  Visibility="Hidden" VerticalAlignment="Top" Click="hide_graph_button_Click"/>
+        <Button x:Name="joystick_button" Content="Show Steers Display" Margin="43,30,394,0"  Height="20"  Visibility="Hidden" VerticalAlignment="Top" Click="joystick_button_Click"/>
+        <Button x:Name="close_joystick_button" Content="Close Steers Display" Margin="43,30,394,0"  Height="20"  Visibility="Hidden" VerticalAlignment="Top" Click="close_joystick_button_Click"/>
 
-        <Button x:Name="AnomalyDll_button" Content="Load Anomaly Detector Algorithim" Margin="225,20,233,0" Click="anomaly_detector_algorithim" Height="20" Width="Auto" Visibility="Hidden" VerticalAlignment="Top"/>
+        <Button x:Name="AnomalyDll_button" Content="Load Anomaly Detector Algorithim" Margin="169,38,185,0" Click="anomaly_detector_algorithim" Height="20" Visibility="Hidden" VerticalAlignment="Top"/>
 
 
     </Grid>
