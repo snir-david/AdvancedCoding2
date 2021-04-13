@@ -15,7 +15,9 @@ Our App (DesktopFGApp) is made especially for pilots and flight researchers that
  - **Anomaly Algorithm** - From the main window user can dynamically load the anomaly algorithm before or during the flight. The algorithm will be used by our app only if the DLL file implements the "IAnomalyDetector" interface. After detecting anomalies in current flight data - the user can see where anomalies happen in the main window slider (anomaly time will be display as ticks under the slider). Users can also find which attributes are in the anomaly report in the data display - the attributes button will be in red. In the correlation graph in the data display window - anomalies will be shown as blue points in the graph. 
 ## Directory hierarchy
 **Model**:
+ - **IClientModel** -  an interface of the model.
  - **ClientModel** -  open a TCP connection and sending data using this connection. In our case, the server is the FG app. Every data that send properties that change notifies the observers (View Model).
+ - **Helper Classes** -  using Line and Point classes for some of the functions and classes.
  
  **View Model**:
 - **ViewModelController** - controls the play speed, and sending notifies to the ViewController (MainWindow) of changes.
