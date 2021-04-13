@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"   
         mc:Ignorable="d"
-        Title="JoystickView" Height="388" Width="704" Background="#FFF7F7F7">
+        Title="Steers Display" Height="388" Width="704" Background="#FFF7F7F7">
 
     <Grid Margin="10,0,3,-19.333">
         <Grid.ColumnDefinitions>
