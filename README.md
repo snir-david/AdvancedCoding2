@@ -42,9 +42,7 @@ You will also need .Net Framework version 4.6.1 and up. You can find download [l
  - **For Developers** - install a proper IDE for C# and WPF (we used Visual Studio but you can use any other software). For working and changing the graphs you will need to install the NuGet package called OxyPlot. 
  Make sure that you build the application to x86(important for the DLL files), and that the working directory is -
 > "\DesktopFGApp\WpfApp2"
- - **For Users** - run the exe file DesktopFGApp from - 
- - > "\DesktopFGApp\WpfApp2\DesktopFGApp.exe"
-Make sure to run it from the exact location it is (\DesktopFGApp\WpfApp2) so it can find all the necessary files it's needed.
+ - **For Users** - run the exe file DesktopFGApp from wpfApp2 folder. Make sure to run it from the exact location it is (\DesktopFGApp\WpfApp2) so it can find all the necessary files it's needed.
 ## Documentation
 Here you can find a Link to UML contains partial information of the central classes and about the DLL. UML represents the various connections between the classes and the most important information found in each class. UML can be found [here](https://lucid.app/lucidchart/7449e159-4b1b-4645-b7ae-9db34b7f0c98/view?page=0_0#). 
 If you are a developer you can find full documentation of functions, variables, and more in the code.
