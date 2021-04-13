@@ -113,6 +113,8 @@ namespace AdvancedCoding2
         double pearson(List<float> x, List<float> y, int size);
         void attSplit(string[] csvFile);
         Line linear_reg(List<DesktopFGApp.Model.Point> points, int size);
-       
+        //Circle findMinCircle(List<Point> points, int size);
+
+
         }
 }

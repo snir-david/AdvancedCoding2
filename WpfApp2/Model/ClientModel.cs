@@ -7,6 +7,8 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Windows;
 using System.Xml;
+using System.Linq;
+using Point = DesktopFGApp.Model.Point;
 
 namespace AdvancedCoding2
 {
@@ -399,7 +401,8 @@ namespace AdvancedCoding2
             Airspeed = float.Parse(airList[lineNumber]);
             Altimeter = float.Parse(altList[lineNumber]);
             Roll = float.Parse(rolList[lineNumber]);
-            Pitch = float.Parse(pitList[lineNumber]);
+            float pitch = float.Parse(pitList[lineNumber]);
+            Pitch = -1 * pitch + 19;
             Yaw = float.Parse(yawList[lineNumber]);
             Heading = float.Parse(headingList[lineNumber]);
             float rudd = float.Parse(rudList[lineNumber]);
@@ -530,6 +533,7 @@ namespace AdvancedCoding2
             Line l = new Line(a, b);
             return l;
         }
+      
     }
 }
 

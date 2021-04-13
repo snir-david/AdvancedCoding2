@@ -44,15 +44,18 @@
         </TextBox>
         <TextBox x:Name ="current_time_box" IsReadOnly="True" TextAlignment="Center"  FontSize="25" Margin="27,53,447,0" TextWrapping="Wrap" Text="{Binding VM_Time}" Background="{x:Null}" BorderBrush="{x:Null}" IsEnabled="False" Height="33" VerticalAlignment="Top"/>
 
-        <Slider x:Name="time_slider"  Value="{Binding VM_lineNumber, Mode=TwoWay}" Maximum="{Binding VM_simLen}" TickFrequency="1" Margin="13,91,37,0" Cursor="Arrow" ValueChanged="time_slider_ValueChanged" Background="{x:Null}" BorderBrush="{x:Null}" Height="16" VerticalAlignment="Top" IsSnapToTickEnabled="True"/>
+        <Slider x:Name="time_slider"  Value="{Binding VM_lineNumber, Mode=TwoWay}" Maximum="{Binding VM_simLen}" Margin="13,91,37,0" ValueChanged="time_slider_ValueChanged" Background="{x:Null}" BorderBrush="{x:Null}" Height="24" VerticalAlignment="Top" IsSnapToTickEnabled="False"/>
 
-        <Button x:Name="Folder_button" Content="FlightGear Path" Margin="225,0,233,729" Click="Openfolder_Click" Height="21" Visibility="Hidden" VerticalAlignment="Bottom"/>
-        <Button x:Name="XML_button" Content="Load XML" Margin="226,0,232,0" Click="OpenXML_Click" Height="21" Visibility="Hidden" VerticalAlignment="Top"/>
-        <Button x:Name="CSV_button" Content="Load CSV" Margin="225,20,233,0" Click="Openfile_Click" Height="21" Visibility="Hidden" VerticalAlignment="Top"/>
-        <Button x:Name="graph_button" Content="Show Graph View" Margin="43,6,415,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Click="graph_button_Click"/>
-        <Button x:Name="hide_graph_button" Content="Close Graph View" Margin="44,6,415,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Click="hide_graph_button_Click"/>
-        <Button x:Name="joystick_button" Content="Show Joystick View" Margin="43,30,415,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Click="joystick_button_Click"/>
-        <Button x:Name="close_joystick_button" Content="Close Joystick View" Margin="43,30,415,0"  Height="21" Visibility="Hidden" VerticalAlignment="Top" Click="close_joystick_button_Click"/>
+        <Button x:Name="Folder_button" Content="FlightGear Path" Margin="225,0,233,729" Click="Openfolder_Click" Height="20" Width="Auto" Visibility="Hidden" VerticalAlignment="Bottom"/>
+        <Button x:Name="XML_button" Content="Load XML" Margin="226,0,232,0" Click="OpenXML_Click" Height="20" Visibility="Hidden" VerticalAlignment="Top"/>
+        <Button x:Name="CSV_button" Content="Load CSV" Margin="225,20,233,0" Click="Openfile_Click" Height="20" Visibility="Hidden" VerticalAlignment="Top"/>
+        <Button x:Name="graph_button" Content="Show Graph View" Margin="43,6,415,0"  Height="20" Visibility="Hidden" VerticalAlignment="Top" Click="graph_button_Click"/>
+        <Button x:Name="hide_graph_button" Content="Close Graph View" Margin="44,6,415,0"  Height="20" Width="Auto" Visibility="Hidden" VerticalAlignment="Top" Click="hide_graph_button_Click"/>
+        <Button x:Name="joystick_button" Content="Show Joystick View" Margin="43,30,415,0"  Height="20" Width="Auto" Visibility="Hidden" VerticalAlignment="Top" Click="joystick_button_Click"/>
+        <Button x:Name="close_joystick_button" Content="Close Joystick View" Margin="43,30,415,0"  Height="20" Width="Auto" Visibility="Hidden" VerticalAlignment="Top" Click="close_joystick_button_Click"/>
+
+        <Button x:Name="AnomalyDll_button" Content="Load Anomaly Detector Algorithim" Margin="225,20,233,0" Click="anomaly_detector_algorithim" Height="20" Width="Auto" Visibility="Hidden" VerticalAlignment="Top"/>
+
 
     </Grid>
 </Window>

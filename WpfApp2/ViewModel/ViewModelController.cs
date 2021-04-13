@@ -1,10 +1,14 @@
-﻿using System;
+﻿using DesktopFGApp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 using WpfApp2.ViewModel;
+using System.Linq;
+
 
 namespace AdvancedCoding2
 {
@@ -12,12 +16,17 @@ namespace AdvancedCoding2
     {
         /***Data Members***/
         private IClientModel clientModel;
-        public bool isConnected;
+        public bool isConnected, isRegLine, isCircel;
         private double playSpeed;
-        private string FGPath;
+        private string FGPath, dllPath;
+        private int dllChangeCounter;
         private Thread connectThread;
         private TimeSpan Time;
         public event PropertyChangedEventHandler PropertyChanged;
+        public Dictionary<string, List<int>> VM_AnomalyReport;
+        public Dictionary<string, Tuple<Point, int>> VM_Attfeatures;
+        public dynamic dllAlgo;
+
         /***Properties***/
         public String[] VM_CSVcopy
         {
@@ -145,11 +154,38 @@ namespace AdvancedCoding2
                     FGPath = value;
             }
         }
+        public string VM_DLLPath
+        {
+            get
+            {
+                return dllPath;
+            }
+            set
+            {
+                if (VM_DLLPath != value)
+                    dllPath  = value;
+            }
+        }
         public List<string> VM_headerNames
         {
             get
             {
                 return clientModel.HeaderNames;
+            }
+        }
+        public int VM_dllCounter
+        {
+            get
+            {
+                return dllChangeCounter;
+            }
+            set
+            {
+                if(VM_dllCounter != value)
+                {
+                    dllChangeCounter = value;
+                    onPropertyChanged("VM_dllCounter");
+                }
             }
         }
         /***Methods***/
@@ -164,7 +200,10 @@ namespace AdvancedCoding2
         {
             this.clientModel = m;
             playSpeed = 0;
+            VM_dllCounter = 0;
             Time = new TimeSpan(0, 0, 0);
+            VM_AnomalyReport = new Dictionary<string, List<int>>();
+            VM_Attfeatures = new Dictionary<string, Tuple<Point, int>>();
             isConnected = false;
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
@@ -214,7 +253,8 @@ namespace AdvancedCoding2
         }
         public void resumeConnection()
         {
-            connectThread.Resume();
+            if(connectThread != null)
+                connectThread.Resume();
         }
         public void pauseConnection()
         {
@@ -245,6 +285,34 @@ namespace AdvancedCoding2
         public void xmlPraser()
         {
             clientModel.xmlParser();
+        }
+        public void dllHandling()
+        {
+            var dllAlgorithm = Assembly.LoadFrom(VM_DLLPath);
+            foreach(Type type in dllAlgorithm.GetExportedTypes())
+            {
+                if (type.Name.Contains("simple"))
+                {
+                    isRegLine = true;
+                    isCircel = false;
+                }  else if (type.Name.Contains("Circle"))
+                {
+                    isRegLine = false;
+                    isCircel = true;
+                }
+                var interfaces = type.GetInterfaces();
+                foreach (Type i in interfaces)
+                {
+                  if( i.Name == "IAnomalyDetector")
+                  {
+                        dynamic anomalyAlgo = Activator.CreateInstance(type);
+                        dllAlgo = anomalyAlgo;
+                        anomalyAlgo.findAnomaly(VM_fpath, VM_headerNames);     
+                        VM_AnomalyReport = anomalyAlgo.getAnomalyReport();
+                        VM_dllCounter += 1;
+                  }
+                }
+            }
         }
     }
 }

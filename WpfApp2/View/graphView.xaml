@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DesktopFGApp.View"
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        Title="graphView" Height="460" Width="800"
+        Title="Data Display" Height="460" Width="800"
         WindowStartupLocation="Manual">
     <Grid>
         <Grid x:Name="GridScroll" Margin="0,0,2,-1">

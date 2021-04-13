@@ -1,10 +1,17 @@
-﻿using DesktopFGApp.View;
+﻿using DesktopFGApp;
+using DesktopFGApp.View;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Text;
 using System.Windows;
 using System.Windows.Forms;
+using System.Runtime;
+using System.Windows.Media;
 using WpfApp2.View;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
+using System.Threading;
 
 namespace AdvancedCoding2
 {
@@ -25,7 +32,7 @@ namespace AdvancedCoding2
             //creating a client instance
             Client c = new Client("localhost", 5400);
             clientModel = c;
-           controllerViewModel = new ViewModelController(c);
+            controllerViewModel = new ViewModelController(c);
             this.DataContext = controllerViewModel;
             //checking if FG folder is in the "normal" place
             if (Directory.Exists("C:\\Program Files\\FlightGear 2020.3.6"))
@@ -108,20 +115,28 @@ namespace AdvancedCoding2
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
                 controllerViewModel.VM_fpath = openFileDialog.FileName;
-            CSV_button.Visibility = Visibility.Hidden;
-            //read csv and start playing simulator
-            readCSVfile();
-            controllerViewModel.splitAtt();
-            Play_Button_Click(this, null);
+            if (controllerViewModel.VM_fpath != null)
+            {
+                CSV_button.Visibility = Visibility.Hidden;
+                //read csv and start playing simulator
+                readCSVfile();
+                controllerViewModel.splitAtt();
+                //Play_Button_Click(this, null);
+                AnomalyDll_button.Visibility = Visibility.Visible;
+            }
         }
         private void OpenXML_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
                 controllerViewModel.VM_XMLPath = openFileDialog.FileName;
-            controllerViewModel.copyXML();
-            controllerViewModel.xmlPraser();
-            XML_button.Visibility = Visibility.Hidden;
+            if (controllerViewModel.VM_XMLPath != null)
+            {
+                controllerViewModel.copyXML();
+                controllerViewModel.xmlPraser();
+                XML_button.Visibility = Visibility.Hidden;
+                AnomalyDll_button.Visibility = Visibility.Visible;
+            }
         }
         private void Openfolder_Click(object sender, RoutedEventArgs e)
         {
@@ -145,16 +160,17 @@ namespace AdvancedCoding2
         }
         private void graph_button_Click(object sender, RoutedEventArgs e)
         {
-            graphV = new graphView(clientModel);
+            if (graphV == null) 
+                graphV = new graphView(clientModel, controllerViewModel);
             graphV.Show();
             graph_button.Visibility = Visibility.Hidden;
             hide_graph_button.Visibility = Visibility.Visible;
         }
         private void hide_graph_button_Click(object sender, RoutedEventArgs e)
         {
-            if(graphV != null)
+            if (graphV != null)
             {
-                graphV.Close();
+                graphV.Hide();
                 graph_button.Visibility = Visibility.Visible;
                 hide_graph_button.Visibility = Visibility.Hidden;
             }
@@ -163,17 +179,50 @@ namespace AdvancedCoding2
         {
             if (joystickView != null)
             {
-                joystickView.Close();
+                joystickView.Hide();
                 joystick_button.Visibility = Visibility.Visible;
                 close_joystick_button.Visibility = Visibility.Hidden;
             }
         }
         private void joystick_button_Click(object sender, RoutedEventArgs e)
         {
-            joystickView = new JoystickView(clientModel);
+            if(joystickView == null)
+                joystickView = new JoystickView(clientModel);
             joystickView.Show();
             joystick_button.Visibility = Visibility.Hidden;
             close_joystick_button.Visibility = Visibility.Visible;
         }
+        private void anomaly_detector_algorithim(object sender, RoutedEventArgs e)
+        {
+           OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+                controllerViewModel.VM_DLLPath = openFileDialog.FileName;
+            if (controllerViewModel.VM_DLLPath != null)
+            {
+                controllerViewModel.pauseConnection();
+                controllerViewModel.dllHandling();
+                ticksInit();
+                controllerViewModel.resumeConnection();
+                //Play_Button_Click(this, null);
+            }
+        }
+        private void ticksInit()
+        {
+            DoubleCollection ticksMarks = new DoubleCollection();
+            foreach (KeyValuePair <string, List<int>> entry in controllerViewModel.VM_AnomalyReport)
+            {
+                foreach(int i in entry.Value)
+                {
+                    // ticks for slider - every timestamp
+                    ticksMarks.Add(i);
+                }
+            }
+            if(ticksMarks.Count > 0)
+            {
+                time_slider.Ticks = ticksMarks;
+                time_slider.TickPlacement = System.Windows.Controls.Primitives.TickPlacement.BottomRight;
+            }   
+        }
     }
 }
+    
