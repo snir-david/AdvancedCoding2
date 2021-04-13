@@ -28,22 +28,12 @@ namespace DesktopFGApp.View
             this.DataContext = graphViewModel;
             StackPanel stackPanel = new StackPanel();
             //creating buttons
-            foreach (string name in graphViewModel.VM_attsName)
-            {
-                Button b = new Button();
-                b.Click += Button_Click;
-                b.Content = name;
-                stackPanel.Children.Add(b);
-                if (vmCon.VM_AnomalyReport.Any(kvp => kvp.Key.Contains(b.Content.ToString())))
-                {
-                    b.Background = Brushes.SkyBlue;
-                }
-                scorllButtons.Content = stackPanel;
-                Attpv = attPlot;
-                Corrpv = corrPlot;
-                RegLinepv = LRPlot;
-                Loaded += GraphView_Loaded;
-            }
+            setupButtons(stackPanel);
+            scorllButtons.Content = stackPanel;
+            Attpv = attPlot;
+            Corrpv = corrPlot;
+            RegLinepv = LRPlot;
+            Loaded += GraphView_Loaded;
         }
 
         private void GraphView_Loaded(object sender, RoutedEventArgs e)
@@ -78,6 +68,24 @@ namespace DesktopFGApp.View
             if (vmCon.isCircel)
                 graphViewModel.LoadCircleGraphData(graphViewModel.VM_currLine, RegLinepv, graphViewModel.VM_attChooseFloatList, graphViewModel.VM_corrFloatList, graphViewModel.VM_RegLinePlotModel);
             LRPlot.InvalidatePlot(true);
+        }
+        private void setupButtons(StackPanel stackPanel)
+        {
+            foreach (string name in graphViewModel.VM_attsName)
+            {
+                Button b = new Button();
+                b.Click += Button_Click;
+                b.Content = name;
+                stackPanel.Children.Add(b);
+                foreach (KeyValuePair<string, List<int>> entry in vmCon.VM_AnomalyReport)
+                {
+                    if (entry.Key.Contains(b.Content.ToString()))
+                    {
+                        b.Background = Brushes.SkyBlue;
+                    }
+                }
+                graphViewModel.buttonsList.Add(b);
+            }
         }
     }
 }

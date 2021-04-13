@@ -10,6 +10,8 @@ using System.Linq;
 using System.Diagnostics;
 using System.Threading;
 using OxyPlot.Annotations;
+using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace DesktopFGApp.ViewModel
 {
@@ -29,7 +31,6 @@ namespace DesktopFGApp.ViewModel
         private List<float> floatAttList, floatCorrList;
         private PlotModel AttPlotModel, CorrPlotModel, regLinePlotModel;
         private OxyPlot.Wpf.PlotView VM_pvAtt, VM_pvCorr, VM_pvLR;
-
         /***Properties***/
         public PlotModel VM_AttPlotModel
         {
@@ -142,14 +143,14 @@ namespace DesktopFGApp.ViewModel
                 return floatCorrList;
             }
         }
+        public List<Button> buttonsList;
         /***Methods***/
         // the constructor of the Graph View Model - getting a client object and 3 plotviews for graphs
-        public GraphViewModel(IClientModel c, ViewModelController vmc , OxyPlot.Wpf.PlotView Attpv, OxyPlot.Wpf.PlotView Corrpv, OxyPlot.Wpf.PlotView regLinepv)
+        public GraphViewModel(IClientModel c, ViewModelController vmc, OxyPlot.Wpf.PlotView Attpv, OxyPlot.Wpf.PlotView Corrpv, OxyPlot.Wpf.PlotView regLinepv)
         {
             //getting args from constructor
             clientModel = c;
             viewModelController = vmc;
-
             VM_pvAtt = Attpv;
             VM_pvCorr = Corrpv;
             VM_pvLR = regLinepv;
@@ -157,9 +158,8 @@ namespace DesktopFGApp.ViewModel
             timer = new Stopwatch();
             lastUpdate = 0;
             timer.Start();
-
+            //parsing XML for buttons name
             clientModel.xmlParser();
-
             //Plot models inti
             VM_AttPlotModel = new PlotModel();
             VM_CorrPlotModel = new PlotModel();
@@ -167,6 +167,7 @@ namespace DesktopFGApp.ViewModel
             //init list for later
             floatAttList = new List<float>();
             floatCorrList = new List<float>();
+            buttonsList = new List<Button>();
             //onPropertyChanged methods
             clientModel.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
             {
@@ -182,7 +183,7 @@ namespace DesktopFGApp.ViewModel
                         //setting up attPlotModel
                         VM_AttPlotModel.Series.Clear();
                         SetUpModel(VM_AttPlotModel);
-                        LoadLineDataGraph(VM_currLine, VM_pvAtt, floatAttList,VM_AttPlotModel );
+                        LoadLineDataGraph(VM_currLine, VM_pvAtt, floatAttList, VM_AttPlotModel);
                         VM_pvAtt.InvalidatePlot(true);
                         //setting up corrPlotModel
                         VM_CorrPlotModel.Series.Clear();
@@ -193,15 +194,36 @@ namespace DesktopFGApp.ViewModel
                         VM_RegLinePlotModel.Series.Clear();
                         VM_RegLinePlotModel.Annotations.Clear();
                         SetUpModel(VM_RegLinePlotModel);
-                        if(viewModelController.isRegLine)
+                        if (viewModelController.isRegLine)
                             LoadScatterGraphData(VM_currLine, VM_pvLR, floatAttList, floatCorrList, VM_RegLinePlotModel);
-                        if(viewModelController.isCircel)
+                        if (viewModelController.isCircel)
                             LoadCircleGraphData(VM_currLine, VM_pvLR, floatAttList, floatCorrList, VM_RegLinePlotModel);
-                            VM_pvLR.InvalidatePlot(true);
+                        VM_pvLR.InvalidatePlot(true);
                         //updating lastUpdate timer
                         lastUpdate = timer.ElapsedMilliseconds;
                     }
                 }
+            };
+            viewModelController.PropertyChanged += delegate (object sender, PropertyChangedEventArgs e)
+            {
+                if (e.PropertyName == "VM_dllCounter" && viewModelController.VM_dllCounter > 0 && viewModelController.VM_AnomalyReport != null)
+                {
+                    foreach (Button b in buttonsList)
+                    {
+                        foreach (KeyValuePair<string, List<int>> entry in viewModelController.VM_AnomalyReport)
+                        {
+                            if (entry.Key.Contains(b.Content.ToString()))
+                            {
+                                b.Background = Brushes.SkyBlue;
+                                break;
+                            } else
+                            {
+                                b.Background = Brushes.LightGray;
+                            }
+                        }
+                    }
+                };
+
             };
         }
         public void onPropertyChanged(string propName)
@@ -260,6 +282,15 @@ namespace DesktopFGApp.ViewModel
                 corrItemName = attName;
                 VM_corralative = corrItemName;
                 floatCorrList = floatAttList;
+                //if anomaly detector ins reg line - setting up line (0,0)
+                if (viewModelController.isRegLine)
+                {
+                    regMax = 0;
+                    regMin = 0;
+                    regFxMax = 0;
+                    regFxMin = 0;
+                }
+                //if anomaly detector ins min Circle - setting up circle in (0,0) with 0 radius
                 if (viewModelController.isCircel)
                 {
                     radius = 0;
@@ -268,14 +299,17 @@ namespace DesktopFGApp.ViewModel
                 }
                return corrItemName;
             }
+            //setting up corr
             corrItemName = viewModelController.VM_headerNames[corrChooseIdx];
             floatCorrList = stringToFloat(viewModelController.VM_currentAtt[corrChooseIdx]);
             VM_corralative = corrItemName;
+            //creating a list of point for chosen att and max corr
             List<Point> pointList = new List<Point>();
             for (int i = 0; i < attList.Count; i++)
             {
                 pointList.Add(new Point(floatAttList[i], floatCorrList[i]));
             }
+            //if anomaly algorithim is min Circle - getting minimum circle and setting up (x,y) and radius
             if (viewModelController.isCircel)
             {
                 viewModelController.dllAlgo.findMinCirc(attChooseIdx,corrChooseIdx);
@@ -334,6 +368,7 @@ namespace DesktopFGApp.ViewModel
                 MarkerType = MarkerType.Circle,
                 MarkerFill = OxyColors.Red
             };
+            //points that are anomlies - in blue
             var anomalyScatter = new ScatterSeries
             {
 
@@ -351,6 +386,7 @@ namespace DesktopFGApp.ViewModel
                 {
                     scatter300Point.Points.Add(new ScatterPoint(attList[i], corrList[i], 3));
                 }
+                //checking if in this corraltion there is anomalies - if do, draw them differntly
                 foreach (string entry in viewModelController.VM_AnomalyReport.Keys)
                 {
                     if (entry.Contains(corrItemName))
@@ -362,16 +398,16 @@ namespace DesktopFGApp.ViewModel
                     }
                 }
             } else
-            {
+            {   //if it is in the first 300 points - every point is in the last 30 seconds
                 for (int i = 0; i < lineNumber; i++)
                 {
                     scatter300Point.Points.Add(new ScatterPoint(attList[i], corrList[i], 3));
                 }
             }
             //adding reg line and points to ploat model
-            pm.Series.Add(anomalyScatter);
             pm.Series.Add(scatter300Point);
             pm.Series.Add(scatterPoint);
+            pm.Series.Add(anomalyScatter);
             pm.Series.Add(lineSeries);
         }
         public void LoadCircleGraphData(int lineNumber, OxyPlot.Wpf.PlotView pv, List<float> attList, List<float> corrList, PlotModel pm)
@@ -407,8 +443,7 @@ namespace DesktopFGApp.ViewModel
                     scatter300Point.Points.Add(new ScatterPoint(attList[i], corrList[i], 3));
                 }
             }
-
-            //adding reg line and points to ploat model
+            //adding circle and points to plot model
             pm.Series.Add(scatter300Point);
             pm.Series.Add(scatterPoint);
             pm.Annotations.Add(new EllipseAnnotation { X = centerX, Y = centerY, Width = radius, Height = radius, Fill = OxyColors.Transparent  ,Stroke = OxyColors.Black, StrokeThickness = 2 });

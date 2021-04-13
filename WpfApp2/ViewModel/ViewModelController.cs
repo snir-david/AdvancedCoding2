@@ -16,17 +16,16 @@ namespace AdvancedCoding2
     {
         /***Data Members***/
         private IClientModel clientModel;
-        public bool isConnected;
+        public bool isConnected, isRegLine, isCircel;
         private double playSpeed;
         private string FGPath, dllPath;
+        private int dllChangeCounter;
         private Thread connectThread;
         private TimeSpan Time;
         public event PropertyChangedEventHandler PropertyChanged;
         public Dictionary<string, List<int>> VM_AnomalyReport;
         public Dictionary<string, Tuple<Point, int>> VM_Attfeatures;
-        public bool isRegLine, isCircel;
         public dynamic dllAlgo;
-
 
         /***Properties***/
         public String[] VM_CSVcopy
@@ -167,7 +166,6 @@ namespace AdvancedCoding2
                     dllPath  = value;
             }
         }
-
         public List<string> VM_headerNames
         {
             get
@@ -175,17 +173,18 @@ namespace AdvancedCoding2
                 return clientModel.HeaderNames;
             }
         }
-        public Thread threadConn
+        public int VM_dllCounter
         {
             get
             {
-                return connectThread;
-            }        
+                return dllChangeCounter;
+            }
             set
             {
-                if(threadConn != value)
+                if(VM_dllCounter != value)
                 {
-                    connectThread = value;
+                    dllChangeCounter = value;
+                    onPropertyChanged("VM_dllCounter");
                 }
             }
         }
@@ -201,6 +200,7 @@ namespace AdvancedCoding2
         {
             this.clientModel = m;
             playSpeed = 0;
+            VM_dllCounter = 0;
             Time = new TimeSpan(0, 0, 0);
             VM_AnomalyReport = new Dictionary<string, List<int>>();
             VM_Attfeatures = new Dictionary<string, Tuple<Point, int>>();
@@ -304,13 +304,13 @@ namespace AdvancedCoding2
                 foreach (Type i in interfaces)
                 {
                   if( i.Name == "IAnomalyDetector")
-                    {
+                  {
                         dynamic anomalyAlgo = Activator.CreateInstance(type);
                         dllAlgo = anomalyAlgo;
                         anomalyAlgo.findAnomaly(VM_fpath, VM_headerNames);     
                         VM_AnomalyReport = anomalyAlgo.getAnomalyReport();
-                        
-                    }
+                        VM_dllCounter += 1;
+                  }
                 }
             }
         }
