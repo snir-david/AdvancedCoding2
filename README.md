@@ -32,94 +32,17 @@ Our App (DesktopFGApp) is made especially for pilots and flight researchers that
 - **minCircleDll (c++)** - algoritem to detect anomalies by min Circle that we implemented in the previous semester.
 - **simpeliAnomalyDLL (c#)** - detects anomalies by finding regression line, uses extern functions from simpeleAnomalyDLL.
 - **simpeleAnomalyDLL (c++)** - algoritem to detect anomalies by regression line that we implemented in the previous semester.
-## Shortened UML
-```mermaid
-classDiagram
-	  INotifyPropertyChanged <|-- IClientModel : Implements
-	  INotifyPropertyChanged <|-- ViewModelController: Implements
-	  	  INotifyPropertyChanged <|-- ViewModelJoystick: Implements
-	  	  INotifyPropertyChanged <|-- ViewModelGraph: Implements
-      IClientModel <|-- ClientModel : Implements
-	  IClientModel --o ViewModelController
-	  IClientModel --o ViewModelJoystick
-      IClientModel --o ViewModelGraph
-      ViewModelController --o ViewController
-      ViewModelController <..> ViewController : 		 		Data Binding
-	  ViewModelJoystick --o ViewJoystick
-      ViewModelJoystick <..> ViewJoystick : Data Binding
-      ViewModelGraph --o ViewGraph
-      ViewModelGraph <..> ViewGraph : Data Binding
-      Anomaly Algorithm --|> IAnomalyDetector : Implements
-	 ViewModelController --o Anomaly Algorithm
- 
-	 class INotifyPropertyChanged{
-      <<interface>>
-	+NotifyPropertyChanged()
-	}
-	class IClientModel {
-      <<interface>>
-      +float Aileron
-      +int lineNumber
-	  +NotifyPropertyChanged() 
-      +Connect()
-      +reg_linear()
-      }
-	class IAnomalyDetector {
-      <<interface>>
-      +findAnomaly()
-      +getAnomalyReport()
-      }
-	class Anomaly Algorithm{
-      +findAnomaly()
-      +getAnomalyReport()
-      }
-    class ClientModel {
-      +float Aileron
-      +int lineNumber
-	  +NotifyPropertyChanged() 
-      +Connect()
-      +reg_linear()
-      }
-    class ViewModelController{
-		-IClientModel
-		+int VM_lineNmuber
-		+NotifyPropertyChanged() 
-        +dynamic dllAlgo
-        +connect()
-      }
-    class ViewModelJoystick{
-		-IClientModel
-		+NotifyPropertyChanged() 
-        +initFlightVar()
-      }
-    class ViewModelGraph{
-		-IClientModel
-		+NotifyPropertyChanged() 
-	    +FindCorralativeFeature()
-      }
-    class ViewController{
-          +ViewModelController
-          -Play_Button_Click 
-          -Pause_Button_Click 
-          -Forw_Button_Click 
-          -Prev_Button_Click 
-		}
-    class ViewJoystick{
-          +ViewModelJoystick
-      }
-    class ViewGraph{
-          +ViewModelGraph
-          +Button_Click
-      }
-```
+
 ## Installation
 Before running our app you need to download and install the FlightGear application - you can find [download link here](https://www.flightgear.org/download/). For more information about FlightGear, you can find [here](https://www.flightgear.org/) ![enter image description here](https://i.ebayimg.com/00/s/ODAwWDEyODA=/z/KrgAAOSwjDZYcCt4/$_57.JPG?set_id=8800005007)
 You will also need .Net Framework version 4.6.1 and up. You can find download [link here](https://dotnet.microsoft.com/download/dotnet-framework). 
 ## Run application
-
- - **For Devlopers** - 
- - **For Users** - 
-
+ - **For Developers** - install a proper IDE for C# and WPF (we used Visual Studio but you can use any other software). For working and changing the graphs you will need to install the NuGet package called OxyPlot. 
+ Make sure that you build the application to x86(important for the DLL files), and that the working directory is -
+> "\DesktopFGApp\WpfApp2"
+ - **For Users** - run the exe file DesktopFGApp from - 
+ - > "\DesktopFGApp\WpfApp2\DesktopFGApp.exe"
+Make sure to run it from the exact location it is (\DesktopFGApp\WpfApp2) so it can find all the necessary files it's needed.
 ## Documentation
 Here you can find a Link to UML contains partial information of the central classes and about the DLL. UML represents the various connections between the classes and the most important information found in each class. UML can be found [here](https://lucid.app/lucidchart/7449e159-4b1b-4645-b7ae-9db34b7f0c98/view?page=0_0#). 
 If you are a developer you can find full documentation of functions, variables, and more in the code.
