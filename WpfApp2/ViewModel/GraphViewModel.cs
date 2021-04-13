@@ -214,11 +214,14 @@ namespace DesktopFGApp.ViewModel
                         {
                             if (entry.Key.Contains(b.Content.ToString()))
                             {
-                                b.Background = Brushes.SkyBlue;
+                                b.Background = Brushes.DarkRed;
+                                b.Foreground = Brushes.White;
                                 break;
                             } else
                             {
                                 b.Background = Brushes.LightGray;
+                                b.Foreground = Brushes.Black;
+
                             }
                         }
                     }
@@ -283,13 +286,10 @@ namespace DesktopFGApp.ViewModel
                 VM_corralative = corrItemName;
                 floatCorrList = floatAttList;
                 //if anomaly detector ins reg line - setting up line (0,0)
-                if (viewModelController.isRegLine)
-                {
-                    regMax = 0;
-                    regMin = 0;
-                    regFxMax = 0;
-                    regFxMin = 0;
-                }
+                regMax = 0;
+                regMin = 0;
+                regFxMax = 0;
+                regFxMin = 0;
                 //if anomaly detector ins min Circle - setting up circle in (0,0) with 0 radius
                 if (viewModelController.isCircel)
                 {
@@ -318,16 +318,13 @@ namespace DesktopFGApp.ViewModel
                 centerY = viewModelController.dllAlgo.getY();
 
             }
-            else if (viewModelController.isRegLine)
-            {
-                //finding reg Line
-                Line regLine = clientModel.linear_reg(pointList, pointList.Count);
-                //finding max and min values of attList;
-                regMax = floatAttList.Max();
-                regMin = floatAttList.Min();
-                regFxMax = regLine.f(regMax);
-                regFxMin = regLine.f(regMin);
-            }
+            //finding reg Line
+            Line regLine = clientModel.linear_reg(pointList, pointList.Count);
+            //finding max and min values of attList;
+            regMax = floatAttList.Max();
+            regMin = floatAttList.Min();
+            regFxMax = regLine.f(regMax);
+            regFxMin = regLine.f(regMin);
             return corrItemName;
         }
         // creates the chosen graph
@@ -350,8 +347,8 @@ namespace DesktopFGApp.ViewModel
           //LineSeries for reg line
             var lineSeries = new LineSeries()
             {
-                Color = OxyColors.Red,
-                StrokeThickness = 2
+                Color = OxyColors.DeepSkyBlue,
+                StrokeThickness = 2,
             };
            //drawing line between to extrem points
             lineSeries.Points.Add(new DataPoint(regMax, regFxMax));
@@ -412,6 +409,15 @@ namespace DesktopFGApp.ViewModel
         }
         public void LoadCircleGraphData(int lineNumber, OxyPlot.Wpf.PlotView pv, List<float> attList, List<float> corrList, PlotModel pm)
         {
+            //LineSeries for reg line
+            var lineSeries = new LineSeries()
+            {
+                Color = OxyColors.DeepSkyBlue,
+                StrokeThickness = 2,
+            };
+            //drawing line between to extrem points
+            lineSeries.Points.Add(new DataPoint(regMax, regFxMax));
+            lineSeries.Points.Add(new DataPoint(regMin, regFxMin));
             //all points besides last 300
             var scatterPoint = new ScatterSeries
             {
@@ -444,9 +450,10 @@ namespace DesktopFGApp.ViewModel
                 }
             }
             //adding circle and points to plot model
+            pm.Series.Add(lineSeries);
             pm.Series.Add(scatter300Point);
             pm.Series.Add(scatterPoint);
-            pm.Annotations.Add(new EllipseAnnotation { X = centerX, Y = centerY, Width = radius, Height = radius, Fill = OxyColors.Transparent  ,Stroke = OxyColors.Black, StrokeThickness = 2 });
+            pm.Annotations.Add(new EllipseAnnotation { X = centerX, Y = centerY, Width = radius, Height = radius, Fill = OxyColors.Transparent  ,Stroke = OxyColors.Orange, StrokeThickness = 2 });
          }
         // sets up a given graph
         public void SetUpModel(PlotModel pm)

@@ -35,7 +35,6 @@ namespace DesktopFGApp.View
             RegLinepv = LRPlot;
             Loaded += GraphView_Loaded;
         }
-
         private void GraphView_Loaded(object sender, RoutedEventArgs e)
         {
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
@@ -81,7 +80,9 @@ namespace DesktopFGApp.View
                 {
                     if (entry.Key.Contains(b.Content.ToString()))
                     {
-                        b.Background = Brushes.SkyBlue;
+                        b.Background = Brushes.DarkRed;
+                        b.Foreground = Brushes.White;
+                        break;
                     }
                 }
                 graphViewModel.buttonsList.Add(b);
