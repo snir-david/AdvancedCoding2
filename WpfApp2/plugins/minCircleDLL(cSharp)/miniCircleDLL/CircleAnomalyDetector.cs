@@ -17,39 +17,37 @@ namespace DesktopFGApp
     }
     public class CircleAnomalyDetector : IAnomalyDetector
     {
+        /***Data Members***/
         public Dictionary<string, List<int>> AnomalyReport = new Dictionary<string, List<int>>();
         public int radius;
         public double centerX, centerY;
         public IntPtr CircleAnomalyDete;
-
-        // need to insert user input for dll filr
-        [DllImport("plugins\\minCircleDll\\Debug\\minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        /*** DLL imports from C++ **/
+        [DllImport("plugins\\minCircleDll(c++)\\Debug\\minCircleDll(c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Create();
-        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("minCircleDll(c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void learnnig(IntPtr sad, string CSVfileName);
-        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("minCircleDll(c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void detecting(IntPtr sad, IntPtr wrapAR, string detectfileName);
-        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("minCircleDll(c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CreateVectorWrapper();
-        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("minCircleDll(c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int getTS(IntPtr vec, int x);
-        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("minCircleDll(c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void getDP(IntPtr vec, int x, StringBuilder attName);
-        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("minCircleDll(c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int getDPLen(IntPtr vec, int x);
-        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("minCircleDll(c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vectorSize(IntPtr vec);
-        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("minCircleDll(c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern double getRadius(IntPtr cad);
-        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("minCircleDll(c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern double getCenterX(IntPtr cad);
-        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("minCircleDll(c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern double getCenterY(IntPtr cad);
-
-        [DllImport("minCircleDll.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("minCircleDll(c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void findMinCircle(IntPtr cad, int attIdx, int corrIdx);
-
-
+        /***Methods***/
         public void findAnomaly(string anomalyCSVPath, List<string> headersList)
         {
             this.CircleAnomalyDete = Create();
@@ -81,7 +79,6 @@ namespace DesktopFGApp
         {
             return AnomalyReport;
         }
-            
         public void findMinCirc (int indexAtt , int indexCorr)
         {
             findMinCircle(CircleAnomalyDete, indexAtt , indexCorr);

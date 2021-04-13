@@ -11,27 +11,27 @@ namespace SimpleAnomalyDetector
 {
     public class simpleAnomaly: IAnomalyDetector
     {
+        /***Data Members***/
         public Dictionary<string, List<int>> AnomalyReport = new Dictionary<string, List<int>>();
-
-        // need to insert user input for dll filr
-        [DllImport("plugins\\timeseriesDLL\\Debug\\timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        /***DLL imports***/
+        [DllImport("plugins\\simpeleAnomalyDLL (c++)\\Debug\\simpeleAnomalyDLL (c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr Create();
-        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("simpeleAnomalyDLL (c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void learnnig(IntPtr sad, string CSVfileName);
-        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("simpeleAnomalyDLL (c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void detecting(IntPtr sad, IntPtr wrapAR, string detectfileName);
-        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("simpeleAnomalyDLL (c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CreateVectorWrapper();
-        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("simpeleAnomalyDLL (c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int getTS(IntPtr vec, int x);
-        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("simpeleAnomalyDLL (c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern void getDP(IntPtr vec, int x, StringBuilder attName);
-        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("simpeleAnomalyDLL (c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int getDPLen(IntPtr vec, int x);
-        [DllImport("timeseriesDLL.dll", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("simpeleAnomalyDLL (c++).dll", CallingConvention = CallingConvention.Cdecl)]
         public static extern int vectorSize(IntPtr vec);
-
-       public void findAnomaly(string anomalyCSVPath, List<string> headersList)
+        /***Methods***/
+        public void findAnomaly(string anomalyCSVPath, List<string> headersList)
         {
             IntPtr timeSeries = Create();
             var CSV = File.ReadAllLines(anomalyCSVPath);
@@ -62,6 +62,5 @@ namespace SimpleAnomalyDetector
         {
             return AnomalyReport;
         }
-
     }
 }
