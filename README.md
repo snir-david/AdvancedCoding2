@@ -40,7 +40,7 @@ Before running our app you need to download and install the FlightGear applicati
 You will also need .Net Framework version 4.6.1 and up. You can find download [link here](https://dotnet.microsoft.com/download/dotnet-framework). 
 ## Run application
  - **For Developers** - install a proper IDE for C# and WPF (we used Visual Studio but you can use any other software). For working and changing the graphs you will need to install the NuGet package called OxyPlot. 
- Make sure that you build the application to x86(important for the DLL files), and that the working directory is -
+ Make sure that you build the application to x86(important for the DLL files) and **make sure** that the working directory is (else the app won't find dll and other files) -
 > "\DesktopFGApp\WpfApp2"
  - **For Users** - run the exe file DesktopFGApp from wpfApp2 folder. Make sure to run it from the exact location it is (\DesktopFGApp\WpfApp2) so it can find all the necessary files it's needed.
 ## Documentation
