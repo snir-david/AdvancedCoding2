@@ -12,6 +12,7 @@ using System.Windows.Media;
 using WpfApp2.View;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 using System.Threading;
+using System.ComponentModel;
 
 namespace AdvancedCoding2
 {
@@ -222,6 +223,12 @@ namespace AdvancedCoding2
                 time_slider.TickPlacement = System.Windows.Controls.Primitives.TickPlacement.BottomRight;
             }   
         }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = false;  // cancels the window close    
+            System.Windows.Application.Current.Shutdown();
+        }
     }
 }
+
     

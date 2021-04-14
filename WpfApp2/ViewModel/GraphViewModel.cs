@@ -471,6 +471,7 @@ namespace DesktopFGApp.ViewModel
             pm.Series.Add(lineSeries);
             pm.Series.Add(scatter300Point);
             pm.Series.Add(scatterPoint);
+            pm.Series.Add(anomalyScatter);
             pm.Annotations.Add(new EllipseAnnotation { X = centerX, Y = centerY, Width = radius, Height = radius, Fill = OxyColors.Transparent  ,Stroke = OxyColors.Orange, StrokeThickness = 2 });
          }
         // sets up a given graph
