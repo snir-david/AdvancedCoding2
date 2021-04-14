@@ -383,22 +383,22 @@ namespace DesktopFGApp.ViewModel
                 {
                     scatter300Point.Points.Add(new ScatterPoint(attList[i], corrList[i], 3));
                 }
-                //checking if in this corraltion there is anomalies - if do, draw them differntly
-                foreach (string entry in viewModelController.VM_AnomalyReport.Keys)
-                {
-                    if (entry.Contains(corrItemName))
-                    {
-                        for (int i = 0; i < viewModelController.VM_AnomalyReport[entry].Count; i++)
-                        {
-                            anomalyScatter.Points.Add(new ScatterPoint(attList[viewModelController.VM_AnomalyReport[entry][i]], corrList[viewModelController.VM_AnomalyReport[entry][i]], 4));
-                        }
-                    }
-                }
             } else
             {   //if it is in the first 300 points - every point is in the last 30 seconds
                 for (int i = 0; i < lineNumber; i++)
                 {
                     scatter300Point.Points.Add(new ScatterPoint(attList[i], corrList[i], 3));
+                }
+            }
+            //checking if in this corraltion there is anomalies - if do, draw them differntly
+            foreach (string entry in viewModelController.VM_AnomalyReport.Keys)
+            {
+                if (entry.Contains(corrItemName))
+                {
+                    for (int i = 0; i < viewModelController.VM_AnomalyReport[entry].Count; i++)
+                    {
+                        anomalyScatter.Points.Add(new ScatterPoint(attList[viewModelController.VM_AnomalyReport[entry][i]], corrList[viewModelController.VM_AnomalyReport[entry][i]], 4));
+                    }
                 }
             }
             //adding reg line and points to ploat model
@@ -430,6 +430,13 @@ namespace DesktopFGApp.ViewModel
                 MarkerType = MarkerType.Circle,
                 MarkerFill = OxyColors.Red
             };
+            //points that are anomlies - in blue
+            var anomalyScatter = new ScatterSeries
+            {
+
+                MarkerType = MarkerType.Circle,
+                MarkerFill = OxyColors.SkyBlue
+            };
             //Make 300 last points in red
             if (lineNumber > 300)
             {
@@ -447,6 +454,17 @@ namespace DesktopFGApp.ViewModel
                 for (int i = 0; i < lineNumber; i++)
                 {
                     scatter300Point.Points.Add(new ScatterPoint(attList[i], corrList[i], 3));
+                }
+            }
+            //checking if in this corraltion there is anomalies - if do, draw them differntly
+            foreach (string entry in viewModelController.VM_AnomalyReport.Keys)
+            {
+                if (entry.Contains(corrItemName))
+                {
+                    for (int i = 0; i < viewModelController.VM_AnomalyReport[entry].Count; i++)
+                    {
+                        anomalyScatter.Points.Add(new ScatterPoint(attList[viewModelController.VM_AnomalyReport[entry][i]], corrList[viewModelController.VM_AnomalyReport[entry][i]], 4));
+                    }
                 }
             }
             //adding circle and points to plot model

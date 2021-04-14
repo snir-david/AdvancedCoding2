@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:AdvancedCoding2"
         mc:Ignorable="d"
         Title="MainWindow" Height="165" Width="570" Background="#FF7E7E7E"
-        WindowStartupLocation="Manual">
+        WindowStartupLocation="Manual"
+       >
 
     <Grid Margin="0,0,3.333,-4" >
         <Grid.ColumnDefinitions>

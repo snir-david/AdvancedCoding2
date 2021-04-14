@@ -307,10 +307,18 @@ namespace AdvancedCoding2
                   {
                         dynamic anomalyAlgo = Activator.CreateInstance(type);
                         dllAlgo = anomalyAlgo;
-                        anomalyAlgo.findAnomaly(VM_fpath, VM_headerNames);     
-                        VM_AnomalyReport = anomalyAlgo.getAnomalyReport();
-                        VM_dllCounter += 1;
-                  }
+                        try
+                        {
+                            anomalyAlgo.findAnomaly(VM_fpath, VM_headerNames);
+                            VM_AnomalyReport = anomalyAlgo.getAnomalyReport();
+                            VM_dllCounter += 1;
+                        }  catch (DllNotFoundException)
+                        {
+                            MessageBox.Show("DllNotFoundException: Make sure you are in the right Directory.\n", "DLL Not Found", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                        }
+
+                    }
                 }
             }
         }

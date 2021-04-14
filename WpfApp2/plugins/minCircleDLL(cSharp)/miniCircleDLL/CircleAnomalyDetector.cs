@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DesktopFGApp
 {
-    public class Point{
+    class Point{
     	float x,y;
     	public Point(float x,float y) {
         this.x=x; 
