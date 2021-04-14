@@ -370,7 +370,7 @@ namespace DesktopFGApp.ViewModel
             {
 
                 MarkerType = MarkerType.Circle,
-                MarkerFill = OxyColors.SkyBlue
+                MarkerFill = OxyColors.Pink
             };
             //Make 300 last points in red
             if (lineNumber > 300)
@@ -393,7 +393,7 @@ namespace DesktopFGApp.ViewModel
             //checking if in this corraltion there is anomalies - if do, draw them differntly
             foreach (string entry in viewModelController.VM_AnomalyReport.Keys)
             {
-                if (entry.Contains(corrItemName))
+                if (entry.Contains(VM_AttUserChoose))
                 {
                     for (int i = 0; i < viewModelController.VM_AnomalyReport[entry].Count; i++)
                     {
@@ -435,7 +435,7 @@ namespace DesktopFGApp.ViewModel
             {
 
                 MarkerType = MarkerType.Circle,
-                MarkerFill = OxyColors.SkyBlue
+                MarkerFill = OxyColors.Pink
             };
             //Make 300 last points in red
             if (lineNumber > 300)
@@ -459,7 +459,7 @@ namespace DesktopFGApp.ViewModel
             //checking if in this corraltion there is anomalies - if do, draw them differntly
             foreach (string entry in viewModelController.VM_AnomalyReport.Keys)
             {
-                if (entry.Contains(corrItemName))
+                if (entry.Contains(VM_AttUserChoose))
                 {
                     for (int i = 0; i < viewModelController.VM_AnomalyReport[entry].Count; i++)
                     {

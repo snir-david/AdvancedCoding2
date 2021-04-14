@@ -1,4 +1,5 @@
 ﻿using AdvancedCoding2;
+using System.ComponentModel;
 using System.Windows;
 using WpfApp2.ViewModel;
 
@@ -25,6 +26,10 @@ namespace WpfApp2.View
             this.Left = desktopWorkingArea.Left;
             this.Top = desktopWorkingArea.Bottom - this.Height;
         }
-
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;  // cancels the window close    
+            this.Hide();      // Programmatically hides the window
+        }
     }
 }

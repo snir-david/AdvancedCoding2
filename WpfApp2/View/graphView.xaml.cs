@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Linq;
 using System.Windows.Media;
+using System.ComponentModel;
 
 namespace DesktopFGApp.View
 {
@@ -87,6 +88,11 @@ namespace DesktopFGApp.View
                 }
                 graphViewModel.buttonsList.Add(b);
             }
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            e.Cancel = true;  // cancels the window close    
+            this.Hide();      // Programmatically hides the window
         }
     }
 }
